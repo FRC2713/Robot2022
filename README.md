@@ -1,5 +1,7 @@
 # FRC 2713 2022 Robot Code
 
+### Gradle Commands
+
 Some important gradle commands:
 
 * `gradlew spotlessApply` to run code formatting
@@ -14,3 +16,15 @@ Some other useful gradle commands:
 * `gradlew PathWeaver` to run PathWeaver (WPILib path gen tool)
 * `gradlew ShuffleBoard` to run ShuffleBoard (WPILib Dashboard tool)
 * `gradlew SysId` to run SysID (WPILib characterization tool)
+
+### Docs
+
+
+* WPILib
+    * General docs: https://docs.wpilib.org/en/stable/
+    * JavaDocs: https://first.wpi.edu/wpilib/allwpilib/docs/release/java/index.html
+    * WPILib releases: https://github.com/wpilibsuite/allwpilib/releases/tag/v2021.3.1
+* REV
+    * REVLib JavaDocs: https://codedocs.revrobotics.com/java/com/revrobotics/package-summary.html
+    * REVLib releases: https://github.com/REVrobotics/REV-Software-Binaries/releases
+    * Spark MAX general docs: https://docs.revrobotics.com/sparkmax/
