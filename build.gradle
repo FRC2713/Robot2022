@@ -129,3 +129,5 @@ spotless {
         endWithNewline()
     }
 }
+
+build.dependsOn spotlessApply
