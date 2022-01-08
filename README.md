@@ -23,7 +23,7 @@ Some other useful gradle commands:
 * WPILib
     * General docs: https://docs.wpilib.org/en/stable/
     * JavaDocs: https://first.wpi.edu/wpilib/allwpilib/docs/release/java/index.html
-    * WPILib releases: https://github.com/wpilibsuite/allwpilib/releases/tag/v2021.3.1
+    * WPILib releases: https://github.com/wpilibsuite/allwpilib/releases
 * REV
     * REVLib JavaDocs: https://codedocs.revrobotics.com/java/com/revrobotics/package-summary.html
     * REVLib releases: https://github.com/REVrobotics/REV-Software-Binaries/releases
