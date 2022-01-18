@@ -100,6 +100,13 @@ public class DriveSubsystem extends SubsystemBase {
         gyro.getRotation2d(), getLeftEncoder().getPosition(), getRightEncoder().getPosition());
   }
 
+  public void GTADrive(double leftTrigger, double rightTrigger, double turn) {
+    if (-Constants.DriveConstants.kJoystickTurnDeadzone <= turn
+        && turn <= Constants.DriveConstants.kJoystickTurnDeadzone) {
+      turn = 0.0;
+    }
+  }
+
   @Override
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation

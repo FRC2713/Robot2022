@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.subsystems.DriveSubsystem;
 
 /**
@@ -26,12 +27,21 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveSubsystem driveSubsystem = new DriveSubsystem();
 
-  //  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+  public final XboxController controller = new XboxController(0);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+    driveSubsystem.setDefaultCommand(
+        new RunCommand(
+            () -> {
+              driveSubsystem.GTADrive(
+                  controller.getLeftTriggerAxis(),
+                  controller.getRightTriggerAxis(),
+                  controller.getLeftX());
+            },
+            driveSubsystem));
   }
 
   /**
@@ -48,19 +58,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    var volConstraint =
-        new DifferentialDriveVoltageConstraint(
-            new SimpleMotorFeedforward(
-                Constants.ksVolts,
-                Constants.ksVoltSecondsPerMeter,
-                Constants.kaVoltSecondsSquaredPerMeter),
-            Constants.kinematics,
-            10);
-
-    TrajectoryConfig config =
-        new TrajectoryConfig(Constants.maxSpeed, Constants.maxAccel)
-            .setKinematics(Constants.kinematics)
-            .addConstraint(volConstraint);
 
     Trajectory autoTrajectory = null; // This will be a JSON file created by PathPlanner
 
@@ -68,15 +65,15 @@ public class RobotContainer {
         new RamseteCommand(
             autoTrajectory,
             driveSubsystem::getPose,
-            new RamseteController(Constants.RamseteB, Constants.RamseteZeta),
+            new RamseteController(Constants.AutoConstants.RamseteB, Constants.AutoConstants.RamseteZeta),
             new SimpleMotorFeedforward(
-                Constants.ksVolts,
-                Constants.ksVoltSecondsPerMeter,
-                Constants.kaVoltSecondsSquaredPerMeter),
-            Constants.kinematics,
+                Constants.AutoConstants.ksVolts,
+                Constants.AutoConstants.ksVoltSecondsPerMeter,
+                Constants.AutoConstants.kaVoltSecondsSquaredPerMeter),
+            Constants.AutoConstants.kinematics,
             driveSubsystem::getWheelSpeeds,
-            new PIDController(Constants.kPDriveVel, 0, 0),
-            new PIDController(Constants.kPDriveVel, 0, 0),
+            new PIDController(Constants.AutoConstants.kPDriveVel, 0, 0),
+            new PIDController(Constants.AutoConstants.kPDriveVel, 0, 0),
             driveSubsystem::tankDriveVolts,
             driveSubsystem);
 
