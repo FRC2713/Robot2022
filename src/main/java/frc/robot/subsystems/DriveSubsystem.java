@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
@@ -108,7 +109,19 @@ public class DriveSubsystem extends SubsystemBase {
     if (-Constants.DriveConstants.kJoystickTurnDeadzone <= turn
         && turn <= Constants.DriveConstants.kJoystickTurnDeadzone) {
       turn = 0.0;
+      SmartDashboard.putBoolean("isInDeadband", true);
+    } else {
+      SmartDashboard.putBoolean("isInDeadband", false);
     }
+    turn = turn * turn * Math.signum(turn);
+
+    double left = rightTrigger - leftTrigger + turn;
+    double right = rightTrigger - leftTrigger - turn;
+    left = Math.min(1.0, Math.max(-1.0, left));
+    right = Math.max(-1.0, Math.min(1.0, right));
+
+    this.right1.set(right);
+    this.left1.set(left);
   }
 
   @Override
