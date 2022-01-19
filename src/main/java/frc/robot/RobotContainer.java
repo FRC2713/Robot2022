@@ -4,9 +4,16 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.RamseteController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.subsystems.DriveSubsystem;
 
@@ -19,8 +26,8 @@ import frc.robot.subsystems.DriveSubsystem;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveSubsystem driveSubsystem = new DriveSubsystem();
+
   public final XboxController controller = new XboxController(0);
-  public Command autoCommand;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -51,7 +58,27 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return null;
+
+    Trajectory autoTrajectory = null; // This will be a JSON file created by PathPlanner
+
+    RamseteCommand ramsete =
+        new RamseteCommand(
+            autoTrajectory,
+            driveSubsystem::getPose,
+            new RamseteController(Constants.AutoConstants.RamseteB, Constants.AutoConstants.RamseteZeta),
+            new SimpleMotorFeedforward(
+                Constants.AutoConstants.ksVolts,
+                Constants.AutoConstants.ksVoltSecondsPerMeter,
+                Constants.AutoConstants.kaVoltSecondsSquaredPerMeter),
+            Constants.AutoConstants.kinematics,
+            driveSubsystem::getWheelSpeeds,
+            new PIDController(Constants.AutoConstants.kPDriveVel, 0, 0),
+            new PIDController(Constants.AutoConstants.kPDriveVel, 0, 0),
+            driveSubsystem::tankDriveVolts,
+            driveSubsystem);
+
+    driveSubsystem.resetOdometry(autoTrajectory.getInitialPose());
+
+    return ramsete.andThen(() -> driveSubsystem.tankDriveVolts(0, 0));
   }
 }
