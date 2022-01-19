@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -35,6 +36,9 @@ public class DriveSubsystem extends SubsystemBase {
     if (-Constants.DriveConstants.kJoystickTurnDeadzone <= turn
         && turn <= Constants.DriveConstants.kJoystickTurnDeadzone) {
       turn = 0.0;
+      SmartDashboard.putBoolean("isInDeadband", true);
+    } else {
+      SmartDashboard.putBoolean("isInDeadband", false);
     }
     turn = turn * turn * Math.signum(turn);
 
