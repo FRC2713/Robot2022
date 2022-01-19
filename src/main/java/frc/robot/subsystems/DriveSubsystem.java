@@ -120,8 +120,8 @@ public class DriveSubsystem extends SubsystemBase {
     left = Math.min(1.0, Math.max(-1.0, left));
     right = Math.max(-1.0, Math.min(1.0, right));
 
-    frontOne.set(right);
-    frontTwo.set(left);
+    this.right1.set(right);
+    this.left1.set(left);
   }
 
   @Override
