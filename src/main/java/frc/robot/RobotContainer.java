@@ -58,13 +58,16 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
 
-    Trajectory autoTrajectory = PathPlanner.loadPath("Full Auto", Constants.AutoConstants.maxSpeed, Constants.AutoConstants.maxAccel);
+    Trajectory autoTrajectory =
+        PathPlanner.loadPath(
+            "Full Auto", Constants.AutoConstants.maxSpeed, Constants.AutoConstants.maxAccel);
 
     RamseteCommand ramsete =
         new RamseteCommand(
             autoTrajectory,
             driveSubsystem::getPose,
-            new RamseteController(Constants.AutoConstants.RamseteB, Constants.AutoConstants.RamseteZeta),
+            new RamseteController(
+                Constants.AutoConstants.RamseteB, Constants.AutoConstants.RamseteZeta),
             new SimpleMotorFeedforward(
                 Constants.AutoConstants.ksVolts,
                 Constants.AutoConstants.ksVoltSecondsPerMeter,

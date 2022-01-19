@@ -45,7 +45,7 @@ public final class Constants {
     public static final double RamseteB = 2;
 
     // Max speeds
-    public static final double maxSpeed = 3;
-    public static final double maxAccel = 3;
+    public static final double maxSpeed = 8;
+    public static final double maxAccel = 5;
   }
 }
