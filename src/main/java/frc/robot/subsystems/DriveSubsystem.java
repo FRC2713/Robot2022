@@ -36,6 +36,15 @@ public class DriveSubsystem extends SubsystemBase {
         && turn <= Constants.DriveConstants.kJoystickTurnDeadzone) {
       turn = 0.0;
     }
+    turn = turn * turn * Math.signum(turn);
+
+    double left = rightTrigger - leftTrigger + turn;
+    double right = rightTrigger - leftTrigger - turn;
+    left = Math.min(1.0, Math.max(-1.0, left));
+    right = Math.max(-1.0, Math.min(1.0, right));
+
+    frontOne.set(right);
+    frontTwo.set(left);
   }
 
   @Override
