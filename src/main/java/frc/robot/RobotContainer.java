@@ -4,12 +4,11 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.PathPlanner;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
-import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -59,7 +58,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
 
-    Trajectory autoTrajectory = null; // This will be a JSON file created by PathPlanner
+    Trajectory autoTrajectory = PathPlanner.loadPath("Full Auto", Constants.AutoConstants.maxSpeed, Constants.AutoConstants.maxAccel);
 
     RamseteCommand ramsete =
         new RamseteCommand(
