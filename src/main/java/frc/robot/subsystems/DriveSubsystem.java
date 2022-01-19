@@ -17,13 +17,17 @@ import frc.robot.Constants;
 
 public class DriveSubsystem extends SubsystemBase {
   private CANSparkMax left1 =
-      new CANSparkMax(Constants.frontLeftMotorPort, CANSparkMaxLowLevel.MotorType.kBrushless);
+      new CANSparkMax(
+          Constants.RobotMap.frontLeftMotorPort, CANSparkMaxLowLevel.MotorType.kBrushless);
   private CANSparkMax right1 =
-      new CANSparkMax(Constants.frontRightMotorPort, CANSparkMaxLowLevel.MotorType.kBrushless);
+      new CANSparkMax(
+          Constants.RobotMap.frontRightMotorPort, CANSparkMaxLowLevel.MotorType.kBrushless);
   private CANSparkMax left2 =
-      new CANSparkMax(Constants.backLeftMotorPort, CANSparkMaxLowLevel.MotorType.kBrushless);
+      new CANSparkMax(
+          Constants.RobotMap.backLeftMotorPort, CANSparkMaxLowLevel.MotorType.kBrushless);
   private CANSparkMax right2 =
-      new CANSparkMax(Constants.backRightMotorPort, CANSparkMaxLowLevel.MotorType.kBrushless);
+      new CANSparkMax(
+          Constants.RobotMap.backRightMotorPort, CANSparkMaxLowLevel.MotorType.kBrushless);
   ADXRS450_Gyro gyro = new ADXRS450_Gyro();
   public DifferentialDrive roboDrive = new DifferentialDrive(left1, right1);
   private final DifferentialDriveOdometry roboOdometry =

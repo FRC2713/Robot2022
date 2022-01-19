@@ -16,8 +16,6 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
  */
 public final class Constants {
 
-
-
   public static final class RobotMap {
     public static final int frontLeftMotorPort = 1; // NEEDS TO BE CHECKED WHEN PORTS ARE OFFICIAL
     public static final int backLeftMotorPort = 2; // NEEDS TO BE CHECKED WHEN PORTS ARE OFFICIAL
@@ -30,24 +28,24 @@ public final class Constants {
   }
 
   public static final class AutoConstants {
-  // FF and FB gains; NEED TO BE DETERMINED ON THE FULLY BUILT ROBOT, WILL CHANGE WITH WEIGHT
-  public static final double ksVolts = 0;
-  public static final double ksVoltSecondsPerMeter = 0;
-  public static final double kaVoltSecondsSquaredPerMeter = 0;
+    // FF and FB gains; NEED TO BE DETERMINED ON THE FULLY BUILT ROBOT, WILL CHANGE WITH WEIGHT
+    public static final double ksVolts = 0;
+    public static final double ksVoltSecondsPerMeter = 0;
+    public static final double kaVoltSecondsSquaredPerMeter = 0;
 
-  public static final double kPDriveVel = 0;
+    public static final double kPDriveVel = 0;
 
-  // more kinematics stuff
-  public static final double trackWidth = 0.66;
-  public static final DifferentialDriveKinematics kinematics =
-      new DifferentialDriveKinematics(trackWidth);
+    // more kinematics stuff
+    public static final double trackWidth = 0.66;
+    public static final DifferentialDriveKinematics kinematics =
+        new DifferentialDriveKinematics(trackWidth);
 
-  // Ramsete constants; generally the same on all robots
-  public static final double RamseteZeta = 0.7;
-  public static final double RamseteB = 2;
+    // Ramsete constants; generally the same on all robots
+    public static final double RamseteZeta = 0.7;
+    public static final double RamseteB = 2;
 
-  // Max speeds
-  public static final double maxSpeed = 3;
-  public static final double maxAccel = 3;
+    // Max speeds
+    public static final double maxSpeed = 3;
+    public static final double maxAccel = 3;
   }
 }
