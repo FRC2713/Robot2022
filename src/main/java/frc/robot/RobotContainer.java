@@ -8,8 +8,6 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
-import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -65,7 +63,8 @@ public class RobotContainer {
         new RamseteCommand(
             autoTrajectory,
             driveSubsystem::getPose,
-            new RamseteController(Constants.AutoConstants.RamseteB, Constants.AutoConstants.RamseteZeta),
+            new RamseteController(
+                Constants.AutoConstants.RamseteB, Constants.AutoConstants.RamseteZeta),
             new SimpleMotorFeedforward(
                 Constants.AutoConstants.ksVolts,
                 Constants.AutoConstants.ksVoltSecondsPerMeter,
