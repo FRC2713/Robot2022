@@ -37,7 +37,7 @@ public class DriveSubsystem extends SubsystemBase {
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
     //    right1.setInverted(true);
-    //    right2.setInverted(true); no clue if i need to do this
+    //    right2.setInverte(true); no clue if i need to do this
     left2.follow(left1);
     right2.follow(right1);
   }

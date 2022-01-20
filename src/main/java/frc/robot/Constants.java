@@ -17,10 +17,15 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 public final class Constants {
 
   public static final class RobotMap {
+
+    //Drivery-dos
     public static final int frontLeftMotorPort = 1; // NEEDS TO BE CHECKED WHEN PORTS ARE OFFICIAL
     public static final int backLeftMotorPort = 2; // NEEDS TO BE CHECKED WHEN PORTS ARE OFFICIAL
     public static final int frontRightMotorPort = 3; // NEEDS TO BE CHECKED WHEN PORTS ARE OFFICIAL
     public static final int backRightMotorPort = 4; // NEEDS TO BE CHECKED WHEN PORTS ARE OFFICIAL
+
+    //Climb er
+    public static final int  telescope = 7; //Needs to probably changed when the whole ports are set and like maybe the climber will need a second one for a winch motor idk.
   }
 
   public static final class DriveConstants {
@@ -47,5 +52,9 @@ public final class Constants {
     // Max speeds
     public static final double maxSpeed = 3;
     public static final double maxAccel = 3;
+  }
+
+  public  static  final class ClimberConstants {
+
   }
 }
