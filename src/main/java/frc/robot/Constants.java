@@ -21,6 +21,9 @@ public final class Constants {
     public static final int backLeftMotorPort = 2; // NEEDS TO BE CHECKED WHEN PORTS ARE OFFICIAL
     public static final int frontRightMotorPort = 3; // NEEDS TO BE CHECKED WHEN PORTS ARE OFFICIAL
     public static final int backRightMotorPort = 4; // NEEDS TO BE CHECKED WHEN PORTS ARE OFFICIAL
+
+    public static final int flywheelLeftPort = 5;
+    public static final int flywheelRightPort = 6;
   }
 
   public static final class DriveConstants {
