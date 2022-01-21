@@ -12,7 +12,6 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -31,7 +30,7 @@ public class RobotContainer {
 
   public final XboxController controller = new XboxController(0);
 
-  public final ShootSubsystem shootSubsystem = new ShootSubsystem();
+  public static final ShootSubsystem shootSubsystem = new ShootSubsystem();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -55,12 +54,16 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(controller, XboxController.Button.kA.value).whenPressed(
-      new InstantCommand(
-        () -> { 
-          shootSubsystem.setTargetRPM(5000);
-        },
-        shootSubsystem));
+    new JoystickButton(controller, XboxController.Button.kA.value)
+        .whenPressed(
+            () -> {
+              shootSubsystem.setTargetRPM(Constants.ShooterConstants.RPM);
+            });
+    new JoystickButton(controller, XboxController.Button.kB.value)
+        .whenPressed(
+            () -> {
+              shootSubsystem.setTargetRPM(Constants.zero);
+            });
   }
 
   /**
