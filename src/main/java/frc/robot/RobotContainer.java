@@ -17,6 +17,8 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ShootSubsystem;
+import frc.robot.commands.IntakeSetRollers;
+import frc.robot.subsystems.IntakeSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -27,7 +29,7 @@ import frc.robot.subsystems.ShootSubsystem;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public static final DriveSubsystem driveSubsystem = new DriveSubsystem();
-
+  private final IntakeSubsystem robotIntake = new IntakeSubsystem();
   public final XboxController controller = new XboxController(0);
 
   public static final ShootSubsystem shootSubsystem = new ShootSubsystem();
@@ -59,11 +61,16 @@ public class RobotContainer {
             () -> {
               shootSubsystem.setTargetRPM(Constants.ShooterConstants.RPM);
             });
+
     new JoystickButton(controller, XboxController.Button.kB.value)
         .whenPressed(
             () -> {
               shootSubsystem.setTargetRPM(Constants.zero);
             });
+
+    new JoystickButton(controller, XboxController.Button.kY.value)
+        .whenPressed(new IntakeSetRollers(robotIntake, 4))
+        .whenReleased(new IntakeSetRollers(robotIntake, 0));
   }
 
   /**
