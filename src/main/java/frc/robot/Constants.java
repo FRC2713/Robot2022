@@ -24,7 +24,7 @@ public final class Constants {
     public static final int frontRightMotorPort = 3; // NEEDS TO BE CHECKED WHEN PORTS ARE OFFICIAL
     public static final int backRightMotorPort = 4; // NEEDS TO BE CHECKED WHEN PORTS ARE OFFICIAL
 
-    //Climb er
+    //Climber
     public static final int  telescope = 7; //Needs to probably changed when the whole ports are set and like maybe the climber will need a second one for a winch motor idk.
   }
 
@@ -54,7 +54,8 @@ public final class Constants {
     public static final double maxAccel = 3;
   }
 
-  public  static  final class ClimberConstants {
-
+    public  static  final class ClimberConstants {
+      public static final double kP = 1; //Subject to change
+      public static final int kCurrentLimit = 40;
   }
 }
