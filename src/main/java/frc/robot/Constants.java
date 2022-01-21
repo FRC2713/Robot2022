@@ -16,6 +16,8 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
  */
 public final class Constants {
 
+  public static final int zero = 0; // in case you need a zero :)
+
   public static final class RobotMap {
     public static final int frontLeftMotorPort = 1; // NEEDS TO BE CHECKED WHEN PORTS ARE OFFICIAL
     public static final int backLeftMotorPort = 2; // NEEDS TO BE CHECKED WHEN PORTS ARE OFFICIAL
@@ -28,6 +30,14 @@ public final class Constants {
 
   public static final class DriveConstants {
     public static final double kJoystickTurnDeadzone = 0.04;
+  }
+
+  public static final class ShooterConstants {
+    public static final double gearRatio = 1;
+    public static final int currentLimit = 40;
+    public static final double kP = 0.9;
+    public static final double kFF = 0.5;
+    public static final int RPM = 500;
   }
 
   public static final class AutoConstants {
