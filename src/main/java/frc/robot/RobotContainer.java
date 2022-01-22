@@ -4,13 +4,22 @@
 
 package frc.robot;
 
+import java.util.List;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.subsystems.DriveSubsystem;
@@ -57,7 +66,11 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
 
-    Trajectory autoTrajectory = null; // This will be a JSON file created by PathPlanner
+    Trajectory autoTrajectory = TrajectoryGenerator.generateTrajectory(
+      new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
+      List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
+      new Pose2d(3, 0, Rotation2d.fromDegrees(0)),
+      new TrajectoryConfig(Units.feetToMeters(3.0), Units.feetToMeters(3.0))); // This will be a JSON file created by PathPlanner
 
     RamseteCommand ramsete =
         new RamseteCommand(
@@ -78,6 +91,9 @@ public class RobotContainer {
 
     driveSubsystem.resetOdometry(autoTrajectory.getInitialPose());
 
-    return ramsete.andThen(() -> driveSubsystem.tankDriveVolts(0, 0));
+    return new InstantCommand(() -> {
+      driveSubsystem.resetEncoders();
+      driveSubsystem.resetGyro();
+    }).andThen(ramsete.andThen(() -> driveSubsystem.tankDriveVolts(0, 0)));
   }
 }

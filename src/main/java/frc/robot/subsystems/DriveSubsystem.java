@@ -4,17 +4,22 @@
 
 package frc.robot.subsystems;
 
+import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.DriveConstants;
+
 import com.revrobotics.CANSparkMax.IdleMode;
 
 public class DriveSubsystem extends SubsystemBase {
@@ -30,8 +35,9 @@ public class DriveSubsystem extends SubsystemBase {
   private CANSparkMax right2 =
       new CANSparkMax(
           Constants.RobotMap.backRightMotorPort, CANSparkMaxLowLevel.MotorType.kBrushless);
-  ADXRS450_Gyro gyro = new ADXRS450_Gyro();
-  //private final DifferentialDriveOdometry roboOdometry =
+  // ADXRS450_Gyro gyro = new ADXRS450_Gyro();
+  AHRS gyro = new AHRS(SerialPort.Port.kUSB);
+  private final DifferentialDriveOdometry roboOdometry =
       new DifferentialDriveOdometry(gyro.getRotation2d());
 
   /** Creates a new DriveSubsystem. */
@@ -43,13 +49,19 @@ public class DriveSubsystem extends SubsystemBase {
     left1.setSmartCurrentLimit(Constants.DriveConstants.kCurrentLimit);
     right1.setSmartCurrentLimit(Constants.DriveConstants.kCurrentLimit);
     left1.setInverted(true);
-    right1.setInverted(true);
+    right1.setInverted(false);
     left2.follow(left1);
     right2.follow(right1);
     left1.setIdleMode(IdleMode.kBrake);
     left2.setIdleMode(IdleMode.kCoast);
     right1.setIdleMode(IdleMode.kBrake);
     right2.setIdleMode(IdleMode.kCoast);
+
+    left1.getEncoder().setPositionConversionFactor(DriveConstants.kDistancePerPulse);
+    right1.getEncoder().setPositionConversionFactor(DriveConstants.kDistancePerPulse);
+    
+    left1.getEncoder().setVelocityConversionFactor(DriveConstants.kDistancePerPulse / 60.0);
+    right1.getEncoder().setVelocityConversionFactor(DriveConstants.kDistancePerPulse / 60.0);
   }
 
   //public DifferentialDrive getRoboDrive() {
@@ -64,6 +76,11 @@ public class DriveSubsystem extends SubsystemBase {
     return right1.getEncoder();
   }
 
+  public double getHeading() {
+    return Math.IEEEremainder(gyro.getAngle(), 360) * -1;
+
+  }
+
   public double getDegrees() {
     return gyro.getRotation2d().getDegrees();
   }
@@ -73,11 +90,11 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public Pose2d getPose() {
-    //return roboOdometry.getPoseMeters();
+    return roboOdometry.getPoseMeters();
   }
 
   public void resetOdometry(Pose2d pose) {
-    //roboOdometry.resetPosition(pose, gyro.getRotation2d());
+    roboOdometry.resetPosition(pose, gyro.getRotation2d());
   }
 
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
@@ -111,8 +128,18 @@ public class DriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    //roboOdometry.update(
-        gyro.getRotation2d(), getLeftEncoder().getPosition(), getRightEncoder().getPosition());
+    roboOdometry.update(
+        Rotation2d.fromDegrees(getHeading()), getLeftEncoder().getPosition(), getRightEncoder().getPosition());
+
+        SmartDashboard.putNumber("Gyro yaw", getHeading());
+        SmartDashboard.putNumber("Left Enc", left1.getEncoder().getPosition());
+        SmartDashboard.putNumber("Right Enc", right1.getEncoder().getPosition());
+
+        SmartDashboard.putNumber("Odometry X", roboOdometry.getPoseMeters().getX());
+        SmartDashboard.putNumber("Odometry Y", roboOdometry.getPoseMeters().getY());
+        SmartDashboard.putNumber("Odometry H", roboOdometry.getPoseMeters().getRotation().getDegrees());
+        
+        
   }
 
   public void GTADrive(double leftTrigger, double rightTrigger, double turn) {

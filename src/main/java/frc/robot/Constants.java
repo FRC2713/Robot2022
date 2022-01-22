@@ -26,24 +26,24 @@ public final class Constants {
 
   public static final class DriveConstants {
     public static final double kJoystickTurnDeadzone = 0.04;
-    public static final int kCurrentLimit = 80;
-    public static final double kWheelDiameter = 5.0;
+    public static final int kCurrentLimit = 30;
+    public static final double kWheelDiameter = 4.0;
     public static final double kEncoderPulsePerRev = 42.0;
-    public static final double kGearRatio = (50.0 / 11.0) * (50.0 / 24.0);
+    public static final double kGearRatio = (60.0 / 10.0);
     public static final double kDistancePerPulse =
-        (1.0 / kGearRatio) * Units.inchesToMeters(6.0) * Math.PI;
+        (1.0 / kGearRatio) * Units.inchesToMeters(kWheelDiameter) * Math.PI;
   }
 
   public static final class AutoConstants {
     // FF and FB gains; NEED TO BE DETERMINED ON THE FULLY BUILT ROBOT, WILL CHANGE WITH WEIGHT
-    public static final double ksVolts = 0;
-    public static final double ksVoltSecondsPerMeter = 0;
-    public static final double kaVoltSecondsSquaredPerMeter = 0;
+    public static final double ksVolts = 0.20541;
+    public static final double ksVoltSecondsPerMeter = 2.4361;
+    public static final double kaVoltSecondsSquaredPerMeter = 0.25946;
 
-    public static final double kPDriveVel = 0;
+    public static final double kPDriveVel = 3.9568;
 
     // more kinematics stuff
-    public static final double trackWidth = 0.66;
+    public static final double trackWidth = Units.inchesToMeters(25);
     public static final DifferentialDriveKinematics kinematics =
         new DifferentialDriveKinematics(trackWidth);
 
