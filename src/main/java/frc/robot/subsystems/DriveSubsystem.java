@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import edu.wpi.first.wpilibj.SerialPort;
 import frc.robot.Constants.DriveConstants;
 
 public class DriveSubsystem extends SubsystemBase {
@@ -51,6 +52,11 @@ public class DriveSubsystem extends SubsystemBase {
     left2.follow(left1);
     right2.follow(right1);
     setHalfBrake();
+  
+    left1.setIdleMode(IdleMode.kBrake);
+    left2.setIdleMode(IdleMode.kCoast);
+    right1.setIdleMode(IdleMode.kBrake);
+    right2.setIdleMode(IdleMode.kCoast);
 
     left1.getEncoder().setPositionConversionFactor(DriveConstants.kDistancePerPulse);
     right1.getEncoder().setPositionConversionFactor(DriveConstants.kDistancePerPulse);
@@ -127,11 +133,6 @@ public class DriveSubsystem extends SubsystemBase {
   public void tankDriveVolts(double left, double right) {
     left1.setVoltage(left);
     right1.setVoltage(right);
-    // roboDrive.feed();
-  }
-
-  public void setMaxOutput(double maxOutput) {
-    // roboDrive.setMaxOutput(maxOutput);
   }
 
   @Override

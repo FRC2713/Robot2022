@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.PathPlanner;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -80,9 +81,17 @@ public class RobotContainer {
             new Pose2d(Units.feetToMeters(6), Units.feetToMeters(-3), Rotation2d.fromDegrees(-45)),
             new TrajectoryConfig(Units.feetToMeters(3.0), Units.feetToMeters(3.0)));
 
+    Trajectory p1 = PathPlanner.loadPath("Test", 1.5, 1.5, false);
+
+    Trajectory p2 = PathPlanner.loadPath("Test Inverted", 1.5, 1.5, true);
+
+    return generateRamseteCommand(p1); //.andThen(generateRamseteCommand(p2));
+  }
+
+  public Command generateRamseteCommand(Trajectory t) {
     RamseteCommand ramsete =
         new RamseteCommand(
-            autoTrajectory,
+            t,
             driveSubsystem::getPose,
             new RamseteController(
                 Constants.AutoConstants.RamseteB, Constants.AutoConstants.RamseteZeta),
@@ -97,7 +106,7 @@ public class RobotContainer {
             driveSubsystem::tankDriveVolts,
             driveSubsystem);
 
-    driveSubsystem.resetOdometry(autoTrajectory.getInitialPose());
+    driveSubsystem.resetOdometry(t.getInitialPose());
 
     return new InstantCommand(
             () -> {
