@@ -4,19 +4,11 @@
 
 package frc.robot;
 
-<<<<<<< Updated upstream
-=======
 import com.pathplanner.lib.PathPlanner;
->>>>>>> Stashed changes
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.trajectory.Trajectory;
-<<<<<<< Updated upstream
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
-import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
-=======
->>>>>>> Stashed changes
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -66,16 +58,12 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
 
-<<<<<<< Updated upstream
-    Trajectory autoTrajectory = null; // This will be a JSON file created by PathPlanner
-=======
     Trajectory p1 = PathPlanner.loadPath("Test", 1.5, 1.5, false);
 
     Trajectory p2 = PathPlanner.loadPath("Test Inverted", 1.5, 1.5, true);
 
     return generateRamseteCommand(p1); //.andThen(generateRamseteCommand(p2));
   }
->>>>>>> Stashed changes
 
   public Command generateRamseteCommand(Trajectory t) {
     RamseteCommand ramsete =
