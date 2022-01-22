@@ -1,0 +1,11 @@
+{
+  "SysId": {
+    "Analysis Type": "Drivetrain",
+    "AnalyzerJSONLocation": "C:\\Users\\justi\\Desktop\\Code\\Robot2022\\sysid_data20220122-095452.json",
+    "NetworkTables Settings": {
+      "serverTeam": "2713"
+    },
+    "mode": "Client",
+    "serverTeam": "2713"
+  }
+}

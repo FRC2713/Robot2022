@@ -4,17 +4,18 @@
 
 package frc.robot.subsystems;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
+import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj.SerialPort;
@@ -33,17 +34,24 @@ public class DriveSubsystem extends SubsystemBase {
   private CANSparkMax right2 =
       new CANSparkMax(
           Constants.RobotMap.backRightMotorPort, CANSparkMaxLowLevel.MotorType.kBrushless);
-  ADXRS450_Gyro gyro = new ADXRS450_Gyro();
-  public DifferentialDrive roboDrive = new DifferentialDrive(left1, right1);
+  // ADXRS450_Gyro gyro = new ADXRS450_Gyro();
+  AHRS gyro = new AHRS(SerialPort.Port.kUSB);
   private final DifferentialDriveOdometry roboOdometry =
       new DifferentialDriveOdometry(gyro.getRotation2d());
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
-    //    right1.setInverted(true);
-    //    right2.setInverted(true); no clue if i need to do this
+    left1.restoreFactoryDefaults();
+    right1.restoreFactoryDefaults();
+    left2.restoreFactoryDefaults();
+    right2.restoreFactoryDefaults();
+    left1.setSmartCurrentLimit(Constants.DriveConstants.kCurrentLimit);
+    right1.setSmartCurrentLimit(Constants.DriveConstants.kCurrentLimit);
+    left1.setInverted(true);
+    right1.setInverted(false);
     left2.follow(left1);
     right2.follow(right1);
+    setHalfBrake();
   
     left1.setIdleMode(IdleMode.kBrake);
     left2.setIdleMode(IdleMode.kCoast);
@@ -63,6 +71,21 @@ public class DriveSubsystem extends SubsystemBase {
 
   public RelativeEncoder getLeftEncoder() {
     return left1.getEncoder();
+  }
+
+  public void setAllCoast() {
+    left1.setIdleMode(IdleMode.kCoast);
+    right1.setIdleMode(IdleMode.kCoast);
+    left2.setIdleMode(IdleMode.kCoast);
+    right2.setIdleMode(IdleMode.kCoast);
+  }
+
+  public void setHalfBrake() {
+
+    left1.setIdleMode(IdleMode.kBrake);
+    left2.setIdleMode(IdleMode.kCoast);
+    right1.setIdleMode(IdleMode.kBrake);
+    right2.setIdleMode(IdleMode.kCoast);
   }
 
   public RelativeEncoder getRightEncoder() {
