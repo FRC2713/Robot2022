@@ -4,8 +4,7 @@
 
 package frc.robot;
 
-import java.util.List;
-
+import com.pathplanner.lib.PathPlanner;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -23,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.subsystems.DriveSubsystem;
+import java.util.List;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -32,7 +32,7 @@ import frc.robot.subsystems.DriveSubsystem;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final DriveSubsystem driveSubsystem = new DriveSubsystem();
+  public final DriveSubsystem driveSubsystem = new DriveSubsystem();
 
   public final XboxController controller = new XboxController(0);
 
@@ -65,16 +65,33 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+    /*
+        Trajectory autoTrajectory = TrajectoryGenerator.generateTrajectory(
+          new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
+          List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
+          new Pose2d(3, 0, Rotation2d.fromDegrees(0)),
+          new TrajectoryConfig(Units.feetToMeters(3.0), Units.feetToMeters(3.0))); // This will be a JSON file created by PathPlanner
+    */
 
-    Trajectory autoTrajectory = TrajectoryGenerator.generateTrajectory(
-      new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
-      List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
-      new Pose2d(3, 0, Rotation2d.fromDegrees(0)),
-      new TrajectoryConfig(Units.feetToMeters(3.0), Units.feetToMeters(3.0))); // This will be a JSON file created by PathPlanner
+    Trajectory autoTrajectory =
+        TrajectoryGenerator.generateTrajectory(
+            new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
+            List.of(
+                new Translation2d(Units.feetToMeters(4), -0)),
+            new Pose2d(Units.feetToMeters(6), Units.feetToMeters(-3), Rotation2d.fromDegrees(-45)),
+            new TrajectoryConfig(Units.feetToMeters(3.0), Units.feetToMeters(3.0)));
 
+    Trajectory p1 = PathPlanner.loadPath("Test", 1.5, 1.5, false);
+
+    Trajectory p2 = PathPlanner.loadPath("Test Inverted", 1.5, 1.5, true);
+
+    return generateRamseteCommand(p1); //.andThen(generateRamseteCommand(p2));
+  }
+
+  public Command generateRamseteCommand(Trajectory t) {
     RamseteCommand ramsete =
         new RamseteCommand(
-            autoTrajectory,
+            t,
             driveSubsystem::getPose,
             new RamseteController(
                 Constants.AutoConstants.RamseteB, Constants.AutoConstants.RamseteZeta),
@@ -89,11 +106,13 @@ public class RobotContainer {
             driveSubsystem::tankDriveVolts,
             driveSubsystem);
 
-    driveSubsystem.resetOdometry(autoTrajectory.getInitialPose());
+    driveSubsystem.resetOdometry(t.getInitialPose());
 
-    return new InstantCommand(() -> {
-      driveSubsystem.resetEncoders();
-      driveSubsystem.resetGyro();
-    }).andThen(ramsete.andThen(() -> driveSubsystem.tankDriveVolts(0, 0)));
+    return new InstantCommand(
+            () -> {
+              driveSubsystem.resetEncoders();
+              driveSubsystem.resetGyro();
+            })
+        .andThen(ramsete.andThen(() -> driveSubsystem.tankDriveVolts(0, 0)));
   }
 }
