@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.util.Units;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -25,6 +26,12 @@ public final class Constants {
 
   public static final class DriveConstants {
     public static final double kJoystickTurnDeadzone = 0.04;
+    public static final int kCurrentLimit = 80;
+    public static final double kWheelDiameter = 5.0;
+    public static final double kEncoderPulsePerRev = 42.0;
+    public static final double kGearRatio = (50.0 / 11.0) * (50.0 / 24.0);
+    public static final double kDistancePerPulse =
+        (1.0 / kGearRatio) * Units.inchesToMeters(6.0) * Math.PI;
   }
 
   public static final class AutoConstants {

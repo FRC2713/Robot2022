@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import com.revrobotics.CANSparkMax.IdleMode;
 
 public class DriveSubsystem extends SubsystemBase {
   private CANSparkMax left1 =
@@ -30,21 +31,30 @@ public class DriveSubsystem extends SubsystemBase {
       new CANSparkMax(
           Constants.RobotMap.backRightMotorPort, CANSparkMaxLowLevel.MotorType.kBrushless);
   ADXRS450_Gyro gyro = new ADXRS450_Gyro();
-  public DifferentialDrive roboDrive = new DifferentialDrive(left1, right1);
-  private final DifferentialDriveOdometry roboOdometry =
+  //private final DifferentialDriveOdometry roboOdometry =
       new DifferentialDriveOdometry(gyro.getRotation2d());
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
+    left1.restoreFactoryDefaults();
+    right1.restoreFactoryDefaults();
+    left2.restoreFactoryDefaults();
+    right2.restoreFactoryDefaults();
+    left1.setSmartCurrentLimit(Constants.DriveConstants.kCurrentLimit);
+    right1.setSmartCurrentLimit(Constants.DriveConstants.kCurrentLimit);
     left1.setInverted(true);
     right1.setInverted(true);
     left2.follow(left1);
     right2.follow(right1);
+    left1.setIdleMode(IdleMode.kBrake);
+    left2.setIdleMode(IdleMode.kCoast);
+    right1.setIdleMode(IdleMode.kBrake);
+    right2.setIdleMode(IdleMode.kCoast);
   }
 
-  public DifferentialDrive getRoboDrive() {
-    return roboDrive;
-  }
+  //public DifferentialDrive getRoboDrive() {
+    //return roboDrive;
+  //}
 
   public RelativeEncoder getLeftEncoder() {
     return left1.getEncoder();
@@ -63,11 +73,11 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public Pose2d getPose() {
-    return roboOdometry.getPoseMeters();
+    //return roboOdometry.getPoseMeters();
   }
 
   public void resetOdometry(Pose2d pose) {
-    roboOdometry.resetPosition(pose, gyro.getRotation2d());
+    //roboOdometry.resetPosition(pose, gyro.getRotation2d());
   }
 
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
@@ -91,17 +101,17 @@ public class DriveSubsystem extends SubsystemBase {
   public void tankDriveVolts(double left, double right) {
     left1.setVoltage(left);
     right1.setVoltage(right);
-    roboDrive.feed();
+    //roboDrive.feed();
   }
 
   public void setMaxOutput(double maxOutput) {
-    roboDrive.setMaxOutput(maxOutput);
+    //roboDrive.setMaxOutput(maxOutput);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    roboOdometry.update(
+    //roboOdometry.update(
         gyro.getRotation2d(), getLeftEncoder().getPosition(), getRightEncoder().getPosition());
   }
 
