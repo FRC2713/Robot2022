@@ -5,16 +5,25 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+<<<<<<< Updated upstream
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+=======
+import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+import frc.robot.Constants.DriveConstants;
+>>>>>>> Stashed changes
 
 public class DriveSubsystem extends SubsystemBase {
   private CANSparkMax left1 =
@@ -40,11 +49,29 @@ public class DriveSubsystem extends SubsystemBase {
     //    right2.setInverted(true); no clue if i need to do this
     left2.follow(left1);
     right2.follow(right1);
+<<<<<<< Updated upstream
   }
 
   public DifferentialDrive getRoboDrive() {
     return roboDrive;
   }
+=======
+    left1.setIdleMode(IdleMode.kBrake);
+    left2.setIdleMode(IdleMode.kCoast);
+    right1.setIdleMode(IdleMode.kBrake);
+    right2.setIdleMode(IdleMode.kCoast);
+
+    left1.getEncoder().setPositionConversionFactor(DriveConstants.kDistancePerPulse);
+    right1.getEncoder().setPositionConversionFactor(DriveConstants.kDistancePerPulse);
+
+    left1.getEncoder().setVelocityConversionFactor(DriveConstants.kDistancePerPulse / 60.0);
+    right1.getEncoder().setVelocityConversionFactor(DriveConstants.kDistancePerPulse / 60.0);
+  }
+
+  // public DifferentialDrive getRoboDrive() {
+  // return roboDrive;
+  // }
+>>>>>>> Stashed changes
 
   public RelativeEncoder getLeftEncoder() {
     return left1.getEncoder();
@@ -54,6 +81,13 @@ public class DriveSubsystem extends SubsystemBase {
     return right1.getEncoder();
   }
 
+<<<<<<< Updated upstream
+=======
+  public double getHeading() {
+    return Math.IEEEremainder(gyro.getAngle(), 360) * -1;
+  }
+
+>>>>>>> Stashed changes
   public double getDegrees() {
     return gyro.getRotation2d().getDegrees();
   }
@@ -91,18 +125,40 @@ public class DriveSubsystem extends SubsystemBase {
   public void tankDriveVolts(double left, double right) {
     left1.setVoltage(left);
     right1.setVoltage(right);
+<<<<<<< Updated upstream
     roboDrive.feed();
   }
 
   public void setMaxOutput(double maxOutput) {
     roboDrive.setMaxOutput(maxOutput);
+=======
+    // roboDrive.feed();
+  }
+
+  public void setMaxOutput(double maxOutput) {
+    // roboDrive.setMaxOutput(maxOutput);
+>>>>>>> Stashed changes
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     roboOdometry.update(
+<<<<<<< Updated upstream
         gyro.getRotation2d(), getLeftEncoder().getPosition(), getRightEncoder().getPosition());
+=======
+        Rotation2d.fromDegrees(getHeading()),
+        getLeftEncoder().getPosition(),
+        getRightEncoder().getPosition());
+
+    SmartDashboard.putNumber("Gyro yaw", getHeading());
+    SmartDashboard.putNumber("Left Enc", left1.getEncoder().getPosition());
+    SmartDashboard.putNumber("Right Enc", right1.getEncoder().getPosition());
+
+    SmartDashboard.putNumber("Odometry X", roboOdometry.getPoseMeters().getX());
+    SmartDashboard.putNumber("Odometry Y", roboOdometry.getPoseMeters().getY());
+    SmartDashboard.putNumber("Odometry H", roboOdometry.getPoseMeters().getRotation().getDegrees());
+>>>>>>> Stashed changes
   }
 
   public void GTADrive(double leftTrigger, double rightTrigger, double turn) {
