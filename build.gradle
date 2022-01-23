@@ -139,4 +139,4 @@ spotless {
     }
 }
 
-build.dependsOn spotlessApply
+compileJava.dependsOn spotlessApply
