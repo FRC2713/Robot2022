@@ -68,5 +68,6 @@ public final class Constants {
 
     public static final int rollerCurrentLimit = 20;
     public static final int fourBarCurrentLimit = 30;
+    public static final double speed  = 0.5;
   }
 }

@@ -69,7 +69,7 @@ public class RobotContainer {
             });
 
     new JoystickButton(controller, XboxController.Button.kY.value)
-        .whenPressed(new IntakeSetRollers(robotIntake, 4))
+        .whenPressed(new IntakeSetRollers(robotIntake, Constants.IntakeConstants.speed))
         .whenReleased(new IntakeSetRollers(robotIntake, 0));
   }
 
