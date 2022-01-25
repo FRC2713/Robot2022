@@ -10,13 +10,14 @@ public class ShootALowBall extends SequentialCommandGroup {
 
   public ShootALowBall(ShootSubsystem shootSubsystem) {
     addCommands(
-      new InstantCommand(() -> {
-        shootSubsystem.setTargetRPM(Constants.ShooterConstants.RPM);
-      }),
-      new WaitCommand(1),
-      new InstantCommand(() -> {
-        shootSubsystem.setTargetRPM(Constants.zero);
-      }
-    ));
+        new InstantCommand(
+            () -> {
+              shootSubsystem.setTargetRPM(Constants.ShooterConstants.RPM);
+            }),
+        new WaitCommand(1),
+        new InstantCommand(
+            () -> {
+              shootSubsystem.setTargetRPM(Constants.zero);
+            }));
   }
 }
