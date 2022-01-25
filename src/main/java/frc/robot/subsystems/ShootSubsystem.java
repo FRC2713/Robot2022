@@ -5,6 +5,7 @@ import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.wpi.first.math.controller.BangBangController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -42,6 +43,7 @@ public class ShootSubsystem extends SubsystemBase {
 
   public void setTargetRPM(int targetRPM) {
     // stuff :)
+    SmartDashboard.putNumber("ShooterSetpoint", targetRPM);
     if (flywheelMode == FlywheelControl.PID) {
       fly1.getPIDController().setReference(targetRPM, ControlType.kVelocity);
     } else if (flywheelMode == FlywheelControl.BANG_BANG) {
@@ -60,5 +62,6 @@ public class ShootSubsystem extends SubsystemBase {
     } else if (flywheelMode == FlywheelControl.PID) {
       // enjoy the funny shooter because it doesn't need code :)
     }
+    SmartDashboard.putNumber("ShooterRPM", fly1.getEncoder().getVelocity());
   }
 }
