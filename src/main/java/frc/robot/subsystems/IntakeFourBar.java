@@ -5,14 +5,13 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.Constants.RobotMap;
 
 public class IntakeFourBar extends SubsystemBase {
 
   private CANSparkMax fourBar;
   private double currPosition;
   public IntakeFourBar() {
-    fourBar = new CANSparkMax(RobotMap.intakeMotorFourBar, MotorType.kBrushless);
+    fourBar = new CANSparkMax(Constants.RobotMap.intakeMotorFourBar, MotorType.kBrushless);
 
     fourBar.restoreFactoryDefaults();
 
