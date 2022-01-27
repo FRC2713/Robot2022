@@ -22,7 +22,10 @@ public final class Constants {
     public static final int frontRightMotorPort = 3; // NEEDS TO BE CHECKED WHEN PORTS ARE OFFICIAL
     public static final int backRightMotorPort = 4; // NEEDS TO BE CHECKED WHEN PORTS ARE OFFICIAL
     public static final int intakeMotorPrimary = 5; // NEEDS TO BE CHECKED WHEN PORTS ARE OFFICIAL
-    public static final int intakeMotorSecondary = 6; // NEEDS TO BE CHECKED WHEN PORTS ARE OFFICIAL
+    public static final int intakeMotorSecondary = 6; // NEEDS TO BE CHECKED WHEN PORTS ARE OFFICIAL\
+    public static final int intakeBottomSwitch = 0; 
+    public static final int intakeTopSwitch = 1; 
+    
   }
 
   public static final class DriveConstants {
@@ -56,5 +59,6 @@ public final class Constants {
 
     public static final int rollerCurrentLimit = 20;
     public static final int fourBarCurrentLimit = 30;
+    
   }
 }

@@ -84,7 +84,7 @@ public class RobotContainer {
             driveSubsystem::tankDriveVolts,
             driveSubsystem);
 
-    driveSubsystem.resetOdometry(autoTrajectory.getInitialPose());
+  //driveSubsystem.resetOdometry(autoTrajectory.getInitialPose());
 
     return ramsete.andThen(() -> driveSubsystem.tankDriveVolts(0, 0));
   }

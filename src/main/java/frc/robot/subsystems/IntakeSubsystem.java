@@ -10,6 +10,8 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.RobotMap;
@@ -17,6 +19,9 @@ import frc.robot.Constants.RobotMap;
 public class IntakeSubsystem extends SubsystemBase {
 
   private CANSparkMax rollers;
+  DigitalInput bottomSwitch;
+  DigitalInput topSwitch; 
+
 
   public IntakeSubsystem() {
     rollers = new CANSparkMax(RobotMap.intakeMotorPrimary, MotorType.kBrushless);
@@ -26,12 +31,21 @@ public class IntakeSubsystem extends SubsystemBase {
     rollers.setSmartCurrentLimit(Constants.IntakeConstants.rollerCurrentLimit);
 
     rollers.setIdleMode(IdleMode.kCoast);
+
+    bottomSwitch = new DigitalInput(RobotMap.intakeBottomSwitch);
+
+    topSwitch = new DigitalInput(RobotMap.intakeTopSwitch);
+
   }
 
   public void setRollerSpeed(double speed) {
     rollers.set(speed);
   }
 
+  
   @Override
-  public void periodic() {}
+  public void periodic() {
+
+  }
+
 }
