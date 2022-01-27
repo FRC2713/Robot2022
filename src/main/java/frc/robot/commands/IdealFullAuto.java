@@ -25,7 +25,7 @@ public class IdealFullAuto extends SequentialCommandGroup {
         new ShootALowBall(shootSubsystem), //shoots until the ball goes by, in theory; will need two of these eventually for two balls
         new RamsetA(leg2, driveSubsystem), //second leg of the journey, should pick up two balls on the way
         new ShootALowBall(shootSubsystem), //shoots until the ball goes by, in theory; will need two of these eventually for two balls
-        new IntakeSetRollers(intakeSubsystem, 0) //turns off the rollers
+        new IntakeSetRollers(intakeSubsystem, Constants.zero) //turns off the rollers
         );
   }
 }

@@ -30,7 +30,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public static final DriveSubsystem driveSubsystem = new DriveSubsystem();
   private final IntakeSubsystem robotIntake = new IntakeSubsystem();
-  public final XboxController controller = new XboxController(0);
+  public final XboxController controller = new XboxController(Constants.zero);
 
   public static final ShootSubsystem shootSubsystem = new ShootSubsystem();
 
@@ -70,7 +70,7 @@ public class RobotContainer {
 
     new JoystickButton(controller, XboxController.Button.kY.value)
         .whenPressed(new IntakeSetRollers(robotIntake, Constants.IntakeConstants.speed))
-        .whenReleased(new IntakeSetRollers(robotIntake, 0));
+        .whenReleased(new IntakeSetRollers(robotIntake, Constants.zero));
   }
 
   /**
@@ -96,13 +96,13 @@ public class RobotContainer {
                 Constants.AutoConstants.kaVoltSecondsSquaredPerMeter),
             Constants.AutoConstants.kinematics,
             driveSubsystem::getWheelSpeeds,
-            new PIDController(Constants.AutoConstants.kPDriveVel, 0, 0),
-            new PIDController(Constants.AutoConstants.kPDriveVel, 0, 0),
+            new PIDController(Constants.AutoConstants.kPDriveVel, Constants.zero, Constants.zero),
+            new PIDController(Constants.AutoConstants.kPDriveVel, Constants.zero, Constants.zero),
             driveSubsystem::tankDriveVolts,
             driveSubsystem);
 
     driveSubsystem.resetOdometry(autoTrajectory.getInitialPose());
 
-    return ramsete.andThen(() -> driveSubsystem.tankDriveVolts(0, 0));
+    return ramsete.andThen(() -> driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
   }
 }

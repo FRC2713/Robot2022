@@ -76,8 +76,8 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void resetEncoders() {
-    getLeftEncoder().setPosition(0);
-    getRightEncoder().setPosition(0);
+    getLeftEncoder().setPosition(Constants.zero);
+    getRightEncoder().setPosition(Constants.zero);
   }
 
   public void resetGyro() {
@@ -108,7 +108,7 @@ public class DriveSubsystem extends SubsystemBase {
   public void GTADrive(double leftTrigger, double rightTrigger, double turn) {
     if (-Constants.DriveConstants.kJoystickTurnDeadzone <= turn
         && turn <= Constants.DriveConstants.kJoystickTurnDeadzone) {
-      turn = 0.0;
+      turn = Constants.zero;
       SmartDashboard.putBoolean("isInDeadband", true);
     } else {
       SmartDashboard.putBoolean("isInDeadband", false);
