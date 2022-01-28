@@ -125,6 +125,8 @@ public class DriveSubsystem extends SubsystemBase {
 
     SmartDashboard.putNumber("leftSide", left);
     SmartDashboard.putNumber("rightSide", right);
+
+    SmartDashboard.putBoolean("direction", left > 0 && right > 0);
   }
 
   @Override
