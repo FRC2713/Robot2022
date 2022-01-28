@@ -27,10 +27,20 @@ public final class Constants {
     public static final int flywheelRightPort = 6;
     public static final int intakeMotorRollers= 7; // NEEDS TO BE CHECKED WHEN PORTS ARE OFFICIAL
     public static final int intakeMotorFourBar = 8; // NEEDS TO BE CHECKED WHEN PORTS ARE OFFICIAL
+    public static final int lowerSnek = 9;
+    public static final int upperSnek = 10;
   }
 
   public static final class DriveConstants {
     public static final double kJoystickTurnDeadzone = 0.04;
+  }
+
+  public static final class IntakeConstants {
+    public static final double kP = 1;
+
+    public static final int rollerCurrentLimit = 20;
+    public static final int fourBarCurrentLimit = 30;
+    public static final double speed  = 0.5;
   }
 
   public static final class ShooterConstants {
@@ -61,13 +71,5 @@ public final class Constants {
     // Max speeds
     public static final double maxSpeed = 8;
     public static final double maxAccel = 5;
-  }
-
-  public static final class IntakeConstants {
-    public static final double kP = 1;
-
-    public static final int rollerCurrentLimit = 20;
-    public static final int fourBarCurrentLimit = 30;
-    public static final double speed  = 0.5;
   }
 }
