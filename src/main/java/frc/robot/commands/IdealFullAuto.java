@@ -8,6 +8,7 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeFourBar;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShootSubsystem;
+import frc.robot.subsystems.SnekSystem;
 
 public class IdealFullAuto extends SequentialCommandGroup {
   Trajectory leg1 =
@@ -17,14 +18,14 @@ public class IdealFullAuto extends SequentialCommandGroup {
       PathPlanner.loadPath(
           "Leg2", Constants.AutoConstants.maxSpeed, Constants.AutoConstants.maxAccel);
 
-  public IdealFullAuto(ShootSubsystem shootSubsystem, DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem, IntakeFourBar intakeFourBar) {
+  public IdealFullAuto(ShootSubsystem shootSubsystem, DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem, IntakeFourBar intakeFourBar, SnekSystem snekSystem) {
     addCommands(
         new DeployIntake(intakeSubsystem, intakeFourBar), //deploys intake
-        //command that makes the snek schmoove
+        //snek works, because of the defaultCommand in RobotContainer
         new RamsetA(leg1, driveSubsystem), //first leg of the journey, ideally picks up a ball on the way
-        new ShootALowBall(shootSubsystem), //shoots until the ball goes by, in theory; will need two of these eventually for two balls
+        new ShootALowBall(shootSubsystem, snekSystem), //shoots until the ball goes by, in theory; will need two of these eventually for two balls
         new RamsetA(leg2, driveSubsystem), //second leg of the journey, should pick up two balls on the way
-        new ShootALowBall(shootSubsystem), //shoots until the ball goes by, in theory; will need two of these eventually for two balls
+        new ShootALowBall(shootSubsystem, snekSystem), //shoots until the ball goes by, in theory; will need two of these eventually for two balls
         new IntakeSetRollers(intakeSubsystem, Constants.zero) //turns off the rollers
         );
   }

@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ShootSubsystem;
+import frc.robot.subsystems.SnekSystem;
 import frc.robot.commands.IntakeSetRollers;
 import frc.robot.subsystems.IntakeSubsystem;
 
@@ -30,9 +31,10 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public static final DriveSubsystem driveSubsystem = new DriveSubsystem();
   private final IntakeSubsystem robotIntake = new IntakeSubsystem();
-  public final XboxController controller = new XboxController(Constants.zero);
-
   public static final ShootSubsystem shootSubsystem = new ShootSubsystem();
+  private final SnekSystem snekSystem = new SnekSystem();
+
+  public final XboxController controller = new XboxController(Constants.zero);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -47,6 +49,14 @@ public class RobotContainer {
                   controller.getLeftX());
             },
             driveSubsystem));
+            
+    snekSystem.setDefaultCommand(
+      new RunCommand(
+        () -> {
+          snekSystem.loadSnek();
+        },
+        snekSystem
+      ));
   }
 
   /**
