@@ -12,14 +12,11 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.ShootSubsystem;
-import frc.robot.subsystems.SnekSystem;
-import frc.robot.commands.IntakeSetRollers;
-import frc.robot.subsystems.IntakeSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -30,9 +27,9 @@ import frc.robot.subsystems.IntakeSubsystem;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public static final DriveSubsystem driveSubsystem = new DriveSubsystem();
-  private final IntakeSubsystem robotIntake = new IntakeSubsystem();
-  public static final ShootSubsystem shootSubsystem = new ShootSubsystem();
-  private final SnekSystem snekSystem = new SnekSystem();
+  // private final IntakeSubsystem robotIntake = new IntakeSubsystem();
+  // public static final ShootSubsystem shootSubsystem = new ShootSubsystem();
+  // private final SnekSystem snekSystem = new SnekSystem();
 
   public final XboxController controller = new XboxController(Constants.zero);
 
@@ -49,14 +46,13 @@ public class RobotContainer {
                   controller.getLeftX());
             },
             driveSubsystem));
-            
-    snekSystem.setDefaultCommand(
-      new RunCommand(
-        () -> {
-          snekSystem.loadSnek();
-        },
-        snekSystem
-      ));
+
+    // snekSystem.setDefaultCommand(
+    //     new RunCommand(
+    //         () -> {
+    //           snekSystem.loadSnek();
+    //         },
+    //         snekSystem));
   }
 
   /**
@@ -66,21 +62,21 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(controller, XboxController.Button.kA.value)
-        .whenPressed(
-            () -> {
-              shootSubsystem.setTargetRPM(Constants.ShooterConstants.RPM);
-            });
+    // new JoystickButton(controller, XboxController.Button.kA.value)
+    //     .whenPressed(
+    //         () -> {
+    //           shootSubsystem.setTargetRPM(Constants.ShooterConstants.RPM);
+    //         });
 
-    new JoystickButton(controller, XboxController.Button.kB.value)
-        .whenPressed(
-            () -> {
-              shootSubsystem.setTargetRPM(Constants.zero);
-            });
+    // new JoystickButton(controller, XboxController.Button.kB.value)
+    //     .whenPressed(
+    //         () -> {
+    //           shootSubsystem.setTargetRPM(Constants.zero);
+    //         });
 
-    new JoystickButton(controller, XboxController.Button.kY.value)
-        .whenPressed(new IntakeSetRollers(robotIntake, Constants.IntakeConstants.speed))
-        .whenReleased(new IntakeSetRollers(robotIntake, Constants.zero));
+    // new JoystickButton(controller, XboxController.Button.kY.value)
+    //     .whenPressed(new IntakeSetRollers(robotIntake, Constants.IntakeConstants.speed))
+    // .whenReleased(new IntakeSetRollers(robotIntake, Constants.zero));
   }
 
   /**
@@ -114,5 +110,36 @@ public class RobotContainer {
     driveSubsystem.resetOdometry(autoTrajectory.getInitialPose());
 
     return ramsete.andThen(() -> driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
+  }
+
+  public static Command makeFollowTrajectoryCommand(Trajectory t) {
+
+    RamseteCommand ramsete =
+        new RamseteCommand(
+            t,
+            driveSubsystem::getPose,
+            new RamseteController(
+                Constants.AutoConstants.RamseteB, Constants.AutoConstants.RamseteZeta),
+            new SimpleMotorFeedforward(
+                Constants.AutoConstants.ksVolts,
+                Constants.AutoConstants.ksVoltSecondsPerMeter,
+                Constants.AutoConstants.kaVoltSecondsSquaredPerMeter),
+            Constants.AutoConstants.kinematics,
+            driveSubsystem::getWheelSpeeds,
+            new PIDController(Constants.AutoConstants.kPDriveVel, Constants.zero, Constants.zero),
+            new PIDController(Constants.AutoConstants.kPDriveVel, Constants.zero, Constants.zero),
+            driveSubsystem::tankDriveVolts,
+            driveSubsystem);
+
+    return new SequentialCommandGroup(
+        new InstantCommand(
+            () -> {
+              driveSubsystem.resetOdometry(t.getInitialPose());
+            }),
+        ramsete,
+        new InstantCommand(
+            () -> {
+              driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero);
+            }));
   }
 }

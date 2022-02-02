@@ -10,6 +10,7 @@ public class IntakeFourBar extends SubsystemBase {
 
   private CANSparkMax fourBar;
   private double currPosition;
+
   public IntakeFourBar() {
     fourBar = new CANSparkMax(Constants.RobotMap.intakeMotorFourBar, MotorType.kBrushless);
 
@@ -28,7 +29,6 @@ public class IntakeFourBar extends SubsystemBase {
   @Override
   public void periodic() {
 
-   SmartDashboard.putNumber("Four Bar Position", currPosition);
-
+    SmartDashboard.putNumber("Four Bar Position", currPosition);
   }
 }

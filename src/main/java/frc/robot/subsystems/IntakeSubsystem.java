@@ -18,6 +18,7 @@ import frc.robot.Constants.RobotMap;
 public class IntakeSubsystem extends SubsystemBase {
 
   private CANSparkMax rollers;
+
   public IntakeSubsystem() {
     rollers = new CANSparkMax(RobotMap.intakeMotorRollers, MotorType.kBrushless);
 
@@ -35,11 +36,6 @@ public class IntakeSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
 
-     SmartDashboard.putNumber("Roller Speed", Constants.IntakeConstants.speed);
-
-
-
+    SmartDashboard.putNumber("Roller Speed", Constants.IntakeConstants.speed);
   }
-
-
 }
