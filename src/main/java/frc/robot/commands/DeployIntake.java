@@ -6,12 +6,14 @@ import frc.robot.subsystems.IntakeFourBar;
 import frc.robot.subsystems.IntakeSubsystem;
 
 public class DeployIntake extends ParallelCommandGroup {
-    //j
+  // j
 
-    public DeployIntake(IntakeSubsystem intakeSubsystem, IntakeFourBar intakeFourBar) {
-        addCommands(
-            new IntakeSetFourBar(intakeFourBar, Constants.zero), //we have no idea what the fully deployed position is supposed to be :(
-            new IntakeSetRollers(intakeSubsystem, Constants.IntakeConstants.speed)
-        );
-    }
+  public DeployIntake(IntakeSubsystem intakeSubsystem, IntakeFourBar intakeFourBar) {
+    addCommands(
+        new IntakeSetFourBar(
+            intakeFourBar,
+            Constants
+                .zero), // we have no idea what the fully deployed position is supposed to be :(
+        new IntakeSetRollers(intakeSubsystem, Constants.IntakeConstants.speed));
+  }
 }

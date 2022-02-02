@@ -5,11 +5,14 @@ import frc.robot.subsystems.IntakeFourBar;
 import frc.robot.subsystems.IntakeSubsystem;
 
 public class StashIntake extends ParallelCommandGroup {
-    
-    public StashIntake(IntakeSubsystem intakeSubsystem, IntakeFourBar intakeFourBar) {
-        addCommands(
-            new IntakeSetFourBar(intakeFourBar, 1), //we have no idea what the fully stashed position is supposed to be :(
-            new IntakeSetRollers(intakeSubsystem, 3) //no idea what a good speed is, test this please :)
+
+  public StashIntake(IntakeSubsystem intakeSubsystem, IntakeFourBar intakeFourBar) {
+    addCommands(
+        new IntakeSetFourBar(
+            intakeFourBar,
+            1), // we have no idea what the fully stashed position is supposed to be :(
+        new IntakeSetRollers(
+            intakeSubsystem, 3) // no idea what a good speed is, test this please :)
         );
-    }
+  }
 }

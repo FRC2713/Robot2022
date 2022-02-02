@@ -16,7 +16,7 @@ public class ShootSubsystem extends SubsystemBase {
   private CANSparkMax fly2 =
       new CANSparkMax(
           Constants.RobotMap.flywheelRightPort, CANSparkMaxLowLevel.MotorType.kBrushless);
-  private BangBangController bangbang = new BangBangController(25); //Margin of error/tolerance
+  private BangBangController bangbang = new BangBangController(25); // Margin of error/tolerance
   public FlywheelControl flywheelMode = FlywheelControl.BANG_BANG;
 
   public enum FlywheelControl {

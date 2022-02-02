@@ -20,19 +20,21 @@ public final class Constants {
 
   public static final class RobotMap {
 
-    //MOTORS
+    // MOTORS
     public static final int frontLeftMotorPort = 1; // NEEDS TO BE CHECKED WHEN PORTS ARE OFFICIAL
     public static final int backLeftMotorPort = 2; // NEEDS TO BE CHECKED WHEN PORTS ARE OFFICIAL
     public static final int frontRightMotorPort = 3; // NEEDS TO BE CHECKED WHEN PORTS ARE OFFICIAL
     public static final int backRightMotorPort = 4; // NEEDS TO BE CHECKED WHEN PORTS ARE OFFICIAL
+
     public static final int flywheelLeftPort = 5;
     public static final int flywheelRightPort = 6;
-    public static final int intakeMotorRollers= 7; // NEEDS TO BE CHECKED WHEN PORTS ARE OFFICIAL
+
+    public static final int intakeMotorRollers = 7; // NEEDS TO BE CHECKED WHEN PORTS ARE OFFICIAL
     public static final int intakeMotorFourBar = 8; // NEEDS TO BE CHECKED WHEN PORTS ARE OFFICIAL
+
     public static final int lowerSnek = 9;
     public static final int upperSnek = 10;
-
-    //DIO
+    // DIO
     public static final int snekLowerSwitch = Constants.zero;
     public static final int snekUpperSwitch = 1;
   }
@@ -46,7 +48,7 @@ public final class Constants {
 
     public static final int rollerCurrentLimit = 20;
     public static final int fourBarCurrentLimit = 30;
-    public static final double speed  = 0.5;
+    public static final double speed = 0.5;
   }
 
   public static final class ShooterConstants {
@@ -63,11 +65,11 @@ public final class Constants {
 
   public static final class AutoConstants {
     // FF and FB gains; NEED TO BE DETERMINED ON THE FULLY BUILT ROBOT, WILL CHANGE WITH WEIGHT
-    public static final double ksVolts = 0;
-    public static final double ksVoltSecondsPerMeter = 0;
-    public static final double kaVoltSecondsSquaredPerMeter = 0;
+    public static final double ksVolts = 0.20541;
+    public static final double ksVoltSecondsPerMeter = 2.4361;
+    public static final double kaVoltSecondsSquaredPerMeter = 0.25946;
 
-    public static final double kPDriveVel = 0;
+    public static final double kPDriveVel = 3.95;
 
     // more kinematics stuff
     public static final double trackWidth = 0.66;

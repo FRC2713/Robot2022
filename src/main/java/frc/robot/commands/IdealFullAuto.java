@@ -18,15 +18,32 @@ public class IdealFullAuto extends SequentialCommandGroup {
       PathPlanner.loadPath(
           "Leg2", Constants.AutoConstants.maxSpeed, Constants.AutoConstants.maxAccel);
 
-  public IdealFullAuto(ShootSubsystem shootSubsystem, DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem, IntakeFourBar intakeFourBar, SnekSystem snekSystem) {
+  public IdealFullAuto(
+      ShootSubsystem shootSubsystem,
+      DriveSubsystem driveSubsystem,
+      IntakeSubsystem intakeSubsystem,
+      IntakeFourBar intakeFourBar,
+      SnekSystem snekSystem) {
     addCommands(
-        new DeployIntake(intakeSubsystem, intakeFourBar), //deploys intake
-        //snek works, because of the defaultCommand in RobotContainer
-        new RamsetA(leg1, driveSubsystem), //first leg of the journey, ideally picks up a ball on the way
-        new ShootALowBall(shootSubsystem, snekSystem), //shoots until the ball goes by, in theory; will need two of these eventually for two balls
-        new RamsetA(leg2, driveSubsystem), //second leg of the journey, should pick up two balls on the way
-        new ShootALowBall(shootSubsystem, snekSystem), //shoots until the ball goes by, in theory; will need two of these eventually for two balls
-        new IntakeSetRollers(intakeSubsystem, Constants.zero) //turns off the rollers
+        new DeployIntake(intakeSubsystem, intakeFourBar), // deploys intake
+        // snek works, because of the defaultCommand in RobotContainer
+        new RamsetA()
+            .RamseteSchmoove(
+                leg1,
+                driveSubsystem), // first leg of the journey, ideally picks up a ball on the way
+        new ShootALowBall(
+            shootSubsystem,
+            snekSystem), // shoots until the ball goes by, in theory; will need two of these
+        // eventually for two balls
+        new RamsetA()
+            .RamseteSchmoove(
+                leg2,
+                driveSubsystem), // second leg of the journey, should pick up two balls on the way
+        new ShootALowBall(
+            shootSubsystem,
+            snekSystem), // shoots until the ball goes by, in theory; will need two of these
+        // eventually for two balls
+        new IntakeSetRollers(intakeSubsystem, Constants.zero) // turns off the rollers
         );
   }
 }
