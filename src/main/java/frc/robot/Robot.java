@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -51,6 +53,10 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean("Is Teleop", isTeleop());
     SmartDashboard.putBoolean("Is Enabled", isEnabled());
     SmartDashboard.putBoolean("Is Disabled", isDisabled());
+
+    SmartDashboard.putNumber("can Bus utilization",RobotController.getCANStatus().percentBusUtilization);
+
+    SmartDashboard.putNumber("Time",DriverStation.getMatchTime());
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
