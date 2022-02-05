@@ -15,7 +15,7 @@ public class RamsetA extends SequentialCommandGroup {
 
   protected Trajectory autoTrajectory;
 
-  public Command RamseteSchmoove(Trajectory autoTrajectory, DriveSubsystem driveSubsystem) {
+  public static Command RamseteSchmoove(Trajectory autoTrajectory, DriveSubsystem driveSubsystem) {
     RamseteCommand ramsete =
         new RamseteCommand(
             autoTrajectory,

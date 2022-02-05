@@ -12,10 +12,8 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.DriveSubsystem;
 
 /**
@@ -88,7 +86,7 @@ public class RobotContainer {
 
     Trajectory autoTrajectory =
         PathPlanner.loadPath(
-            "Full Auto", Constants.AutoConstants.maxSpeed, Constants.AutoConstants.maxAccel);
+            "test", Constants.AutoConstants.maxSpeed, Constants.AutoConstants.maxAccel);
 
     RamseteCommand ramsete =
         new RamseteCommand(
@@ -110,36 +108,5 @@ public class RobotContainer {
     driveSubsystem.resetOdometry(autoTrajectory.getInitialPose());
 
     return ramsete.andThen(() -> driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
-  }
-
-  public static Command makeFollowTrajectoryCommand(Trajectory t) {
-
-    RamseteCommand ramsete =
-        new RamseteCommand(
-            t,
-            driveSubsystem::getPose,
-            new RamseteController(
-                Constants.AutoConstants.RamseteB, Constants.AutoConstants.RamseteZeta),
-            new SimpleMotorFeedforward(
-                Constants.AutoConstants.ksVolts,
-                Constants.AutoConstants.ksVoltSecondsPerMeter,
-                Constants.AutoConstants.kaVoltSecondsSquaredPerMeter),
-            Constants.AutoConstants.kinematics,
-            driveSubsystem::getWheelSpeeds,
-            new PIDController(Constants.AutoConstants.kPDriveVel, Constants.zero, Constants.zero),
-            new PIDController(Constants.AutoConstants.kPDriveVel, Constants.zero, Constants.zero),
-            driveSubsystem::tankDriveVolts,
-            driveSubsystem);
-
-    return new SequentialCommandGroup(
-        new InstantCommand(
-            () -> {
-              driveSubsystem.resetOdometry(t.getInitialPose());
-            }),
-        ramsete,
-        new InstantCommand(
-            () -> {
-              driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero);
-            }));
   }
 }

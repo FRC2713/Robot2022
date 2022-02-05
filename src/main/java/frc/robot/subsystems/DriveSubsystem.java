@@ -8,6 +8,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
@@ -44,6 +45,18 @@ public class DriveSubsystem extends SubsystemBase {
     right2.restoreFactoryDefaults();
     left2.follow(left1);
     right2.follow(right1);
+
+    left1.setInverted(false);
+    right1.setInverted(true);
+
+    left1.setSmartCurrentLimit(30);
+    right1.setSmartCurrentLimit(30);
+
+    left1.getEncoder().setPositionConversionFactor(Constants.DriveConstants.distPerPulse);
+    right1.getEncoder().setPositionConversionFactor(Constants.DriveConstants.distPerPulse);
+    left1.getEncoder().setVelocityConversionFactor(Constants.DriveConstants.distPerPulse / 60);
+    right1.getEncoder().setVelocityConversionFactor(Constants.DriveConstants.distPerPulse / 60);
+    
   }
 
   public DifferentialDrive getRoboDrive() {
@@ -56,6 +69,10 @@ public class DriveSubsystem extends SubsystemBase {
 
   public RelativeEncoder getRightEncoder() {
     return right1.getEncoder();
+  }
+
+  public double getHeading() {
+    return Math.IEEEremainder(gyro.getAngle(), 360) * -1;
   }
 
   public double getDegrees() {
@@ -106,7 +123,9 @@ public class DriveSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     roboOdometry.update(
-        gyro.getRotation2d(), getLeftEncoder().getPosition(), getRightEncoder().getPosition());
+        Rotation2d.fromDegrees(getHeading()),
+        getLeftEncoder().getPosition(),
+        getRightEncoder().getPosition());
   }
 
   public void GTADrive(double leftTrigger, double rightTrigger, double turn) {
