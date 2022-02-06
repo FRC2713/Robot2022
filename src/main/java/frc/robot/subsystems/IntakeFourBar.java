@@ -22,10 +22,16 @@ public class IntakeFourBar extends SubsystemBase {
     fourBar.setIdleMode(CANSparkMax.IdleMode.kBrake);
     fourBar.getPIDController().setP(Constants.IntakeConstants.kP.get());
     fourBar.getPIDController().setFF(Constants.IntakeConstants.kF);
+    fourBar.getEncoder().setPositionConversionFactor(Constants.IntakeConstants.fourBarRatio);
+    fourBar.getEncoder().setVelocityConversionFactor(Constants.IntakeConstants.fourBarRatio);
   }
 
   public void setFourBarPosition(double position) {
     fourBar.getPIDController().setReference(position, CANSparkMax.ControlType.kPosition);
+  }
+
+  public void setFourBarMotor(double speed) {
+    fourBar.set(speed);
   }
 
   @Override

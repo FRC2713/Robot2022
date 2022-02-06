@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.IntakeFourBar;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -26,6 +27,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public static final DriveSubsystem driveSubsystem = new DriveSubsystem();
   // private final IntakeSubsystem robotIntake = new IntakeSubsystem();
+  private final IntakeFourBar fourBar = new IntakeFourBar();
   // public static final ShootSubsystem shootSubsystem = new ShootSubsystem();
   // private final SnekSystem snekSystem = new SnekSystem();
 
@@ -44,6 +46,13 @@ public class RobotContainer {
                   controller.getLeftX());
             },
             driveSubsystem));
+
+    fourBar.setDefaultCommand(
+        new RunCommand(
+            () -> {
+              fourBar.setFourBarMotor(controller.getRightX());
+            },
+            fourBar));
 
     // snekSystem.setDefaultCommand(
     //     new RunCommand(
