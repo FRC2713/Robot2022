@@ -16,7 +16,6 @@ import edu.wpi.first.math.util.Units;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-
   public static final int zero = 0; // in case you need a zero :)
 
   public static final class RobotMap {
@@ -53,8 +52,10 @@ public final class Constants {
     public static final double kP = 0.0;
 
     public static final int rollerCurrentLimit = 20;
-    public static final int fourBarCurrentLimit = 30;
+    public static final int fourBarCurrentLimit = 5;
     public static final double speed = 0.5;
+
+    public static final double fourBarRatio = 1.0 / 50.0;
   }
 
   public static final class ShooterConstants {
