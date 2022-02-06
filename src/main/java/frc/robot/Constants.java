@@ -51,6 +51,7 @@ public final class Constants {
 
   public static final class IntakeConstants {
     public static final TunableNumber kP = new TunableNumber("Intake/Four Bar kP", 1);
+    public static final double kF = 0.0;
 
     public static final int rollerCurrentLimit = 20;
     public static final int fourBarCurrentLimit = 30;
