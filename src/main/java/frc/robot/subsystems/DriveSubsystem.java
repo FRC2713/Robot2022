@@ -56,7 +56,6 @@ public class DriveSubsystem extends SubsystemBase {
     right1.getEncoder().setPositionConversionFactor(Constants.DriveConstants.distPerPulse);
     left1.getEncoder().setVelocityConversionFactor(Constants.DriveConstants.distPerPulse / 60);
     right1.getEncoder().setVelocityConversionFactor(Constants.DriveConstants.distPerPulse / 60);
-    
   }
 
   public DifferentialDrive getRoboDrive() {
