@@ -31,20 +31,21 @@ public class IntakeFourBar extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Four Bar Position", currPosition);
+    SmartDashboard.putNumber("Four Bar Bus Voltage", fourBar.getBusVoltage());
+    SmartDashboard.putNumber("Four Bar Duty Cycle", fourBar.getAppliedOutput());
 
     fourBar
         .getPIDController()
-        .setP(SmartDashboard.getNumber("Intake Four Bar kP", Constants.IntakeConstants.kP.get()));
+        .setP(SmartDashboard.getNumber("Four Bar kP", Constants.IntakeConstants.kP.get()));
     fourBar
         .getPIDController()
-        .setFF(SmartDashboard.getNumber("Intake Four Bar kF", Constants.IntakeConstants.kF));
+        .setFF(SmartDashboard.getNumber("Four Bar kF", Constants.IntakeConstants.kF));
     fourBar
         .getPIDController()
-        .setReference(
-            SmartDashboard.getNumber("Intake Four Bar Setpoint", 0), ControlType.kSmartMotion);
+        .setReference(SmartDashboard.getNumber("Four Bar Setpoint", 0), ControlType.kSmartMotion);
     fourBar.setSmartCurrentLimit(
-        (int) SmartDashboard.getNumber("Intake Four Bar Current Limit",
-            Constants.IntakeConstants.fourBarCurrentLimit));
+        (int) SmartDashboard.getNumber(
+            "Four Bar Current Limit", Constants.IntakeConstants.fourBarCurrentLimit));
 
   }
 }
