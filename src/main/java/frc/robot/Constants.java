@@ -20,7 +20,6 @@ public final class Constants {
   public static final int zero = 0; // in case you need a zero :)
 
   public static final class RobotMap {
-
     // MOTORS
     public static final int frontLeftMotorPort = 1; // NEEDS TO BE CHECKED WHEN PORTS ARE OFFICIAL
     public static final int backLeftMotorPort = 2; // NEEDS TO BE CHECKED WHEN PORTS ARE OFFICIAL
@@ -44,7 +43,8 @@ public final class Constants {
     public static final double kJoystickTurnDeadzone = 0.04;
     public static final double wheelDiameter = 4;
     public static final double gearRatio = 60.0 / 10.0;
-    public static final double distPerPulse = (1.0 / gearRatio) * Units.inchesToMeters(wheelDiameter) * Math.PI;
+    public static final double distPerPulse =
+        (1.0 / gearRatio) * Units.inchesToMeters(wheelDiameter) * Math.PI;
   }
 
   public static final class IntakeConstants {
