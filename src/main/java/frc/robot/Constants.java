@@ -48,7 +48,9 @@ public final class Constants {
   }
 
   public static final class IntakeConstants {
-    public static final double kP = 1;
+    public static final boolean kTuningMode = false;
+    public static final double kF = 0.0;
+    public static final double kP = 0.0;
 
     public static final int rollerCurrentLimit = 20;
     public static final int fourBarCurrentLimit = 30;
