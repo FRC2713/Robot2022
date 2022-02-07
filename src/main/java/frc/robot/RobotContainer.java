@@ -15,7 +15,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.IntakeSetFourBar;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.IntakeFourBar;
 import frc.robot.subsystems.ShootSubsystem;
 import frc.robot.commands.IntakeSetRollers;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -30,7 +32,9 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public static final DriveSubsystem driveSubsystem = new DriveSubsystem();
   private final IntakeSubsystem robotIntake = new IntakeSubsystem();
-  public final XboxController controller = new XboxController(0);
+    private final IntakeFourBar fourBarIntake = new IntakeFourBar();
+
+    public final XboxController controller = new XboxController(0);
 
   public static final ShootSubsystem shootSubsystem = new ShootSubsystem();
 
@@ -71,6 +75,10 @@ public class RobotContainer {
     new JoystickButton(controller, XboxController.Button.kY.value)
         .whenPressed(new IntakeSetRollers(robotIntake, Constants.IntakeConstants.speed))
         .whenReleased(new IntakeSetRollers(robotIntake, 0));
+
+      new JoystickButton(controller, XboxController.Button.kY.value)
+              .whenPressed(new IntakeSetFourBar(fourBarIntake, Constants.IntakeConstants.fourBarPosition))
+              .whenReleased(new IntakeSetFourBar(fourBarIntake, 0));
   }
 
   /**
