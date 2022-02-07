@@ -8,14 +8,14 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
-import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import frc.robot.commands.AllianceColor;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.StripSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -42,6 +42,9 @@ public class RobotContainer {
                   controller.getLeftX());
             },
             driveSubsystem));
+
+      StripSubsystem.getInstance().setDefaultCommand(new AllianceColor());
+
   }
 
   /**
