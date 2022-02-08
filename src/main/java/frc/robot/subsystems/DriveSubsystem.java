@@ -12,7 +12,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -31,7 +30,6 @@ public class DriveSubsystem extends SubsystemBase {
       new CANSparkMax(
           Constants.RobotMap.backRightMotorPort, CANSparkMaxLowLevel.MotorType.kBrushless);
   ADXRS450_Gyro gyro = new ADXRS450_Gyro();
-  public DifferentialDrive roboDrive = new DifferentialDrive(left1, right1);
   private final DifferentialDriveOdometry roboOdometry =
       new DifferentialDriveOdometry(gyro.getRotation2d());
 
@@ -56,11 +54,6 @@ public class DriveSubsystem extends SubsystemBase {
     right1.getEncoder().setPositionConversionFactor(Constants.DriveConstants.distPerPulse);
     left1.getEncoder().setVelocityConversionFactor(Constants.DriveConstants.distPerPulse / 60);
     right1.getEncoder().setVelocityConversionFactor(Constants.DriveConstants.distPerPulse / 60);
-    
-  }
-
-  public DifferentialDrive getRoboDrive() {
-    return roboDrive;
   }
 
   public RelativeEncoder getLeftEncoder() {
@@ -112,11 +105,6 @@ public class DriveSubsystem extends SubsystemBase {
   public void tankDriveVolts(double left, double right) {
     left1.setVoltage(left);
     right1.setVoltage(right);
-    roboDrive.feed();
-  }
-
-  public void setMaxOutput(double maxOutput) {
-    roboDrive.setMaxOutput(maxOutput);
   }
 
   @Override

@@ -17,10 +17,8 @@ public class AutoPathing extends SequentialCommandGroup {
 
   public AutoPathing(DriveSubsystem driveSubsystem) {
 
-    addCommands(
-        RamsetA.RamseteSchmoove(leg1, driveSubsystem),
-        new WaitCommand(1));
-//        new RamsetA().RamseteSchmoove(leg2, driveSubsystem),
-//        new WaitCommand(1));
+    addCommands(RamsetA.RamseteSchmoove(leg1, driveSubsystem), new WaitCommand(1));
+    //        new RamsetA().RamseteSchmoove(leg2, driveSubsystem),
+    //        new WaitCommand(1));
   }
 }
