@@ -11,6 +11,7 @@ public class IntakeFourBar extends SubsystemBase {
 
   private CANSparkMax fourBar;
   private double currPosition;
+  private double error;
 
   public IntakeFourBar() {
     fourBar = new CANSparkMax(Constants.RobotMap.intakeMotorFourBar, MotorType.kBrushless);
@@ -36,9 +37,12 @@ public class IntakeFourBar extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Four Bar Position", currPosition);
+    SmartDashboard.putNumber("Four Bar Position", fourBar.getEncoder().getPosition());
     SmartDashboard.putNumber("Four Bar Bus Voltage", fourBar.getBusVoltage());
     SmartDashboard.putNumber("Four Bar Duty Cycle", fourBar.getAppliedOutput());
+    double setpoint = SmartDashboard.getNumber("Four Bar Setpoint", 0);
+    error = fourBar.getEncoder().getPosition() - setpoint;
+    SmartDashboard.putNumber("Four Bar Error", error);
 
     if (Constants.IntakeConstants.kTuningMode) {
       fourBar
@@ -47,9 +51,7 @@ public class IntakeFourBar extends SubsystemBase {
       fourBar
           .getPIDController()
           .setFF(SmartDashboard.getNumber("Four Bar kF", Constants.IntakeConstants.kF));
-      fourBar
-          .getPIDController()
-          .setReference(SmartDashboard.getNumber("Four Bar Setpoint", 0), ControlType.kSmartMotion);
+      fourBar.getPIDController().setReference(setpoint, ControlType.kSmartMotion);
       fourBar.setSmartCurrentLimit(
           (int)
               SmartDashboard.getNumber(
