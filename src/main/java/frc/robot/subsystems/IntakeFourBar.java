@@ -23,12 +23,12 @@ public class IntakeFourBar extends SubsystemBase {
   }
 
   public void setFourBarPosition(double position) {
-    fourBar.getPIDController().setReference(position, CANSparkMax.ControlType.kPosition);
+    fourBar.getPIDController().setReference(position, CANSparkMax.ControlType.kPosition); //objective? or relative?
   }
 
   @Override
   public void periodic() {
-
+    currPosition = fourBar.getEncoder().getPosition();
     SmartDashboard.putNumber("Four Bar Position", currPosition);
   }
 }

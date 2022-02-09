@@ -12,8 +12,7 @@ public class DeployIntake extends ParallelCommandGroup {
     addCommands(
         new IntakeSetFourBar(
             intakeFourBar,
-            Constants
-                .zero), // we have no idea what the fully deployed position is supposed to be :(
-        new IntakeSetRollers(intakeSubsystem, Constants.IntakeConstants.speed));
+            0.1), // we have no idea what the fully deployed position is supposed to be :(
+        new IntakeSetRollers(intakeSubsystem, Constants.IntakeConstants.speed)); //good speed?
   }
 }
