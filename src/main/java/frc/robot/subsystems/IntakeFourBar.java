@@ -19,7 +19,7 @@ public class IntakeFourBar extends SubsystemBase {
     fourBar.setSmartCurrentLimit(Constants.IntakeConstants.fourBarCurrentLimit);
 
     fourBar.setIdleMode(CANSparkMax.IdleMode.kBrake);
-    fourBar.getPIDController().setP(Constants.IntakeConstants.kP);
+    fourBar.getPIDController().setP(Constants.IntakeConstants.kP.get());
   }
 
   public void setFourBarPosition(double position) {
