@@ -37,8 +37,8 @@ public class ShootSubsystem extends SubsystemBase {
 
     fly1.setSmartCurrentLimit(Constants.ShooterConstants.currentLimit);
 
-    fly1.getPIDController().setP(Constants.ShooterConstants.kP);
-    fly1.getPIDController().setFF(Constants.ShooterConstants.kFF);
+    fly1.getPIDController().setP(Constants.ShooterConstants.kP.get());
+    fly1.getPIDController().setFF(Constants.ShooterConstants.kFF.get());
   }
 
   public void setTargetRPM(int targetRPM) {
