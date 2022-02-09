@@ -50,14 +50,21 @@ public final class Constants {
   }
 
   public static final class IntakeConstants {
-    public static final TunableNumber kP = new TunableNumber("Intake/Four Bar kP", 1);
-    public static final double kF = 0.0;
+    public static final TunableNumber kP = new TunableNumber("Intake/kP", 0.0001);
+    public static final TunableNumber kF = new TunableNumber("Intake/kF", 0.1);
+    public static final TunableNumber fourBarCurrentLimit =
+        new TunableNumber("Intake/4 Bar Current Limit", 30);
+    public static final TunableNumber smartMotionMaxVelocity =
+        new TunableNumber("Intake/Smart Motion Max Velocity", 1000);
+    public static final TunableNumber smartMotionMaxAcceleration =
+        new TunableNumber("Intake/Smart Motion Max Acceleration", 1000);
+    public static final TunableNumber smartMotionAllowableError =
+        new TunableNumber("Intake/Smart Motion Allowable Error", 1000);
 
     public static final int rollerCurrentLimit = 20;
-    public static final int fourBarCurrentLimit = 5;
     public static final double speed = 0.5;
 
-    public static final double fourBarRatio = 1.0 / 50.0;
+    public static final double fourBarRatio = 1.0 / 180.0;
   }
 
   public static final class ShooterConstants {
