@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
+import frc.robot.util.TunableNumber;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -17,6 +18,7 @@ import edu.wpi.first.math.util.Units;
  */
 public final class Constants {
 
+  public static final boolean tuningMode = false;
   public static final int zero = 0; // in case you need a zero :)
 
   public static final class RobotMap {
@@ -48,7 +50,7 @@ public final class Constants {
   }
 
   public static final class IntakeConstants {
-    public static final double kP = 1;
+    public static final TunableNumber kP = new TunableNumber("Intake/Four Bar kP", 1);
 
     public static final int rollerCurrentLimit = 20;
     public static final int fourBarCurrentLimit = 30;
@@ -58,8 +60,8 @@ public final class Constants {
   public static final class ShooterConstants {
     public static final double gearRatio = 1;
     public static final int currentLimit = 40;
-    public static final double kP = 0.9;
-    public static final double kFF = 0.5;
+    public static final TunableNumber kP = new TunableNumber("Shooter/kP", 0.9);
+    public static final TunableNumber kFF = new TunableNumber("Shooter/kFF", 0.5);
     public static final int RPM = 500;
   }
 
@@ -68,7 +70,8 @@ public final class Constants {
   }
 
   public static final class AutoConstants {
-    // FF and FB gains; NEED TO BE DETERMINED ON THE FULLY BUILT ROBOT, WILL CHANGE WITH WEIGHT
+    // FF and FB gains; NEED TO BE DETERMINED ON THE FULLY BUILT ROBOT, WILL CHANGE
+    // WITH WEIGHT
     public static final double ksVolts = 0.20541;
     public static final double ksVoltSecondsPerMeter = 2.4361;
     public static final double kaVoltSecondsSquaredPerMeter = 0.25946;
