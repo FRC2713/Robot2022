@@ -14,8 +14,12 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.IntakeSetFourBar;
+import frc.robot.commands.IntakeSetRollers;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeFourBar;
+import frc.robot.subsystems.IntakeSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -26,7 +30,7 @@ import frc.robot.subsystems.IntakeFourBar;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public static final DriveSubsystem driveSubsystem = new DriveSubsystem();
-  // private final IntakeSubsystem robotIntake = new IntakeSubsystem();
+  private final IntakeSubsystem robotIntake = new IntakeSubsystem();
   private final IntakeFourBar fourBar = new IntakeFourBar();
   // public static final ShootSubsystem shootSubsystem = new ShootSubsystem();
   // private final SnekSystem snekSystem = new SnekSystem();
@@ -81,9 +85,13 @@ public class RobotContainer {
     //           shootSubsystem.setTargetRPM(Constants.zero);
     //         });
 
-    // new JoystickButton(controller, XboxController.Button.kY.value)
-    //     .whenPressed(new IntakeSetRollers(robotIntake, Constants.IntakeConstants.speed))
-    // .whenReleased(new IntakeSetRollers(robotIntake, Constants.zero));
+    new JoystickButton(controller, XboxController.Button.kY.value)
+        .whenActive(new IntakeSetRollers(robotIntake, Constants.IntakeConstants.speed))
+    .whenInactive(new IntakeSetRollers(robotIntake, Constants.zero));
+
+    new JoystickButton(controller, XboxController.Button.kX.value)
+        .whenActive(new IntakeSetFourBar(fourBar, 0.1))
+        .whenInactive(new IntakeSetFourBar(fourBar, 0));
   }
 
   /**
