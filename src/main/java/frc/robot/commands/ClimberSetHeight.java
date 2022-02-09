@@ -30,7 +30,7 @@ public class ClimberSetHeight extends CommandBase{
 
     @Override
     public boolean isFinished() {
-        return (height == m_climber.getHeight());/*Subject to change but like its a thing that like is supposed to be a thing that like stops it when its at the right place.
-        Probably, definitely gonna be more complicated and this one is bad and would break something*/
+        return (height == m_climber.getHeight());/*Subject to change but like it's a thing that like is supposed to be a thing that like stops it when its at the right place.
+        Probably, definitely going to be more complicated and this one is bad and would break something*/
     }
 }
