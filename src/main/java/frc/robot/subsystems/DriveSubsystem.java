@@ -44,8 +44,8 @@ public class DriveSubsystem extends SubsystemBase {
     left2.follow(left1);
     right2.follow(right1);
 
-    left1.setInverted(false);
-    right1.setInverted(true);
+    left1.setInverted(true);
+    right1.setInverted(false);
 
     left1.setSmartCurrentLimit(30);
     right1.setSmartCurrentLimit(30);
@@ -114,6 +114,15 @@ public class DriveSubsystem extends SubsystemBase {
         Rotation2d.fromDegrees(getHeading()),
         getLeftEncoder().getPosition(),
         getRightEncoder().getPosition());
+
+        SmartDashboard.putNumber("Heading", getHeading());
+        SmartDashboard.putNumber("odo x", roboOdometry.getPoseMeters().getX());
+        SmartDashboard.putNumber("odo y", roboOdometry.getPoseMeters().getY());
+        SmartDashboard.putNumber("odo h", roboOdometry.getPoseMeters().getRotation().getDegrees());
+        
+        SmartDashboard.putNumber("Left spd", getWheelSpeeds().leftMetersPerSecond);
+        SmartDashboard.putNumber("Right spd", getWheelSpeeds().rightMetersPerSecond);
+        
   }
 
   public void GTADrive(double leftTrigger, double rightTrigger, double turn) {

@@ -9,6 +9,10 @@ import com.pathplanner.lib.PathPlannerTrajectory;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -30,8 +34,8 @@ import frc.robot.subsystems.IntakeSubsystem;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public static final DriveSubsystem driveSubsystem = new DriveSubsystem();
-   private final IntakeSubsystem robotIntake = new IntakeSubsystem();
-   private final IntakeFourBar intakeFourBar = new IntakeFourBar();
+  //  private final IntakeSubsystem robotIntake = new IntakeSubsystem();
+  //  private final IntakeFourBar intakeFourBar = new IntakeFourBar();
   // public static final ShootSubsystem shootSubsystem = new ShootSubsystem();
   // private final SnekSystem snekSystem = new SnekSystem();
 
@@ -78,13 +82,13 @@ public class RobotContainer {
     //           shootSubsystem.setTargetRPM(Constants.zero);
     //         });
 
-    new JoystickButton(controller, XboxController.Button.kY.value)
-         .whenPressed(new DeployIntake(robotIntake, intakeFourBar));
-  //   .whenReleased(new StashIntake(robotIntake, intakeFourBar));
+  //   new JoystickButton(controller, XboxController.Button.kY.value)
+  //        .whenPressed(new DeployIntake(robotIntake, intakeFourBar));
+  // //   .whenReleased(new StashIntake(robotIntake, intakeFourBar));
 
 
-    new JoystickButton(controller, XboxController.Button.kX.value)
-        .whenPressed(new StashIntake(robotIntake, intakeFourBar));
+  //   new JoystickButton(controller, XboxController.Button.kX.value)
+  //       .whenPressed(new StashIntake(robotIntake, intakeFourBar));
   }
 
   
@@ -98,9 +102,9 @@ public class RobotContainer {
 
     PathPlannerTrajectory autoTrajectory =
         PathPlanner.loadPath(
-            "test", Constants.AutoConstants.maxSpeed, Constants.AutoConstants.maxAccel);
-
-    RamseteCommand ramsete =
+            "asdf", Constants.AutoConstants.maxSpeed, Constants.AutoConstants.maxAccel);
+    
+      RamseteCommand ramsete =
         new RamseteCommand(
             autoTrajectory,
             driveSubsystem::getPose,
