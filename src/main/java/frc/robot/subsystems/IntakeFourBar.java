@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -45,6 +44,10 @@ public class IntakeFourBar extends SubsystemBase {
 
   public void setFourBarMotor(double speed) {
     fourBar.set(speed);
+  }
+
+  public void zero() {
+    fourBar.getEncoder().setPosition(0);
   }
 
   @Override

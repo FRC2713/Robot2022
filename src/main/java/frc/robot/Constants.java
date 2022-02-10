@@ -18,7 +18,7 @@ import frc.robot.util.TunableNumber;
  */
 public final class Constants {
 
-  public static final boolean tuningMode = false;
+  public static final boolean tuningMode = true;
   public static final int zero = 0; // in case you need a zero :)
 
   public static final class RobotMap {
@@ -32,7 +32,7 @@ public final class Constants {
     public static final int flywheelRightPort = 6;
 
     public static final int intakeMotorRollers = 7; // NEEDS TO BE CHECKED WHEN PORTS ARE OFFICIAL
-    public static final int intakeMotorFourBar = 8; // NEEDS TO BE CHECKED WHEN PORTS ARE OFFICIAL
+    public static final int intakeMotorFourBar = 5; // NEEDS TO BE CHECKED WHEN PORTS ARE OFFICIAL
 
     public static final int lowerSnek = 9;
     public static final int upperSnek = 10;
@@ -50,8 +50,8 @@ public final class Constants {
   }
 
   public static final class IntakeConstants {
-    public static final TunableNumber kP = new TunableNumber("Intake/kP", 0.0001);
-    public static final TunableNumber kF = new TunableNumber("Intake/kF", 0.1);
+    public static final TunableNumber kP = new TunableNumber("Intake/kP", 0.0);
+    public static final TunableNumber kF = new TunableNumber("Intake/kF", 0.005);
     public static final TunableNumber fourBarCurrentLimit =
         new TunableNumber("Intake/4 Bar Current Limit", 30);
     public static final TunableNumber smartMotionMaxVelocity =
@@ -59,7 +59,8 @@ public final class Constants {
     public static final TunableNumber smartMotionMaxAcceleration =
         new TunableNumber("Intake/Smart Motion Max Acceleration", 1000);
     public static final TunableNumber smartMotionAllowableError =
-        new TunableNumber("Intake/Smart Motion Allowable Error", 1000);
+        new TunableNumber("Intake/Smart Motion Allowable Error", 0.001);
+    public static final double extensionPoint = 0.04;
 
     public static final int rollerCurrentLimit = 20;
     public static final double speed = 0.5;
