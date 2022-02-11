@@ -2,6 +2,7 @@ package frc.robot.util;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 
@@ -115,7 +116,8 @@ public class FieldConstants {
           terminalOuterRotation.minus(Rotation2d.fromDegrees(90.0)));
   public static final double terminalCargoOffset = Units.inchesToMeters(10.43);
   public static final Pose2d cargoG =
-      terminalCenter.transformBy(Util.Geometry.transformFromTranslation(terminalCargoOffset, 0.0));
+      terminalCenter.transformBy(
+          new Transform2d(new Translation2d(terminalCargoOffset, 0), Rotation2d.fromDegrees(180)));
 
   // Starting points
   public static class StartingPoints {
