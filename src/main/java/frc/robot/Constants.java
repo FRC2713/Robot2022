@@ -47,6 +47,13 @@ public final class Constants {
     public static final double gearRatio = 60.0 / 10.0;
     public static final double distPerPulse =
         (1.0 / gearRatio) * Units.inchesToMeters(wheelDiameter) * Math.PI;
+
+    private static final double bumperlessRobotLength = Units.inchesToMeters(26);
+    private static final double bumperlessRobotWidth = Units.inchesToMeters(24);
+    private static final double bumperThickness = Units.inchesToMeters(3);
+
+    public static final double fullRobotWidth = bumperlessRobotWidth + bumperThickness * 2;
+    public static final double fullRobotLength = bumperlessRobotLength + bumperThickness * 2;
   }
 
   public static final class IntakeConstants {
@@ -73,7 +80,7 @@ public final class Constants {
     // FF and FB gains; NEED TO BE DETERMINED ON THE FULLY BUILT ROBOT, WILL CHANGE
     // WITH WEIGHT
     public static final double ksVolts = 0.20541;
-    public static final double ksVoltSecondsPerMeter = 2.4361;
+    public static final double kvVoltSecondsPerMeter = 2.4361;
     public static final double kaVoltSecondsSquaredPerMeter = 0.25946;
 
     public static final double kPDriveVel = 3.95;
@@ -83,12 +90,15 @@ public final class Constants {
     public static final DifferentialDriveKinematics kinematics =
         new DifferentialDriveKinematics(trackWidth);
 
+    public static final double maxCentripetalAcceleration = 100;
+
     // Ramsete constants; generally the same on all robots
     public static final double RamseteZeta = 0.7;
     public static final double RamseteB = 2;
 
     // Max speeds
-    public static final double maxSpeed = 8;
-    public static final double maxAccel = 5;
+    public static final double maxSpeed = 1;
+    public static final double maxAccel = 1;
+    public static final double maxVoltageApplied = 6;
   }
 }
