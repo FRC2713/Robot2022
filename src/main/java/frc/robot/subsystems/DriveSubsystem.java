@@ -123,6 +123,9 @@ public class DriveSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Left spd", getWheelSpeeds().leftMetersPerSecond);
         SmartDashboard.putNumber("Right spd", getWheelSpeeds().rightMetersPerSecond);
         
+        SmartDashboard.putNumber("enc left", getLeftEncoder().getPosition());
+        SmartDashboard.putNumber("enc right", getRightEncoder().getPosition());
+        
   }
 
   public void GTADrive(double leftTrigger, double rightTrigger, double turn) {

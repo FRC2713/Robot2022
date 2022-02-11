@@ -70,9 +70,9 @@ public final class Constants {
 
   public static final class AutoConstants {
     // FF and FB gains; NEED TO BE DETERMINED ON THE FULLY BUILT ROBOT, WILL CHANGE WITH WEIGHT
-    public static final double ksVolts = 0.20541;
-    public static final double ksVoltSecondsPerMeter = 2.4361;
-    public static final double kaVoltSecondsSquaredPerMeter = 0.25946;
+    public static final double ksVolts = 0.2181;
+    public static final double ksVoltSecondsPerMeter = 2.3824;
+    public static final double kaVoltSecondsSquaredPerMeter = 0.12225;
 
     public static final double kPDriveVel = 3.95;
 
