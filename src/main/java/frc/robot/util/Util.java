@@ -5,7 +5,11 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Twist2d;
+import edu.wpi.first.math.trajectory.Trajectory;
 import frc.robot.Constants;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class Util {
   public static class Geometry {
@@ -120,5 +124,28 @@ public class Util {
               new Translation2d(Constants.DriveConstants.fullRobotLength / 2, 0),
               new Rotation2d()));
     }
+
+    public static Pose2d flipPose(Pose2d pose) {
+      return pose.transformBy(
+          transformFromRotation(pose.getRotation().rotateBy(Rotation2d.fromDegrees(180))));
+    }
+  }
+
+  public static Trajectory invertTrajectory(Trajectory trajectory) {
+    List<Trajectory.State> invertedStates = new ArrayList<>(trajectory.getStates());
+    Collections.reverse(invertedStates);
+    for (int i = 0; i < invertedStates.size(); i++) {
+      Trajectory.State currentState = invertedStates.get(i);
+      Trajectory.State invertedState =
+          new Trajectory.State(
+              trajectory.getStates().get(i).timeSeconds,
+              -currentState.velocityMetersPerSecond,
+              currentState.accelerationMetersPerSecondSq,
+              currentState.poseMeters,
+              currentState.curvatureRadPerMeter);
+      invertedStates.set(i, invertedState);
+    }
+
+    return new Trajectory(invertedStates);
   }
 }
