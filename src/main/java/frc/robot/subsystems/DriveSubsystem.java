@@ -95,6 +95,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void resetOdometry(Pose2d pose) {
     roboOdometry.resetPosition(pose, gyro.getRotation2d());
+    resetEncoders();
   }
 
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {

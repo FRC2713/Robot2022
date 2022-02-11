@@ -96,7 +96,7 @@ public class RobotContainer {
                 Constants.AutoConstants.RamseteB, Constants.AutoConstants.RamseteZeta),
             new SimpleMotorFeedforward(
                 Constants.AutoConstants.ksVolts,
-                Constants.AutoConstants.ksVoltSecondsPerMeter,
+                Constants.AutoConstants.kvVoltSecondsPerMeter,
                 Constants.AutoConstants.kaVoltSecondsSquaredPerMeter),
             Constants.AutoConstants.kinematics,
             driveSubsystem::getWheelSpeeds,
