@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import frc.robot.commands.auto.TwoBallSecondarySide;
+import frc.robot.commands.auto.FourBall;
 import frc.robot.subsystems.DriveSubsystem;
 
 /**
@@ -79,7 +79,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
 
-    return new TwoBallSecondarySide(driveSubsystem)
+    return new FourBall(driveSubsystem)
         .andThen(() -> driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
   }
 }

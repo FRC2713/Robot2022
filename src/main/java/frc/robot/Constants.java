@@ -97,8 +97,8 @@ public final class Constants {
     public static final double RamseteB = 2;
 
     // Max speeds
-    public static final double maxSpeed = 1;
-    public static final double maxAccel = 1;
+    public static final double maxSpeed = Units.feetToMeters(14);
+    public static final double maxAccel = Units.feetToMeters(14);
     public static final double maxVoltageApplied = 10;
   }
 }

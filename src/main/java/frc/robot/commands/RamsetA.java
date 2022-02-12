@@ -23,6 +23,16 @@ public class RamsetA extends SequentialCommandGroup {
 
   public static Trajectory makeTrajectory(
       double startVelocity, List<Pose2d> waypoints, double endVelocity, boolean reversed) {
+    return makeTrajectory(
+        startVelocity, waypoints, endVelocity, Constants.AutoConstants.maxSpeed, reversed);
+  }
+
+  public static Trajectory makeTrajectory(
+      double startVelocity,
+      List<Pose2d> waypoints,
+      double endVelocity,
+      double maxVelocity,
+      boolean reversed) {
     if (reversed) {
       for (int i = 0; i < waypoints.size(); i++) {
         // waypoints.set(i, Util.Geometry.flipPose(waypoints.get(i)));
@@ -33,7 +43,7 @@ public class RamsetA extends SequentialCommandGroup {
         new CentripetalAccelerationConstraint(Constants.AutoConstants.maxCentripetalAcceleration);
     return TrajectoryGenerator.generateTrajectory(
         waypoints,
-        new TrajectoryConfig(Constants.AutoConstants.maxSpeed, Constants.AutoConstants.maxAccel)
+        new TrajectoryConfig(maxVelocity, Constants.AutoConstants.maxAccel)
             .setStartVelocity(startVelocity)
             .setEndVelocity(endVelocity)
             .setReversed(reversed)
