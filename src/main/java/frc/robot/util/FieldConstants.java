@@ -131,7 +131,7 @@ public class FieldConstants {
         referenceD.transformBy(Util.Geometry.transformFromTranslation(-0.5, -0.7));
 
     public static final Pose2d fenderA =
-        FieldConstants.fenderA.transformBy(Util.Geometry.transformFromTranslation(0.5, 0.0));
+        Util.Geometry.offsetDrivetrainFromPose(FieldConstants.fenderA);
     public static final Pose2d fenderB =
         Util.Geometry.offsetDrivetrainFromPose(FieldConstants.fenderB);
   }
