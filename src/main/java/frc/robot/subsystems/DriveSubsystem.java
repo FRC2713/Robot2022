@@ -14,8 +14,10 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.util.FieldConstants;
 
 public class DriveSubsystem extends SubsystemBase {
   private CANSparkMax left1 =
@@ -43,8 +45,8 @@ public class DriveSubsystem extends SubsystemBase {
     left2.follow(left1);
     right2.follow(right1);
 
-    left1.setInverted(false);
-    right1.setInverted(true);
+    left1.setInverted(true);
+    right1.setInverted(false);
 
     left1.setSmartCurrentLimit(30);
     right1.setSmartCurrentLimit(30);
@@ -128,6 +130,18 @@ public class DriveSubsystem extends SubsystemBase {
         Rotation2d.fromDegrees(getHeading()),
         getLeftEncoder().getPosition(),
         getRightEncoder().getPosition());
+
+    SmartDashboard.putNumber("Left Enc", getLeftEncoder().getPosition());
+    SmartDashboard.putNumber("Right Enc", getRightEncoder().getPosition());
+
+    SmartDashboard.putNumber("Odo X", roboOdometry.getPoseMeters().getX());
+    SmartDashboard.putNumber("Odo Y", roboOdometry.getPoseMeters().getY());
+    SmartDashboard.putNumber("Odo H", roboOdometry.getPoseMeters().getRotation().getDegrees());
+
+    SmartDashboard.putNumber("Cargo D Pose X", FieldConstants.cargoD.getTranslation().getX());
+    SmartDashboard.putNumber("Cargo D Pose Y", FieldConstants.cargoD.getTranslation().getY());
+    SmartDashboard.putNumber("Cargo G Pose X", FieldConstants.cargoG.getTranslation().getX());
+    SmartDashboard.putNumber("Cargo G Pose Y", FieldConstants.cargoG.getTranslation().getY());
   }
 
   public void GTADrive(double leftTrigger, double rightTrigger, double turn) {

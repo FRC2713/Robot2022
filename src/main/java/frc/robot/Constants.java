@@ -99,6 +99,6 @@ public final class Constants {
     // Max speeds
     public static final double maxSpeed = 1;
     public static final double maxAccel = 1;
-    public static final double maxVoltageApplied = 6;
+    public static final double maxVoltageApplied = 10;
   }
 }

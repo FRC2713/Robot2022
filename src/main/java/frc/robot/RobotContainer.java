@@ -4,16 +4,11 @@
 
 package frc.robot;
 
-import com.pathplanner.lib.PathPlanner;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.RamseteController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import frc.robot.commands.auto.TwoBallSecondarySide;
 import frc.robot.subsystems.DriveSubsystem;
 
 /**
@@ -84,29 +79,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
 
-    Trajectory autoTrajectory =
-        PathPlanner.loadPath(
-            "test", Constants.AutoConstants.maxSpeed, Constants.AutoConstants.maxAccel);
-
-    RamseteCommand ramsete =
-        new RamseteCommand(
-            autoTrajectory,
-            driveSubsystem::getPose,
-            new RamseteController(
-                Constants.AutoConstants.RamseteB, Constants.AutoConstants.RamseteZeta),
-            new SimpleMotorFeedforward(
-                Constants.AutoConstants.ksVolts,
-                Constants.AutoConstants.kvVoltSecondsPerMeter,
-                Constants.AutoConstants.kaVoltSecondsSquaredPerMeter),
-            Constants.AutoConstants.kinematics,
-            driveSubsystem::getWheelSpeeds,
-            new PIDController(Constants.AutoConstants.kPDriveVel, Constants.zero, Constants.zero),
-            new PIDController(Constants.AutoConstants.kPDriveVel, Constants.zero, Constants.zero),
-            driveSubsystem::tankDriveVolts,
-            driveSubsystem);
-
-    driveSubsystem.resetOdometry(autoTrajectory.getInitialPose());
-
-    return ramsete.andThen(() -> driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
+    return new TwoBallSecondarySide(driveSubsystem)
+        .andThen(() -> driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
   }
 }
