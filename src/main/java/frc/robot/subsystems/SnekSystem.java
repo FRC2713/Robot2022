@@ -21,7 +21,7 @@ public class SnekSystem extends SubsystemBase {
 
     lowerSnek.setSmartCurrentLimit(Constants.SnekConstants.currentLimit);
     upperSnek.setSmartCurrentLimit(Constants.SnekConstants.currentLimit);
-  } 
+  }
 
   public void loadSnek() {
     if (lowerLimit.get() && upperLimit.get()) {
@@ -42,5 +42,12 @@ public class SnekSystem extends SubsystemBase {
 
   public void setUpperSnekSpeed(double speed) {
     upperSnek.set(speed);
+  }
+
+  public void shoot() {
+    upperSnek.set(0.5);
+    if (!upperLimit.get()) {
+      upperSnek.set(0);
+    }
   }
 }

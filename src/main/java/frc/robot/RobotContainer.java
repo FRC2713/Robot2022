@@ -4,37 +4,23 @@
 
 package frc.robot;
 
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.List;
-
-import com.pathplanner.lib.PathPlanner;
-import com.pathplanner.lib.PathPlannerTrajectory;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
-import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.DeployIntake;
-import frc.robot.commands.StashIntake;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.IntakeFourBar;
-import frc.robot.subsystems.IntakeSubsystem;
+import java.util.List;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -52,9 +38,6 @@ public class RobotContainer {
 
   public final XboxController controller = new XboxController(Constants.zero);
 
-
-
-
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
@@ -69,7 +52,7 @@ public class RobotContainer {
             },
             driveSubsystem));
 
-            driveSubsystem.resetEncoders();
+    driveSubsystem.resetEncoders();
 
     // snekSystem.setDefaultCommand(
     //     new RunCommand(
@@ -78,12 +61,13 @@ public class RobotContainer {
     //         },
     //         snekSystem));
 
-  //   try {
-  //     Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
-  //     trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-  //  } catch (IOException ex) {
-  //     DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
-  //  }
+    //   try {
+    //     Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+    //     trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+    //  } catch (IOException ex) {
+    //     DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON,
+    // ex.getStackTrace());
+    //  }
   }
 
   /**
@@ -105,16 +89,13 @@ public class RobotContainer {
     //           shootSubsystem.setTargetRPM(Constants.zero);
     //         });
 
-  //   new JoystickButton(controller, XboxController.Button.kY.value)
-  //        .whenPressed(new DeployIntake(robotIntake, intakeFourBar));
-  // //   .whenReleased(new StashIntake(robotIntake, intakeFourBar));
+    //   new JoystickButton(controller, XboxController.Button.kY.value)
+    //        .whenPressed(new DeployIntake(robotIntake, intakeFourBar));
+    // //   .whenReleased(new StashIntake(robotIntake, intakeFourBar));
 
-
-  //   new JoystickButton(controller, XboxController.Button.kX.value)
-  //       .whenPressed(new StashIntake(robotIntake, intakeFourBar));
+    //   new JoystickButton(controller, XboxController.Button.kX.value)
+    //       .whenPressed(new StashIntake(robotIntake, intakeFourBar));
   }
-
-  
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -129,14 +110,12 @@ public class RobotContainer {
                 Constants.AutoConstants.ksVolts,
                 Constants.AutoConstants.ksVoltSecondsPerMeter,
                 Constants.AutoConstants.kaVoltSecondsSquaredPerMeter),
-                Constants.AutoConstants.kinematics,
+            Constants.AutoConstants.kinematics,
             6);
 
     // Create config for trajectory
     TrajectoryConfig config =
-        new TrajectoryConfig(
-          Constants.AutoConstants.maxSpeed,
-          Constants.AutoConstants.maxAccel)
+        new TrajectoryConfig(Constants.AutoConstants.maxSpeed, Constants.AutoConstants.maxAccel)
             // Add kinematics to ensure max speed is actually obeyed
             .setKinematics(Constants.AutoConstants.kinematics)
             // Apply the voltage constraint
@@ -154,9 +133,7 @@ public class RobotContainer {
             // Pass config
             config);
 
-
-
-      RamseteCommand ramsete =
+    RamseteCommand ramsete =
         new RamseteCommand(
             exampleTrajectory,
             driveSubsystem::getPose,

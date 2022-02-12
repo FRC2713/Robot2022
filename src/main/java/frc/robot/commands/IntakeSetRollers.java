@@ -11,7 +11,7 @@ public class IntakeSetRollers extends CommandBase {
   private final IntakeSubsystem intake;
   private double speed;
   private DigitalInput lower = SnekSystem.lowerLimit;
-  private DigitalInput upper = SnekSystem.upperLimit; 
+  private DigitalInput upper = SnekSystem.upperLimit;
 
   public IntakeSetRollers(IntakeSubsystem intake, double speed) {
     this.intake = intake;
@@ -23,10 +23,9 @@ public class IntakeSetRollers extends CommandBase {
   @Override
   public void execute() {
 
-    if(lower.get() && upper.get()) {
-    intake.setRollerSpeed(Constants.zero);
-    }
-    else {
+    if (lower.get() && upper.get()) {
+      intake.setRollerSpeed(Constants.zero);
+    } else {
       intake.setRollerSpeed(speed);
     }
   }

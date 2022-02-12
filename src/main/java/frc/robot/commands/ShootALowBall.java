@@ -18,9 +18,13 @@ public class ShootALowBall extends SequentialCommandGroup {
         new WaitCommand(0.5),
         new InstantCommand(
             () -> {
-              snekSystem.setUpperSnekSpeed(0.5);
+              snekSystem.shoot();
             }),
         new WaitCommand(0.5),
+        new InstantCommand(
+            () -> {
+              snekSystem.shoot();
+            }),
         new InstantCommand(
             () -> {
               shootSubsystem.setTargetRPM(Constants.zero);

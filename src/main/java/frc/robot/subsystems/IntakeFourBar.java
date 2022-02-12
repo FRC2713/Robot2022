@@ -23,7 +23,9 @@ public class IntakeFourBar extends SubsystemBase {
   }
 
   public void setFourBarPosition(double position) {
-    fourBar.getPIDController().setReference(position, CANSparkMax.ControlType.kPosition); //objective? or relative?
+    fourBar
+        .getPIDController()
+        .setReference(position, CANSparkMax.ControlType.kPosition); // objective? or relative?
   }
 
   @Override

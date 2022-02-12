@@ -13,7 +13,8 @@ public class StashIntake extends ParallelCommandGroup {
             intakeFourBar,
             -0.1), // we have no idea what the fully stashed position is supposed to be :(
         new IntakeSetRollers(
-            intakeSubsystem, Constants.IntakeConstants.speed) // no idea what a good speed is, test this please :)
+            intakeSubsystem,
+            Constants.IntakeConstants.speed) // no idea what a good speed is, test this please :)
         );
   }
 }

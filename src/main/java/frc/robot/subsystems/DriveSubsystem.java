@@ -82,6 +82,8 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void resetOdometry(Pose2d pose) {
     roboOdometry.resetPosition(pose, gyro.getRotation2d());
+    getLeftEncoder().setPosition(Constants.zero);
+    getRightEncoder().setPosition(Constants.zero);
   }
 
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
@@ -115,17 +117,16 @@ public class DriveSubsystem extends SubsystemBase {
         getLeftEncoder().getPosition(),
         getRightEncoder().getPosition());
 
-        SmartDashboard.putNumber("Heading", getHeading());
-        SmartDashboard.putNumber("odo x", roboOdometry.getPoseMeters().getX());
-        SmartDashboard.putNumber("odo y", roboOdometry.getPoseMeters().getY());
-        SmartDashboard.putNumber("odo h", roboOdometry.getPoseMeters().getRotation().getDegrees());
-        
-        SmartDashboard.putNumber("Left spd", getWheelSpeeds().leftMetersPerSecond);
-        SmartDashboard.putNumber("Right spd", getWheelSpeeds().rightMetersPerSecond);
-        
-        SmartDashboard.putNumber("enc left", getLeftEncoder().getPosition());
-        SmartDashboard.putNumber("enc right", getRightEncoder().getPosition());
-        
+    SmartDashboard.putNumber("Heading", getHeading());
+    SmartDashboard.putNumber("odo x", roboOdometry.getPoseMeters().getX());
+    SmartDashboard.putNumber("odo y", roboOdometry.getPoseMeters().getY());
+    SmartDashboard.putNumber("odo h", roboOdometry.getPoseMeters().getRotation().getDegrees());
+
+    SmartDashboard.putNumber("Left spd", getWheelSpeeds().leftMetersPerSecond);
+    SmartDashboard.putNumber("Right spd", getWheelSpeeds().rightMetersPerSecond);
+
+    SmartDashboard.putNumber("enc left", getLeftEncoder().getPosition());
+    SmartDashboard.putNumber("enc right", getRightEncoder().getPosition());
   }
 
   public void GTADrive(double leftTrigger, double rightTrigger, double turn) {
