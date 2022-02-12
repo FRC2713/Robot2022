@@ -3,6 +3,7 @@ package frc.robot.commands.auto;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.RamsetA;
 import frc.robot.subsystems.DriveSubsystem;
@@ -17,11 +18,19 @@ public class FourBall extends SequentialCommandGroup {
 
   private static Trajectory leg1 =
       RamsetA.makeTrajectory(
-          0.0, List.of(FieldConstants.StartingPoints.tarmacD, FieldConstants.cargoE), 0.0, false);
+          0.0,
+          List.of(FieldConstants.StartingPoints.tarmacD, FieldConstants.cargoE),
+          0.0,
+          Units.feetToMeters(5),
+          false);
 
   private static Trajectory leg2 =
       RamsetA.makeTrajectory(
-          0.0, List.of(FieldConstants.cargoE, FieldConstants.StartingPoints.fenderB), 0.0, true);
+          0.0,
+          List.of(FieldConstants.cargoE, FieldConstants.StartingPoints.fenderB),
+          0.0,
+          Units.feetToMeters(5),
+          true);
 
   private static Trajectory leg3 =
       RamsetA.makeTrajectory(
