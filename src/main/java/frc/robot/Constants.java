@@ -31,8 +31,8 @@ public final class Constants {
     public static final int flywheelLeftPort = 5;
     public static final int flywheelRightPort = 6;
 
-    public static final int intakeMotorRollers = 7; // NEEDS TO BE CHECKED WHEN PORTS ARE OFFICIAL
-    public static final int intakeMotorFourBar = 5; // NEEDS TO BE CHECKED WHEN PORTS ARE OFFICIAL
+    public static final int intakeMotorRollers = 6; // NEEDS TO BE CHECKED WHEN PORTS ARE OFFICIAL
+    public static final int intakeMotorFourBar = 8; // NEEDS TO BE CHECKED WHEN PORTS ARE OFFICIAL
 
     public static final int lowerSnek = 9;
     public static final int upperSnek = 10;
@@ -63,7 +63,7 @@ public final class Constants {
     public static final double extensionPoint = 0.04;
 
     public static final int rollerCurrentLimit = 20;
-    public static final double speed = 0.5;
+    public static final double speed = 1.0;
 
     public static final double fourBarRatio = 1.0 / 180.0;
   }
