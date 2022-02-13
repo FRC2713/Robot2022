@@ -33,12 +33,6 @@ public class RamsetA extends SequentialCommandGroup {
       double endVelocity,
       double maxVelocity,
       boolean reversed) {
-    if (reversed) {
-      for (int i = 0; i < waypoints.size(); i++) {
-        // waypoints.set(i, Util.Geometry.flipPose(waypoints.get(i)));
-      }
-    }
-
     CentripetalAccelerationConstraint centripetalAccelerationConstraint =
         new CentripetalAccelerationConstraint(Constants.AutoConstants.maxCentripetalAcceleration);
     return TrajectoryGenerator.generateTrajectory(
