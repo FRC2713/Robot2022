@@ -44,6 +44,7 @@ public class FourBall extends SequentialCommandGroup {
     addCommands(
         sequence(
             // new DeployIntake(intakeSubsystem, fourBar),
+            //need to test, but snekSystem SHOULD work automagically?
             RamsetA.RamseteSchmoove(leg1, driveSubsystem),
             RamsetA.RamseteSchmoove(leg2, driveSubsystem),
             // /* score , */
