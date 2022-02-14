@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import frc.robot.util.TunableNumber;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -55,7 +56,7 @@ public final class Constants {
   }
 
     public  static  final class ClimberConstants {
-      public static final double kP = 1; //Subject to change
       public static final int kCurrentLimit = 40;
-  }
+      public static final TunableNumber kP = new TunableNumber("Climber/kP", 0.0);
+    }
 }
