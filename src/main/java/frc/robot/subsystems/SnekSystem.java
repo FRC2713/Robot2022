@@ -11,8 +11,8 @@ public class SnekSystem extends SubsystemBase {
       new CANSparkMax(Constants.RobotMap.lowerSnek, CANSparkMaxLowLevel.MotorType.kBrushless);
   private CANSparkMax upperSnek =
       new CANSparkMax(Constants.RobotMap.upperSnek, CANSparkMaxLowLevel.MotorType.kBrushless);
-  private DigitalInput lowerLimit = new DigitalInput(Constants.RobotMap.lowerSnek);
-  private DigitalInput upperLimit = new DigitalInput(Constants.RobotMap.upperSnek);
+  public static final DigitalInput lowerLimit = new DigitalInput(Constants.RobotMap.lowerSnek);
+  public static final DigitalInput upperLimit = new DigitalInput(Constants.RobotMap.upperSnek);
 
   public SnekSystem() {
     // ya mum

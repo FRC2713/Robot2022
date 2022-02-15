@@ -8,8 +8,14 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.IntakeSetRollers;
 import frc.robot.commands.auto.FourBall;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.IntakeFourBar;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ShootSubsystem;
+import frc.robot.subsystems.SnekSystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -20,9 +26,10 @@ import frc.robot.subsystems.DriveSubsystem;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public static final DriveSubsystem driveSubsystem = new DriveSubsystem();
-  // private final IntakeSubsystem robotIntake = new IntakeSubsystem();
-  // public static final ShootSubsystem shootSubsystem = new ShootSubsystem();
-  // private final SnekSystem snekSystem = new SnekSystem();
+  private final IntakeSubsystem robotIntake = new IntakeSubsystem();
+  private final IntakeFourBar fourBar = new IntakeFourBar();
+  public static final ShootSubsystem shootSubsystem = new ShootSubsystem();
+  private final SnekSystem snekSystem = new SnekSystem();
 
   public final XboxController controller = new XboxController(Constants.zero);
 
@@ -40,12 +47,12 @@ public class RobotContainer {
             },
             driveSubsystem));
 
-    // snekSystem.setDefaultCommand(
-    //     new RunCommand(
-    //         () -> {
-    //           snekSystem.loadSnek();
-    //         },
-    //         snekSystem));
+    snekSystem.setDefaultCommand(
+        new RunCommand(
+            () -> {
+              snekSystem.loadSnek();
+            },
+            snekSystem));
   }
 
   /**
@@ -61,15 +68,15 @@ public class RobotContainer {
     //           shootSubsystem.setTargetRPM(Constants.ShooterConstants.RPM);
     //         });
 
-    // new JoystickButton(controller, XboxController.Button.kB.value)
-    //     .whenPressed(
-    //         () -> {
-    //           shootSubsystem.setTargetRPM(Constants.zero);
-    //         });
+     new JoystickButton(controller, XboxController.Button.kB.value)
+         .whenPressed(
+             () -> {
+               shootSubsystem.setTargetRPM(Constants.zero);
+             });
 
-    // new JoystickButton(controller, XboxController.Button.kY.value)
-    //     .whenPressed(new IntakeSetRollers(robotIntake, Constants.IntakeConstants.speed))
-    // .whenReleased(new IntakeSetRollers(robotIntake, Constants.zero));
+     new JoystickButton(controller, XboxController.Button.kY.value)
+         .whenPressed(new IntakeSetRollers(robotIntake, Constants.IntakeConstants.speed))
+     .whenReleased(new IntakeSetRollers(robotIntake, Constants.zero));
   }
 
   /**
@@ -79,7 +86,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
 
-    return new FourBall(driveSubsystem)
+    return new FourBall(driveSubsystem, robotIntake, fourBar, shootSubsystem, snekSystem)
         .andThen(() -> driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
   }
 }
