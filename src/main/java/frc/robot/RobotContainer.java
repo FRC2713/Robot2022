@@ -68,15 +68,15 @@ public class RobotContainer {
     //           shootSubsystem.setTargetRPM(Constants.ShooterConstants.RPM);
     //         });
 
-     new JoystickButton(controller, XboxController.Button.kB.value)
-         .whenPressed(
-             () -> {
-               shootSubsystem.setTargetRPM(Constants.zero);
-             });
+    new JoystickButton(controller, XboxController.Button.kB.value)
+        .whenPressed(
+            () -> {
+              shootSubsystem.setTargetRPM(Constants.zero);
+            });
 
-     new JoystickButton(controller, XboxController.Button.kY.value)
-         .whenPressed(new IntakeSetRollers(robotIntake, Constants.IntakeConstants.speed))
-     .whenReleased(new IntakeSetRollers(robotIntake, Constants.zero));
+    new JoystickButton(controller, XboxController.Button.kY.value)
+        .whenPressed(new IntakeSetRollers(robotIntake, Constants.IntakeConstants.speed))
+        .whenReleased(new IntakeSetRollers(robotIntake, Constants.zero));
   }
 
   /**

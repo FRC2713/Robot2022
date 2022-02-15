@@ -5,23 +5,23 @@ import frc.robot.subsystems.ShootSubsystem;
 
 public class setShooterRPM extends CommandBase {
 
-    ShootSubsystem shootSubsystem;
-    int RPM;
+  ShootSubsystem shootSubsystem;
+  int RPM;
 
-    public setShooterRPM(ShootSubsystem shooter, int speedRPM) {
-        shootSubsystem = shooter;
-        RPM = speedRPM;
+  public setShooterRPM(ShootSubsystem shooter, int speedRPM) {
+    shootSubsystem = shooter;
+    RPM = speedRPM;
 
-        addRequirements(shootSubsystem);
-    }
+    addRequirements(shootSubsystem);
+  }
 
-    @Override
-    public void execute() {
-        shootSubsystem.setTargetRPM(RPM);
-    }
+  @Override
+  public void execute() {
+    shootSubsystem.setTargetRPM(RPM);
+  }
 
-    @Override
-    public boolean isFinished() {
-        return true;
-    }
+  @Override
+  public boolean isFinished() {
+    return true;
+  }
 }

@@ -46,7 +46,11 @@ public class FourBall extends SequentialCommandGroup {
           false);
 
   public FourBall(
-      DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem, IntakeFourBar fourBar, ShootSubsystem shootSubsystem, SnekSystem snekSystem) {
+      DriveSubsystem driveSubsystem,
+      IntakeSubsystem intakeSubsystem,
+      IntakeFourBar fourBar,
+      ShootSubsystem shootSubsystem,
+      SnekSystem snekSystem) {
     addCommands(
         sequence(
             new DeployIntake(intakeSubsystem, fourBar),
@@ -58,8 +62,6 @@ public class FourBall extends SequentialCommandGroup {
             RamsetA.RamseteSchmoove(leg3, driveSubsystem),
             RamsetA.RamseteSchmoove(Util.invertTrajectory(leg3), driveSubsystem),
             new ShootALowBall(shootSubsystem, snekSystem),
-            new ShootALowBall(shootSubsystem, snekSystem)
-            )
-        );
+            new ShootALowBall(shootSubsystem, snekSystem)));
   }
 }
