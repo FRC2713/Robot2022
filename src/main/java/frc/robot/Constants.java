@@ -107,5 +107,11 @@ public final class Constants {
     public  static  final class ClimberConstants {
       public static final int kCurrentLimit = 40;
       public static final TunableNumber kP = new TunableNumber("Climber/kP", 0.0);
+      public static final TunableNumber kF = new TunableNumber("Intake/kF", 0.005);
+      public static final TunableNumber smartMotionMaxVelocity =
+        new TunableNumber("Intake/Smart Motion Max Velocity", 1000);
+        public static final TunableNumber smartMotionMaxAcceleration =
+        new TunableNumber("Intake/Smart Motion Max Acceleration", 1000);
+        public static final double speed = 1.0;        
     }
 }
