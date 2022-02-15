@@ -1,15 +1,18 @@
 package frc.robot.util;
 
+import com.revrobotics.REVLibError;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Twist2d;
 import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.RobotController;
 import frc.robot.Constants;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class Util {
   public static class Geometry {
@@ -147,5 +150,30 @@ public class Util {
     }
 
     return new Trajectory(invertedStates);
+  }
+
+  public static void checkOK(REVLibError error) {
+    // if (error != REVLibError.kOk) {
+    StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+    StackTraceElement currentFrame = stackTrace[2];
+    String stackTraceInfo =
+        String.format(
+            "%s - %s::%s::%s",
+            getCurrentTimeString(),
+            currentFrame.getFileName(),
+            currentFrame.getMethodName(),
+            currentFrame.getLineNumber());
+    ErrorManager.getInstance().addError(error.toString(), stackTraceInfo);
+    // }
+  }
+
+  public static String getCurrentTimeString() {
+    long time = RobotController.getFPGATime();
+
+    return String.format(
+        "%02d:%02d:%03d",
+        TimeUnit.MILLISECONDS.toMinutes(time),
+        TimeUnit.MILLISECONDS.toSeconds(time) % 60,
+        time % 1000);
   }
 }

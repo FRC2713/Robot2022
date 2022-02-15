@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import static frc.robot.util.Util.checkOK;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel;
@@ -17,7 +19,6 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.util.FieldConstants;
 
 public class DriveSubsystem extends SubsystemBase {
   private CANSparkMax left1 =
@@ -38,7 +39,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
-    left1.restoreFactoryDefaults();
+    checkOK(left1.restoreFactoryDefaults());
     right1.restoreFactoryDefaults();
     left2.restoreFactoryDefaults();
     right2.restoreFactoryDefaults();
