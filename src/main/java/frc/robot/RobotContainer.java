@@ -4,17 +4,11 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.RamseteController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
-import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import frc.robot.commands.auto.FourBall;
 import frc.robot.subsystems.DriveSubsystem;
 
 /**
@@ -25,9 +19,12 @@ import frc.robot.subsystems.DriveSubsystem;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final DriveSubsystem driveSubsystem = new DriveSubsystem();
+  public static final DriveSubsystem driveSubsystem = new DriveSubsystem();
+  // private final IntakeSubsystem robotIntake = new IntakeSubsystem();
+  // public static final ShootSubsystem shootSubsystem = new ShootSubsystem();
+  // private final SnekSystem snekSystem = new SnekSystem();
 
-  public final XboxController controller = new XboxController(0);
+  public final XboxController controller = new XboxController(Constants.zero);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -42,6 +39,13 @@ public class RobotContainer {
                   controller.getLeftX());
             },
             driveSubsystem));
+
+    // snekSystem.setDefaultCommand(
+    //     new RunCommand(
+    //         () -> {
+    //           snekSystem.loadSnek();
+    //         },
+    //         snekSystem));
   }
 
   /**
@@ -50,7 +54,23 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {}
+  private void configureButtonBindings() {
+    // new JoystickButton(controller, XboxController.Button.kA.value)
+    //     .whenPressed(
+    //         () -> {
+    //           shootSubsystem.setTargetRPM(Constants.ShooterConstants.RPM);
+    //         });
+
+    // new JoystickButton(controller, XboxController.Button.kB.value)
+    //     .whenPressed(
+    //         () -> {
+    //           shootSubsystem.setTargetRPM(Constants.zero);
+    //         });
+
+    // new JoystickButton(controller, XboxController.Button.kY.value)
+    //     .whenPressed(new IntakeSetRollers(robotIntake, Constants.IntakeConstants.speed))
+    // .whenReleased(new IntakeSetRollers(robotIntake, Constants.zero));
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -59,26 +79,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
 
-    Trajectory autoTrajectory = null; // This will be a JSON file created by PathPlanner
-
-    RamseteCommand ramsete =
-        new RamseteCommand(
-            autoTrajectory,
-            driveSubsystem::getPose,
-            new RamseteController(Constants.AutoConstants.RamseteB, Constants.AutoConstants.RamseteZeta),
-            new SimpleMotorFeedforward(
-                Constants.AutoConstants.ksVolts,
-                Constants.AutoConstants.ksVoltSecondsPerMeter,
-                Constants.AutoConstants.kaVoltSecondsSquaredPerMeter),
-            Constants.AutoConstants.kinematics,
-            driveSubsystem::getWheelSpeeds,
-            new PIDController(Constants.AutoConstants.kPDriveVel, 0, 0),
-            new PIDController(Constants.AutoConstants.kPDriveVel, 0, 0),
-            driveSubsystem::tankDriveVolts,
-            driveSubsystem);
-
-    driveSubsystem.resetOdometry(autoTrajectory.getInitialPose());
-
-    return ramsete.andThen(() -> driveSubsystem.tankDriveVolts(0, 0));
+    return new FourBall(driveSubsystem)
+        .andThen(() -> driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
   }
 }
