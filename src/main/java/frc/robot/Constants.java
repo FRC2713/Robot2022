@@ -40,8 +40,10 @@ public final class Constants {
     public static final int snekLowerSwitch = Constants.zero;
     public static final int snekUpperSwitch = 1;
 
-    //Climber
-    public static final int  telescope = 7; //Needs to probably changed when the whole ports are set and like maybe the climber will need a second one for a winch motor idk.
+    // Climber
+    public static final int telescope =
+        7; // Needs to probably changed when the whole ports are set and like maybe the climber will
+    // need a second one for a winch motor idk.
   }
 
   public static final class DriveConstants {
@@ -105,8 +107,8 @@ public final class Constants {
     public static final double maxVoltageApplied = 10;
   }
 
-    public  static  final class ClimberConstants {
-      public static final double kP = 1; //Subject to change
-      public static final int kCurrentLimit = 40;
+  public static final class ClimberConstants {
+    public static final double kP = 1; // Subject to change
+    public static final int kCurrentLimit = 40;
   }
 }

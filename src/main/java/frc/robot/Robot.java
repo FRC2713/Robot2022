@@ -93,9 +93,7 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {}
 
-  public String goFast(){
+  public String goFast() {
     return "nyyooooom";
   }
-
 }
-
