@@ -23,19 +23,23 @@ public final class Constants {
 
   public static final class RobotMap {
     // MOTORS
-    public static final int frontLeftMotorPort = 1; // NEEDS TO BE CHECKED WHEN PORTS ARE OFFICIAL
-    public static final int backLeftMotorPort = 2; // NEEDS TO BE CHECKED WHEN PORTS ARE OFFICIAL
-    public static final int frontRightMotorPort = 3; // NEEDS TO BE CHECKED WHEN PORTS ARE OFFICIAL
-    public static final int backRightMotorPort = 4; // NEEDS TO BE CHECKED WHEN PORTS ARE OFFICIAL
+    public static final int frontLeftMotorPort = 1;
+    public static final int backLeftMotorPort = 2;
+    public static final int frontRightMotorPort = 3;
+    public static final int backRightMotorPort = 4;
 
     public static final int flywheelLeftPort = 5;
     public static final int flywheelRightPort = 6;
 
-    public static final int intakeMotorRollers = 7; // NEEDS TO BE CHECKED WHEN PORTS ARE OFFICIAL
-    public static final int intakeMotorFourBar = 8; // NEEDS TO BE CHECKED WHEN PORTS ARE OFFICIAL
+    public static final int intakeMotorRollers = 7;
+    public static final int intakeMotorFourBar = 8;
 
     public static final int lowerSnek = 9;
     public static final int upperSnek = 10;
+
+    public static final int climberMotorRight = 11;
+    public static final int climberMotorLeft = 12;
+
     // DIO
     public static final int snekLowerSwitch = Constants.zero;
     public static final int snekUpperSwitch = 1;
