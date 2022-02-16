@@ -36,6 +36,14 @@ public class SnekSystem extends SubsystemBase {
     }
   }
 
+  public boolean getLowerLimit() {
+    return lowerLimit.get();
+  }
+
+  public boolean getUpperLimit() {
+    return upperLimit.get();
+  }
+
   public void setLowerSnekSpeed(double speed) {
     lowerSnek.set(speed);
   }

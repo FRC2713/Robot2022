@@ -6,9 +6,9 @@ import frc.robot.Constants;
 import frc.robot.subsystems.ShootSubsystem;
 import frc.robot.subsystems.SnekSystem;
 
-public class ShootALowBall extends SequentialCommandGroup {
-
-  public ShootALowBall(ShootSubsystem shootSubsystem, SnekSystem snekSystem) {
+public class ShootTillEmpty extends SequentialCommandGroup {
+    
+  public ShootTillEmpty(ShootSubsystem shootSubsystem, SnekSystem snekSystem) {
     addCommands(
         new SetShooterRPM(shootSubsystem, Constants.ShooterConstants.RPM),
         new WaitCommand(0.5),

@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.SnekSystem;
 
 public class ForceSnek extends CommandBase {
@@ -15,15 +16,19 @@ public class ForceSnek extends CommandBase {
 
   @Override
   public void execute() {
-    snekSystem.setUpperSnekSpeed(0.5);
+    snekSystem.setUpperSnekSpeed(Constants.SnekConstants.snekSpeed);
     snekSystem.setLowerSnekSpeed(
-        0.5); // uncertain if this is a good idea, but i mean it makes sense right?
+        Constants.SnekConstants.snekSpeed); // uncertain if this is a good idea, but i mean it makes sense right?
   }
 
   @Override
   public boolean isFinished() {
-    if (SnekSystem.upperLimit.get()) {
+    if (snekSystem.getUpperLimit()) {
       return false;
-    } else return true;
+    } else {
+      snekSystem.setUpperSnekSpeed(Constants.zero);
+      snekSystem.setLowerSnekSpeed(Constants.zero);
+      return true;
+    }
   }
 }

@@ -74,6 +74,7 @@ public final class Constants {
 
   public static final class SnekConstants {
     public static final int currentLimit = 20;
+    public static final double snekSpeed = 0.5;
   }
 
   public static final class AutoConstants {
