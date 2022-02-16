@@ -9,11 +9,15 @@ import edu.wpi.first.math.util.Units;
 import frc.robot.util.TunableNumber;
 
 /**
- * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
- * constants. This class should not be used for any other purpose. All constants should be declared
+ * The Constants class provides a convenient place for teams to hold robot-wide
+ * numerical or boolean
+ * constants. This class should not be used for any other purpose. All constants
+ * should be declared
  * globally (i.e. public static). Do not put anything functional in this class.
  *
- * <p>It is advised to statically import this class (or one of its inner classes) wherever the
+ * <p>
+ * It is advised to statically import this class (or one of its inner classes)
+ * wherever the
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
@@ -28,8 +32,9 @@ public final class Constants {
     public static final int frontRightMotorPort = 3; // NEEDS TO BE CHECKED WHEN PORTS ARE OFFICIAL
     public static final int backRightMotorPort = 4; // NEEDS TO BE CHECKED WHEN PORTS ARE OFFICIAL
 
-    //Climber
-    public static final int  telescope = 7; //Needs to probably changed when the whole ports are set and like maybe the climber will need a second one for a winch motor idk.
+    // Climber
+    public static final int telescope = 7; // Needs to probably changed when the whole ports are set and like maybe the
+                                           // climber will need a second one for a winch motor idk.
     public static final int flywheelLeftPort = 5;
     public static final int flywheelRightPort = 6;
 
@@ -47,8 +52,7 @@ public final class Constants {
     public static final double kJoystickTurnDeadzone = 0.04;
     public static final double wheelDiameter = 4;
     public static final double gearRatio = 60.0 / 10.0;
-    public static final double distPerPulse =
-        (1.0 / gearRatio) * Units.inchesToMeters(wheelDiameter) * Math.PI;
+    public static final double distPerPulse = (1.0 / gearRatio) * Units.inchesToMeters(wheelDiameter) * Math.PI;
 
     private static final double bumperlessRobotLength = Units.inchesToMeters(26);
     private static final double bumperlessRobotWidth = Units.inchesToMeters(24);
@@ -89,8 +93,7 @@ public final class Constants {
 
     // more kinematics stuff
     public static final double trackWidth = 0.66;
-    public static final DifferentialDriveKinematics kinematics =
-        new DifferentialDriveKinematics(trackWidth);
+    public static final DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(trackWidth);
 
     public static final double maxCentripetalAcceleration = 100;
 
@@ -104,14 +107,22 @@ public final class Constants {
     public static final double maxVoltageApplied = 10;
   }
 
-    public  static  final class ClimberConstants {
-      public static final int kCurrentLimit = 40;
-      public static final TunableNumber kP = new TunableNumber("Climber/kP", 0.0);
-      public static final TunableNumber kF = new TunableNumber("Intake/kF", 0.005);
-      public static final TunableNumber smartMotionMaxVelocity =
-        new TunableNumber("Intake/Smart Motion Max Velocity", 1000);
-        public static final TunableNumber smartMotionMaxAcceleration =
-        new TunableNumber("Intake/Smart Motion Max Acceleration", 1000);
-        public static final double speed = 1.0;        
-    }
+  public static final class ClimberConstants {
+    public static final int kCurrentLimit1 = 40;
+    public static final TunableNumber kP1 = new TunableNumber("Climber/kP", 0.0);
+    public static final TunableNumber kF1 = new TunableNumber("Intake/kF", 0.005);
+    public static final TunableNumber smartMotionMaxVelocity1 = new TunableNumber("Intake/Smart Motion Max Velocity",
+        1000);
+    public static final TunableNumber smartMotionMaxAcceleration1 = new TunableNumber(
+        "Intake/Smart Motion Max Acceleration", 1000);
+        public static final int kCurrentLimit2 = 40;
+        public static final TunableNumber kP2 = new TunableNumber("Climber/kP", 0.0);
+        public static final TunableNumber kF2 = new TunableNumber("Intake/kF", 0.005);
+        public static final TunableNumber smartMotionMaxVelocity2 = new TunableNumber("Intake/Smart Motion Max Velocity",
+            1000);
+        public static final TunableNumber smartMotionMaxAcceleration2 = new TunableNumber(
+            "Intake/Smart Motion Max Acceleration", 1000);
+    public static final double speed = 1.0;
+  
+  }
 }
