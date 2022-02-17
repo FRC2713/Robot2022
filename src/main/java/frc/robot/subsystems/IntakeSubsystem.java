@@ -25,17 +25,17 @@ public class IntakeSubsystem extends SubsystemBase {
     rollers.restoreFactoryDefaults();
 
     rollers.setSmartCurrentLimit(Constants.IntakeConstants.rollerCurrentLimit);
-
     rollers.setIdleMode(IdleMode.kCoast);
+    rollers.getEncoder().setVelocityConversionFactor(Constants.IntakeConstants.rollerRatio / 60);
   }
 
-  public void setRollerSpeed(double speed) {
-    rollers.set(speed);
+  public void setRollerRPM(double rpm) {
+    rollers.set(rpm / Constants.IntakeConstants.maxRollerRpm);
   }
 
   @Override
   public void periodic() {
 
-    SmartDashboard.putNumber("Roller Speed", Constants.IntakeConstants.speed);
+    SmartDashboard.putNumber("Roller Speed", rollers.getEncoder().getVelocity());
   }
 }

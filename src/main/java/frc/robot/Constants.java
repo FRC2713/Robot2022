@@ -50,6 +50,7 @@ public final class Constants {
   }
 
   public static final class IntakeConstants {
+    public static final double fourBarRatio = 1.0 / 60.0 * 16 / 48;
     public static final TunableNumber kP = new TunableNumber("Intake/kP", 0.0);
     public static final TunableNumber kF = new TunableNumber("Intake/kF", 0.005);
     public static final TunableNumber fourBarCurrentLimit =
@@ -63,9 +64,9 @@ public final class Constants {
     public static final double extensionPoint = 0.04;
 
     public static final int rollerCurrentLimit = 20;
-    public static final double speed = 1.0;
-
-    public static final double fourBarRatio = 1.0 / 180.0;
+    public static final double typicalRollerRPM = 2000;
+    public static final double rollerRatio = 12.0 / 60.0;
+    public static final double maxRollerRpm = 11000 * rollerRatio;
   }
 
   public static final class ShooterConstants {

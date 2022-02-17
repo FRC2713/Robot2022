@@ -10,7 +10,6 @@ import frc.robot.util.TunableNumber;
 public class IntakeFourBar extends SubsystemBase {
 
   private CANSparkMax fourBar;
-  private double currPosition;
   private TunableNumber tuningSetpoint = new TunableNumber("Intake/Tuning Setpoint", 0);
 
   public IntakeFourBar() {

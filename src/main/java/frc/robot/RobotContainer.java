@@ -47,12 +47,12 @@ public class RobotContainer {
             },
             driveSubsystem));
 
-    fourBar.setDefaultCommand(
-        new RunCommand(
-            () -> {
-              fourBar.setFourBarMotor(controller.getRightX());
-            },
-            fourBar));
+    // fourBar.setDefaultCommand(
+    // new RunCommand(
+    // () -> {
+    // fourBar.setFourBarMotor(controller.getRightX());
+    // },
+    // fourBar));
 
     // snekSystem.setDefaultCommand(
     // new RunCommand(
@@ -88,8 +88,10 @@ public class RobotContainer {
 
     new JoystickButton(controller, XboxController.Button.kB.value)
         .whenActive(new IntakeSetFourBar(fourBar, Constants.IntakeConstants.extensionPoint))
-        .whenActive(new IntakeSetRollers(robotIntake, Constants.IntakeConstants.speed))
-        .whenInactive(new IntakeSetFourBar(fourBar, 0))
+        .whenInactive(new IntakeSetFourBar(fourBar, 0));
+
+    new JoystickButton(controller, XboxController.Button.kA.value)
+        .whenActive(new IntakeSetRollers(robotIntake, Constants.IntakeConstants.typicalRollerRPM))
         .whenInactive(new IntakeSetRollers(robotIntake, 0));
 
     new JoystickButton(controller, XboxController.Button.kY.value)
