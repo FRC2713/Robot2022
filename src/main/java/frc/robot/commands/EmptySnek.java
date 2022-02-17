@@ -4,11 +4,11 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.SnekSystem;
 
-public class ForceSnek extends CommandBase {
+public class EmptySnek extends CommandBase {
 
   SnekSystem snekSystem;
 
-  public ForceSnek(SnekSystem snek) {
+  public EmptySnek(SnekSystem snek) {
     snekSystem = snek;
 
     addRequirements(snekSystem);
@@ -29,7 +29,7 @@ public class ForceSnek extends CommandBase {
   }
 
   public boolean isFinished() {
-    if (snekSystem.getUpperLimit()) {
+    if (snekSystem.getUpperLimit() || snekSystem.getLowerLimit()) {
       return false;
     } else return true;
   }

@@ -54,7 +54,7 @@ public class ShootSubsystem extends SubsystemBase {
   }
 
   public boolean closeEnough() {
-    if(Math.abs(RPM-fly1.getEncoder().getVelocity()) > 50) {
+    if (Math.abs(RPM - fly1.getEncoder().getVelocity()) > 50) {
       return false;
     } else return true;
   }
