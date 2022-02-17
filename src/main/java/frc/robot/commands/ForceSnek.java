@@ -22,13 +22,15 @@ public class ForceSnek extends CommandBase {
   }
 
   @Override
+  public void end(boolean interrupted)
+  {
+    snekSystem.setLowerSnekSpeed(Constants.zero);
+    snekSystem.setUpperSnekSpeed(Constants.zero);
+  }
+
   public boolean isFinished() {
     if (snekSystem.getUpperLimit()) {
       return false;
-    } else {
-      snekSystem.setUpperSnekSpeed(Constants.zero);
-      snekSystem.setLowerSnekSpeed(Constants.zero);
-      return true;
-    }
+    } else return true;
   }
 }

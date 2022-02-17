@@ -10,9 +10,9 @@ public class ShootTillEmpty extends SequentialCommandGroup {
     
   public ShootTillEmpty(ShootSubsystem shootSubsystem, SnekSystem snekSystem) {
     addCommands(
-        new SetShooterRPM(shootSubsystem, Constants.ShooterConstants.RPM),
+        new SetShooterRPM(shootSubsystem, Constants.ShooterConstants.RPM, Constants.ShooterConstants.waitUntilAtSpeed),
         new WaitCommand(0.5),
         new ForceSnek(snekSystem),
-        new SetShooterRPM(shootSubsystem, Constants.zero));
+        new SetShooterRPM(shootSubsystem, Constants.zero, Constants.ShooterConstants.waitUntilAtSpeed));
   }
 }

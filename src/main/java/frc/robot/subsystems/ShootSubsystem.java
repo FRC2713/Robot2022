@@ -18,6 +18,7 @@ public class ShootSubsystem extends SubsystemBase {
           Constants.RobotMap.flywheelRightPort, CANSparkMaxLowLevel.MotorType.kBrushless);
   private BangBangController bangbang = new BangBangController(25); // Margin of error/tolerance
   public FlywheelControl flywheelMode = FlywheelControl.BANG_BANG;
+  private double RPM;
 
   public enum FlywheelControl {
     BANG_BANG,
@@ -43,12 +44,19 @@ public class ShootSubsystem extends SubsystemBase {
 
   public void setTargetRPM(int targetRPM) {
     // stuff :)
+    RPM = targetRPM;
     SmartDashboard.putNumber("ShooterSetpoint", targetRPM);
     if (flywheelMode == FlywheelControl.PID) {
       fly1.getPIDController().setReference(targetRPM, ControlType.kVelocity);
     } else if (flywheelMode == FlywheelControl.BANG_BANG) {
       bangbang.setSetpoint(targetRPM);
     }
+  }
+
+  public boolean closeEnough() {
+    if(Math.abs(RPM-fly1.getEncoder().getVelocity()) > 50) {
+      return false;
+    } else return true;
   }
 
   public void stopFlywheel() { // SCRAM

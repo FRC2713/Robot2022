@@ -70,6 +70,7 @@ public final class Constants {
     public static final TunableNumber kP = new TunableNumber("Shooter/kP", 0.9);
     public static final TunableNumber kFF = new TunableNumber("Shooter/kFF", 0.5);
     public static final int RPM = 500;
+    public static final boolean waitUntilAtSpeed = false;
   }
 
   public static final class SnekConstants {

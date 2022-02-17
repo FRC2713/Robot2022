@@ -7,10 +7,12 @@ public class SetShooterRPM extends CommandBase {
 
   ShootSubsystem shootSubsystem;
   int RPM;
+  boolean waitTillAtSpeed;
 
-  public SetShooterRPM(ShootSubsystem shooter, int speedRPM) {
+  public SetShooterRPM(ShootSubsystem shooter, int speedRPM, boolean waitToHitSpeed) {
     shootSubsystem = shooter;
     RPM = speedRPM;
+    waitTillAtSpeed = waitToHitSpeed;
 
     addRequirements(shootSubsystem);
   }
@@ -22,6 +24,6 @@ public class SetShooterRPM extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return true;
+    return waitTillAtSpeed ? shootSubsystem.closeEnough() : true;
   }
 }
