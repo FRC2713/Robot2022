@@ -14,6 +14,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -97,6 +98,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void resetOdometry(Pose2d pose) {
     roboOdometry.resetPosition(pose, gyro.getRotation2d());
+    resetEncoders();
   }
 
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
@@ -129,6 +131,13 @@ public class DriveSubsystem extends SubsystemBase {
         Rotation2d.fromDegrees(getHeading()),
         getLeftEncoder().getPosition(),
         getRightEncoder().getPosition());
+
+    SmartDashboard.putNumber("Left Enc", getLeftEncoder().getPosition());
+    SmartDashboard.putNumber("Right Enc", getRightEncoder().getPosition());
+
+    SmartDashboard.putNumber("Odo X", roboOdometry.getPoseMeters().getX());
+    SmartDashboard.putNumber("Odo Y", roboOdometry.getPoseMeters().getY());
+    SmartDashboard.putNumber("Odo H", roboOdometry.getPoseMeters().getRotation().getDegrees());
   }
 
   public void GTADrive(double leftTrigger, double rightTrigger, double turn) {

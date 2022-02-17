@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.IntakeSetFourBar;
 import frc.robot.commands.IntakeSetRollers;
+import frc.robot.commands.auto.FourBall;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeFourBar;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -108,36 +109,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
 
-    Trajectory autoTrajectory =
-        PathPlanner.loadPath(
-            "test", Constants.AutoConstants.maxSpeed, Constants.AutoConstants.maxAccel);
-
-    return null;
-
-    /*
-     * RamseteCommand ramsete =
-     * new RamseteCommand(
-     * autoTrajectory,
-     * driveSubsystem::getPose,
-     * new RamseteController(
-     * Constants.AutoConstants.RamseteB, Constants.AutoConstants.RamseteZeta),
-     * new SimpleMotorFeedforward(
-     * Constants.AutoConstants.ksVolts,
-     * Constants.AutoConstants.ksVoltSecondsPerMeter,
-     * Constants.AutoConstants.kaVoltSecondsSquaredPerMeter),
-     * Constants.AutoConstants.kinematics,
-     * driveSubsystem::getWheelSpeeds,
-     * new PIDController(Constants.AutoConstants.kPDriveVel, Constants.zero,
-     * Constants.zero),
-     * new PIDController(Constants.AutoConstants.kPDriveVel, Constants.zero,
-     * Constants.zero),
-     * driveSubsystem::tankDriveVolts,
-     * driveSubsystem);
-     *
-     * driveSubsystem.resetOdometry(autoTrajectory.getInitialPose());
-     *
-     * return ramsete.andThen(() -> driveSubsystem.tankDriveVolts(Constants.zero,
-     * Constants.zero));
-     */
+    return new FourBall(driveSubsystem)
+        .andThen(() -> driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
   }
 }

@@ -23,19 +23,23 @@ public final class Constants {
 
   public static final class RobotMap {
     // MOTORS
-    public static final int frontLeftMotorPort = 1; // NEEDS TO BE CHECKED WHEN PORTS ARE OFFICIAL
-    public static final int backLeftMotorPort = 2; // NEEDS TO BE CHECKED WHEN PORTS ARE OFFICIAL
-    public static final int frontRightMotorPort = 3; // NEEDS TO BE CHECKED WHEN PORTS ARE OFFICIAL
-    public static final int backRightMotorPort = 4; // NEEDS TO BE CHECKED WHEN PORTS ARE OFFICIAL
+    public static final int frontLeftMotorPort = 1;
+    public static final int backLeftMotorPort = 2;
+    public static final int frontRightMotorPort = 3;
+    public static final int backRightMotorPort = 4;
 
     public static final int flywheelLeftPort = 5;
     public static final int flywheelRightPort = 6;
 
-    public static final int intakeMotorRollers = 6; // NEEDS TO BE CHECKED WHEN PORTS ARE OFFICIAL
-    public static final int intakeMotorFourBar = 8; // NEEDS TO BE CHECKED WHEN PORTS ARE OFFICIAL
+    public static final int intakeMotorRollers = 7;
+    public static final int intakeMotorFourBar = 8;
 
     public static final int lowerSnek = 9;
     public static final int upperSnek = 10;
+
+    public static final int climberMotorRight = 11;
+    public static final int climberMotorLeft = 12;
+
     // DIO
     public static final int snekLowerSwitch = Constants.zero;
     public static final int snekUpperSwitch = 1;
@@ -47,6 +51,13 @@ public final class Constants {
     public static final double gearRatio = 60.0 / 10.0;
     public static final double distPerPulse =
         (1.0 / gearRatio) * Units.inchesToMeters(wheelDiameter) * Math.PI;
+
+    private static final double bumperlessRobotLength = Units.inchesToMeters(26);
+    private static final double bumperlessRobotWidth = Units.inchesToMeters(24);
+    private static final double bumperThickness = Units.inchesToMeters(3);
+
+    public static final double fullRobotWidth = bumperlessRobotWidth + bumperThickness * 2;
+    public static final double fullRobotLength = bumperlessRobotLength + bumperThickness * 2;
   }
 
   public static final class IntakeConstants {
@@ -85,7 +96,7 @@ public final class Constants {
     // FF and FB gains; NEED TO BE DETERMINED ON THE FULLY BUILT ROBOT, WILL CHANGE
     // WITH WEIGHT
     public static final double ksVolts = 0.20541;
-    public static final double ksVoltSecondsPerMeter = 2.4361;
+    public static final double kvVoltSecondsPerMeter = 2.4361;
     public static final double kaVoltSecondsSquaredPerMeter = 0.25946;
 
     public static final double kPDriveVel = 3.95;
@@ -95,12 +106,15 @@ public final class Constants {
     public static final DifferentialDriveKinematics kinematics =
         new DifferentialDriveKinematics(trackWidth);
 
+    public static final double maxCentripetalAcceleration = 100;
+
     // Ramsete constants; generally the same on all robots
     public static final double RamseteZeta = 0.7;
     public static final double RamseteB = 2;
 
     // Max speeds
-    public static final double maxSpeed = 8;
-    public static final double maxAccel = 5;
+    public static final double maxSpeed = Units.feetToMeters(14);
+    public static final double maxAccel = Units.feetToMeters(14);
+    public static final double maxVoltageApplied = 10;
   }
 }
