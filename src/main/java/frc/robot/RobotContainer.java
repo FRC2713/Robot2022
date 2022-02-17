@@ -88,11 +88,11 @@ public class RobotContainer {
     // .whenInactive(new IntakeSetRollers(robotIntake, Constants.zero));
 
     new JoystickButton(controller, XboxController.Button.kB.value)
-        .whenActive(new IntakeSetFourBar(fourBar, Constants.IntakeConstants.extensionPoint))
+        .whileActiveOnce(new IntakeSetFourBar(fourBar, Constants.IntakeConstants.extensionPoint))
         .whenInactive(new IntakeSetFourBar(fourBar, 0));
 
     new JoystickButton(controller, XboxController.Button.kA.value)
-        .whenActive(new IntakeSetRollers(robotIntake, Constants.IntakeConstants.typicalRollerRPM))
+        .whileActiveOnce(new IntakeSetRollers(robotIntake, Constants.IntakeConstants.typicalRollerRPM))
         .whenInactive(new IntakeSetRollers(robotIntake, 0));
 
     new JoystickButton(controller, XboxController.Button.kY.value)
