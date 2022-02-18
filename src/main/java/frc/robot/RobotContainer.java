@@ -7,11 +7,14 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ForceSnek;
 import frc.robot.commands.IntakeSetRollers;
 import frc.robot.commands.SetShooterRPM;
+import frc.robot.commands.IntakeSetFourBar;
+import frc.robot.commands.IntakeSetRollers;
 import frc.robot.commands.auto.FourBall;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeFourBar;
@@ -49,14 +52,19 @@ public class RobotContainer {
             },
             driveSubsystem));
 
-    snekSystem.setDefaultCommand(
-        new RunCommand(
-            () -> {
-              snekSystem.loadSnek();
-            },
-            snekSystem));
+    // fourBar.setDefaultCommand(
+    //     new RunCommand(
+    //         () -> {
+    //           fourBar.setFourBarMotor(controller.getRightX());
+    //         },
+    //         fourBar));
 
-    // put manual climber code here
+    // snekSystem.setDefaultCommand(
+    // new RunCommand(
+    // () -> {
+    // snekSystem.loadSnek();
+    // },
+    // snekSystem));
   }
 
   /**
@@ -67,7 +75,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     new JoystickButton(controller, XboxController.Button.kA.value)
-        .whenPressed(new ForceSnek(snekSystem));
+        .whileActiveContinuous(new ForceSnek(snekSystem));
 
     new JoystickButton(controller, XboxController.Button.kLeftBumper.value)
         .whenPressed(
@@ -86,11 +94,42 @@ public class RobotContainer {
             });
 
     new JoystickButton(controller, XboxController.Button.kY.value)
-        .whenPressed(new IntakeSetRollers(robotIntake, Constants.IntakeConstants.speed))
-        .whenReleased(new IntakeSetRollers(robotIntake, Constants.zero));
+        .whenPressed(new ParallelCommandGroup(
+          new IntakeSetRollers(robotIntake, Constants.IntakeConstants.typicalRollerRPM),
+          new IntakeSetFourBar(fourBar, Constants.IntakeConstants.extensionPoint)
+        ))
+        .whenReleased(new ParallelCommandGroup(
+          new IntakeSetRollers(robotIntake, Constants.zero),
+          new IntakeSetFourBar(fourBar, 0)
+        ));
 
     // climbSubsystem code - should use X, with manual input from the vertical axis of the second
     // stick
+    // new JoystickButton(controller, XboxController.Button.kA.value)
+    // .whenPressed(
+    // () -> {
+    // shootSubsystem.setTargetRPM(Constants.ShooterConstants.RPM);
+    // });
+
+    // new JoystickButton(controller, XboxController.Button.kB.value)
+    // .whenPressed(
+    // () -> {
+    // shootSubsystem.setTargetRPM(Constants.zero);
+    // });
+
+    // new JoystickButton(controller, XboxController.Button.kY.value)
+    // .whenActive(new IntakeSetRollers(robotIntake,
+    // Constants.IntakeConstants.speed))
+    // .whenInactive(new IntakeSetRollers(robotIntake, Constants.zero));
+
+    new JoystickButton(controller, XboxController.Button.kB.value)
+        .whileActiveOnce(new IntakeSetFourBar(fourBar, Constants.IntakeConstants.extensionPoint))
+        .whenInactive(new IntakeSetFourBar(fourBar, 0));
+
+    new JoystickButton(controller, XboxController.Button.kA.value)
+        .whileActiveOnce(
+            new IntakeSetRollers(robotIntake, Constants.IntakeConstants.typicalRollerRPM))
+        .whenInactive(new IntakeSetRollers(robotIntake, 0));
   }
 
   /**
