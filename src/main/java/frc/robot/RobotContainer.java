@@ -9,7 +9,9 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.ForceSnek;
 import frc.robot.commands.IntakeSetRollers;
+import frc.robot.commands.SetShooterRPM;
 import frc.robot.commands.auto.FourBall;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeFourBar;
@@ -53,6 +55,8 @@ public class RobotContainer {
               snekSystem.loadSnek();
             },
             snekSystem));
+
+    // put manual climber code here
   }
 
   /**
@@ -62,11 +66,18 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    // new JoystickButton(controller, XboxController.Button.kA.value)
-    //     .whenPressed(
-    //         () -> {
-    //           shootSubsystem.setTargetRPM(Constants.ShooterConstants.RPM);
-    //         });
+    new JoystickButton(controller, XboxController.Button.kA.value)
+        .whenPressed(new ForceSnek(snekSystem));
+
+    new JoystickButton(controller, XboxController.Button.kLeftBumper.value)
+        .whenPressed(
+            new SetShooterRPM(
+                shootSubsystem,
+                Constants.ShooterConstants.RPM,
+                Constants.ShooterConstants.waitUntilAtSpeed))
+        .whenReleased(
+            new SetShooterRPM(
+                shootSubsystem, Constants.zero, Constants.ShooterConstants.waitUntilAtSpeed));
 
     new JoystickButton(controller, XboxController.Button.kB.value)
         .whenPressed(
@@ -77,6 +88,9 @@ public class RobotContainer {
     new JoystickButton(controller, XboxController.Button.kY.value)
         .whenPressed(new IntakeSetRollers(robotIntake, Constants.IntakeConstants.speed))
         .whenReleased(new IntakeSetRollers(robotIntake, Constants.zero));
+
+    // climbSubsystem code - should use X, with manual input from the vertical axis of the second
+    // stick
   }
 
   /**
