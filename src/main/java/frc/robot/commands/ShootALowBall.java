@@ -12,7 +12,7 @@ public class ShootALowBall extends SequentialCommandGroup {
     addCommands(
         new SetShooterRPM(
             shootSubsystem,
-            Constants.ShooterConstants.RPM,
+            Constants.ShooterConstants.typicalShotSpeed.get(),
             Constants.ShooterConstants.waitUntilAtSpeed),
         new WaitCommand(0.5),
         new ForceSnek(snekSystem),

@@ -1,7 +1,9 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants.ClimberConstants;
 import frc.robot.subsystems.ClimberSubsystem;
+import frc.robot.util.Util;
 
 public class ClimberSetHeight extends CommandBase {
 
@@ -28,9 +30,9 @@ public class ClimberSetHeight extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return (height
-        == m_climber
-            .getHeight()); /*Subject to change but like it's a thing that like is supposed to be a thing that like stops it when its at the right place.
-                           Probably, definitely going to be more complicated and this one is bad and would break something*/
+    return Util.isWithinAcceptableError(
+            m_climber.getLeftHeight(), height, ClimberConstants.acceptableError.get())
+        && Util.isWithinAcceptableError(
+            m_climber.getRightHeight(), height, ClimberConstants.acceptableError.get());
   }
 }

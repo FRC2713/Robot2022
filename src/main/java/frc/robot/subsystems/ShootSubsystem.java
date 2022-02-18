@@ -29,7 +29,6 @@ public class ShootSubsystem extends SubsystemBase {
     fly2.restoreFactoryDefaults();
 
     fly1.setInverted(true);
-
     fly2.follow(fly1, true);
 
     fly1.getEncoder().setVelocityConversionFactor(Constants.ShooterConstants.gearRatio);
@@ -42,7 +41,7 @@ public class ShootSubsystem extends SubsystemBase {
     fly1.getPIDController().setP(Constants.ShooterConstants.kP.get());
     fly1.getPIDController().setFF(Constants.ShooterConstants.kFF.get());
 
-    fly1.setOpenLoopRampRate(0.05);
+    fly1.setOpenLoopRampRate(Constants.ShooterConstants.rampRate.get());
   }
 
   public void setTargetRPM(double targetRPM) {
@@ -59,9 +58,11 @@ public class ShootSubsystem extends SubsystemBase {
   }
 
   public boolean closeEnough() {
-    if (Math.abs(RPM - fly1.getEncoder().getVelocity()) > 50) {
-      return false;
-    } else return true;
+    // if (Math.abs(RPM - fly1.getEncoder().getVelocity()) > 50) {
+    //   return false;
+    // } else return true;
+
+    return true;
   }
 
   public void stopFlywheel() { // SCRAM
