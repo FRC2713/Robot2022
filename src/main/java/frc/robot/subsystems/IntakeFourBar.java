@@ -17,6 +17,8 @@ public class IntakeFourBar extends SubsystemBase {
 
     fourBar.restoreFactoryDefaults();
 
+    fourBar.setInverted(false);
+
     fourBar.setSmartCurrentLimit((int) Constants.IntakeConstants.fourBarCurrentLimit.get());
 
     fourBar.setIdleMode(CANSparkMax.IdleMode.kBrake);

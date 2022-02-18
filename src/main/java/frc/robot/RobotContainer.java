@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import com.pathplanner.lib.PathPlanner;
-import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -49,11 +47,11 @@ public class RobotContainer {
             driveSubsystem));
 
     // fourBar.setDefaultCommand(
-    // new RunCommand(
-    // () -> {
-    // fourBar.setFourBarMotor(controller.getRightX());
-    // },
-    // fourBar));
+    //     new RunCommand(
+    //         () -> {
+    //           fourBar.setFourBarMotor(controller.getRightX());
+    //         },
+    //         fourBar));
 
     // snekSystem.setDefaultCommand(
     // new RunCommand(
@@ -92,7 +90,8 @@ public class RobotContainer {
         .whenInactive(new IntakeSetFourBar(fourBar, 0));
 
     new JoystickButton(controller, XboxController.Button.kA.value)
-        .whileActiveOnce(new IntakeSetRollers(robotIntake, Constants.IntakeConstants.typicalRollerRPM))
+        .whileActiveOnce(
+            new IntakeSetRollers(robotIntake, Constants.IntakeConstants.typicalRollerRPM))
         .whenInactive(new IntakeSetRollers(robotIntake, 0));
 
     new JoystickButton(controller, XboxController.Button.kY.value)

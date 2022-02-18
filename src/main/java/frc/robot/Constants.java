@@ -18,7 +18,7 @@ import frc.robot.util.TunableNumber;
  */
 public final class Constants {
 
-  public static final boolean tuningMode = true;
+  public static final boolean tuningMode = false;
   public static final int zero = 0; // in case you need a zero :)
 
   public static final class RobotMap {
@@ -65,14 +65,14 @@ public final class Constants {
     public static final TunableNumber kP = new TunableNumber("Intake/kP", 0.0);
     public static final TunableNumber kF = new TunableNumber("Intake/kF", 0.005);
     public static final TunableNumber fourBarCurrentLimit =
-        new TunableNumber("Intake/4 Bar Current Limit", 30);
+        new TunableNumber("Intake/4 Bar Current Limit", 10);
     public static final TunableNumber smartMotionMaxVelocity =
         new TunableNumber("Intake/Smart Motion Max Velocity", 1000);
     public static final TunableNumber smartMotionMaxAcceleration =
         new TunableNumber("Intake/Smart Motion Max Acceleration", 1000);
     public static final TunableNumber smartMotionAllowableError =
         new TunableNumber("Intake/Smart Motion Allowable Error", 0.001);
-    public static final double extensionPoint = 0.04;
+    public static final double extensionPoint = 0.05;
 
     public static final int rollerCurrentLimit = 20;
     public static final double typicalRollerRPM = 2000;
