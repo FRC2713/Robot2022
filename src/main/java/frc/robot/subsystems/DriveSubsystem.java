@@ -41,6 +41,8 @@ public class DriveSubsystem extends SubsystemBase {
     right1.restoreFactoryDefaults();
     left2.restoreFactoryDefaults();
     right2.restoreFactoryDefaults();
+    //    right1.setInverted(true);
+    //    right2.setInverte(true); no clue if i need to do this
     left2.follow(left1);
     right2.follow(right1);
 
