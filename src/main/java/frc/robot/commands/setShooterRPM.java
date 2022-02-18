@@ -6,10 +6,10 @@ import frc.robot.subsystems.ShootSubsystem;
 public class SetShooterRPM extends CommandBase {
 
   ShootSubsystem shootSubsystem;
-  int RPM;
+  double RPM;
   boolean waitTillAtSpeed;
 
-  public SetShooterRPM(ShootSubsystem shooter, int speedRPM, boolean waitToHitSpeed) {
+  public SetShooterRPM(ShootSubsystem shooter, double speedRPM, boolean waitToHitSpeed) {
     shootSubsystem = shooter;
     RPM = speedRPM;
     waitTillAtSpeed = waitToHitSpeed;

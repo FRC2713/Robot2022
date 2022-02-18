@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -34,6 +35,12 @@ public class SnekSystem extends SubsystemBase {
       lowerSnek.set(0.5);
       upperSnek.set(0.5);
     }
+  }
+
+  public void periodic() {
+
+    SmartDashboard.putBoolean("Lower Sensor", this.getLowerLimit());
+    SmartDashboard.putBoolean("Upper Sensor", this.getUpperLimit());
   }
 
   public boolean getLowerLimit() {

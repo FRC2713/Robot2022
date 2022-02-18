@@ -17,9 +17,7 @@ public class ForceSnek extends CommandBase {
   @Override
   public void execute() {
     snekSystem.setUpperSnekSpeed(Constants.SnekConstants.snekSpeed);
-    snekSystem.setLowerSnekSpeed(
-        Constants.SnekConstants
-            .snekSpeed); // uncertain if this is a good idea, but i mean it makes sense right?
+    snekSystem.setLowerSnekSpeed(Constants.SnekConstants.snekSpeed);
   }
 
   @Override
@@ -29,8 +27,9 @@ public class ForceSnek extends CommandBase {
   }
 
   public boolean isFinished() {
-    if (snekSystem.getUpperLimit()) {
-      return false;
-    } else return true;
+    // if (snekSystem.getUpperLimit()) {
+    //   return false;
+    // } else return true;
+    return true;
   }
 }

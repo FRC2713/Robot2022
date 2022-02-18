@@ -81,17 +81,17 @@ public final class Constants {
   }
 
   public static final class ShooterConstants {
-    public static final double gearRatio = 1;
-    public static final int currentLimit = 40;
+    public static final double gearRatio = 21.0 / 38.0;
+    public static final int currentLimit = 80;
     public static final TunableNumber kP = new TunableNumber("Shooter/kP", 0.9);
     public static final TunableNumber kFF = new TunableNumber("Shooter/kFF", 0.5);
-    public static final int RPM = 500;
+    public static final double RPM = 0.95;
     public static final boolean waitUntilAtSpeed = false;
   }
 
   public static final class SnekConstants {
     public static final int currentLimit = 20;
-    public static final double snekSpeed = 0.5;
+    public static final double snekSpeed = 0.25;
   }
 
   public static final class AutoConstants {
