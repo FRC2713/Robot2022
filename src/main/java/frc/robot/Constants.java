@@ -32,9 +32,6 @@ public final class Constants {
     public static final int frontRightMotorPort = 3;
     public static final int backRightMotorPort = 4;
 
-    // Climber
-    public static final int telescope = 7; // Needs to probably changed when the whole ports are set and like maybe the
-                                           // climber will need a second one for a winch motor idk.
     public static final int flywheelLeftPort = 5;
     public static final int flywheelRightPort = 6;
 
@@ -50,11 +47,6 @@ public final class Constants {
     // DIO
     public static final int snekLowerSwitch = Constants.zero;
     public static final int snekUpperSwitch = 1;
-
-    // Climber
-    public static final int telescope =
-        7; // Needs to probably changed when the whole ports are set and like maybe the climber will
-    // need a second one for a winch motor idk.
   }
 
   public static final class DriveConstants {
@@ -131,7 +123,6 @@ public final class Constants {
   }
 
   public static final class ClimberConstants {
-<<<<<<< HEAD
     public static final int kCurrentLimit1 = 40;
     public static final TunableNumber kP1 = new TunableNumber("Climber/kP", 0.0);
     public static final TunableNumber kF1 = new TunableNumber("Intake/kF", 0.005);
@@ -150,9 +141,3 @@ public final class Constants {
   
   }
 }
-=======
-    public static final double kP = 1; // Subject to change
-    public static final int kCurrentLimit = 40;
-  }
-}
->>>>>>> d507db6e24d1f8abd7f2aa51725410b148531ba5

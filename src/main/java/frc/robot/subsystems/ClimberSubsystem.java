@@ -12,12 +12,12 @@ public class ClimberSubsystem extends SubsystemBase {
   private final CANSparkMax telescope;
 
   public ClimberSubsystem() {
-    telescope = new CANSparkMax(RobotMap.telescope, MotorType.kBrushless);
+    telescope = new CANSparkMax(RobotMap.climberMotorLeft, MotorType.kBrushless);
     telescope.restoreFactoryDefaults(); // Seems like an important thing
     telescope.setIdleMode(IdleMode.kBrake /*Might change idk what we want*/);
     telescope.setInverted(true /*I think that's how gear stuff shall require it*/);
-    telescope.getPIDController().setP(ClimberConstants.kP);
-    telescope.setSmartCurrentLimit(ClimberConstants.kCurrentLimit);
+    telescope.getPIDController().setP(ClimberConstants.kP1.get());
+    telescope.setSmartCurrentLimit(ClimberConstants.kCurrentLimit1);
   }
 
   public void setTelescopeSpeed(double speed) {
