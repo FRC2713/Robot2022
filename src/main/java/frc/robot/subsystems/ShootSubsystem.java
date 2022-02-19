@@ -72,7 +72,7 @@ public class ShootSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     if (flywheelMode == FlywheelControl.BANG_BANG) {
-      fly1.set(bangbang.calculate(fly1.getEncoder().getVelocity()));
+      // fly1.set(bangbang.calculate(fly1.getEncoder().getVelocity()));
     } else if (flywheelMode == FlywheelControl.PID) {
       // enjoy the funny shooter because it doesn't need code :)
     }

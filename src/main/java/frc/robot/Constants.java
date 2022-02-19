@@ -41,8 +41,8 @@ public final class Constants {
     public static final int climberMotorLeft = 12;
 
     // DIO
-    public static final int snekLowerSwitch = Constants.zero;
-    public static final int snekUpperSwitch = 1;
+    public static final int snekLowerSwitch = 1;
+    public static final int snekUpperSwitch = 3;
   }
 
   public static final class DriveConstants {
@@ -82,12 +82,12 @@ public final class Constants {
 
   public static final class ShooterConstants {
     public static final double gearRatio = 21.0 / 38.0;
-    public static final int currentLimit = 80;
+    public static final int currentLimit = 40;
     public static final TunableNumber kP = new TunableNumber("Shooter/kP", 0.9);
     public static final TunableNumber kFF = new TunableNumber("Shooter/kFF", 0.5);
     public static final TunableNumber typicalShotSpeed = new TunableNumber("Shooter/Speed", 0.8);
     public static final boolean waitUntilAtSpeed = false;
-    public static final TunableNumber rampRate = new TunableNumber("Shooter/Ramp Rate", 0.05);
+    public static final TunableNumber rampRate = new TunableNumber("Shooter/Ramp Rate", 0.0);
   }
 
   public static final class SnekConstants {
@@ -139,8 +139,8 @@ public final class Constants {
         new TunableNumber("Climber/Right Max Accel", 1000);
 
     public static final double speed = 1.0;
-    public static final double maximumHeight = 500;
+    public static final double maximumHeight = 200;
     public static final TunableNumber acceptableError =
-        new TunableNumber("Climber/Acceptable Error", 50);
+        new TunableNumber("Climber/Acceptable Error", 20);
   }
 }

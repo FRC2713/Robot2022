@@ -4,6 +4,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import java.util.List;
@@ -38,21 +39,28 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public void setTelescopeSpeed(double speed) {
-    List.of(left, right)
+    List.of(left)
         .forEach(
             (spark) -> {
+              SmartDashboard.putNumber("climber speed", speed);
               // if at bottom, disallow negative speed
-              if (spark.getEncoder().getPosition() <= 0 && speed < 0) {
+              if (spark.getEncoder().getPosition() <= 10 && speed < 0) {
+                spark.set(0);
                 return;
               }
               // if at top, disallow positive speed
               if (spark.getEncoder().getPosition() >= Constants.ClimberConstants.maximumHeight
                   && speed > 0) {
+                spark.set(0);
                 return;
               }
 
               spark.set(speed);
             });
+  }
+
+  public void periodic() {
+    SmartDashboard.putNumber("Clibmer encoder", left.getEncoder().getPosition());
   }
 
   public void resetTelescopeEncoder() {
@@ -70,6 +78,6 @@ public class ClimberSubsystem extends SubsystemBase {
 
   public void setHeight(double height) {
     left.getPIDController().setReference(height, ControlType.kSmartMotion);
-    right.getPIDController().setReference(height, ControlType.kSmartMotion);
+    // right.getPIDController().setReference(height, ControlType.kSmartMotion);
   }
 }

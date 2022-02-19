@@ -22,6 +22,8 @@ public class SnekSystem extends SubsystemBase {
 
     lowerSnek.setSmartCurrentLimit(Constants.SnekConstants.currentLimit);
     upperSnek.setSmartCurrentLimit(Constants.SnekConstants.currentLimit);
+
+    lowerSnek.setInverted(true);
   }
 
   public void loadSnek() {
@@ -29,11 +31,11 @@ public class SnekSystem extends SubsystemBase {
       lowerSnek.set(0);
       upperSnek.set(0);
     } else if (!lowerLimit.get() && upperLimit.get()) {
-      lowerSnek.set(0.5);
+      lowerSnek.set(Constants.SnekConstants.snekSpeed);
       upperSnek.set(0);
     } else {
-      lowerSnek.set(0.5);
-      upperSnek.set(0.5);
+      lowerSnek.set(Constants.SnekConstants.snekSpeed);
+      upperSnek.set(Constants.SnekConstants.snekSpeed);
     }
   }
 

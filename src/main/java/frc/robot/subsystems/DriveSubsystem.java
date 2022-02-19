@@ -49,8 +49,8 @@ public class DriveSubsystem extends SubsystemBase {
     left1.setInverted(true);
     right1.setInverted(false);
 
-    left1.setSmartCurrentLimit(60);
-    right1.setSmartCurrentLimit(60);
+    left1.setSmartCurrentLimit(40);
+    right1.setSmartCurrentLimit(40);
 
     setHalfBrakeHalfCoast();
 

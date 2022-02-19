@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.util.TunableNumber;
-import frc.robot.util.Util;
 
 public class IntakeFourBar extends SubsystemBase {
 
@@ -79,13 +78,6 @@ public class IntakeFourBar extends SubsystemBase {
       fourBar
           .getPIDController()
           .setReference(tuningSetpoint.get(), CANSparkMax.ControlType.kSmartMotion);
-    }
-
-    if (Util.isWithinAcceptableError(fourBar.getEncoder().getVelocity(), 0, .001)
-        && currentIsHigh.calculate(
-            fourBar.getOutputCurrent()
-                >= (Constants.IntakeConstants.fourBarCurrentLimit.get() - 1))) {
-      fourBar.getEncoder().setPosition(0);
     }
   }
 }
