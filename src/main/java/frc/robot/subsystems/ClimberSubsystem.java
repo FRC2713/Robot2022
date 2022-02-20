@@ -26,7 +26,7 @@ public class ClimberSubsystem extends SubsystemBase {
         right,
         Constants.ClimberConstants.rightKF.get(),
         Constants.ClimberConstants.rightKP.get(),
-        false);
+        true);
   }
 
   private void configureSpark(CANSparkMax spark, double kF, double kP, boolean inverted) {
@@ -39,7 +39,7 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public void setTelescopeSpeed(double speed) {
-    List.of(left)
+    List.of(left, right)
         .forEach(
             (spark) -> {
               SmartDashboard.putNumber("climber speed", speed);

@@ -41,14 +41,14 @@ public final class Constants {
     public static final int climberMotorLeft = 12;
 
     // DIO
-    public static final int snekLowerSwitch = 1;
-    public static final int snekUpperSwitch = 3;
+    public static final int snekLowerSwitch = 3;
+    public static final int snekUpperSwitch = 1;
   }
 
   public static final class DriveConstants {
     public static final double kJoystickTurnDeadzone = 0.04;
-    public static final double wheelDiameter = 4;
-    public static final double gearRatio = 60.0 / 10.0;
+    public static final double wheelDiameter = 5;
+    public static final double gearRatio = 60.0 / 11.0 * 28.0 / 20; // 60.0 / 10.0;
     public static final double distPerPulse =
         (1.0 / gearRatio) * Units.inchesToMeters(wheelDiameter) * Math.PI;
 
@@ -85,7 +85,7 @@ public final class Constants {
     public static final int currentLimit = 40;
     public static final TunableNumber kP = new TunableNumber("Shooter/kP", 0.9);
     public static final TunableNumber kFF = new TunableNumber("Shooter/kFF", 0.5);
-    public static final TunableNumber typicalShotSpeed = new TunableNumber("Shooter/Speed", 0.8);
+    public static final TunableNumber typicalShotSpeed = new TunableNumber("Shooter/Speed", 0.6);
     public static final boolean waitUntilAtSpeed = false;
     public static final TunableNumber rampRate = new TunableNumber("Shooter/Ramp Rate", 0.0);
   }
@@ -93,6 +93,7 @@ public final class Constants {
   public static final class SnekConstants {
     public static final int currentLimit = 20;
     public static final double snekSpeed = 0.25;
+    public static final double upperSnekSpeed = 0.15;
   }
 
   public static final class AutoConstants {
@@ -105,7 +106,7 @@ public final class Constants {
     public static final double kPDriveVel = 3.95;
 
     // more kinematics stuff
-    public static final double trackWidth = 0.66;
+    public static final double trackWidth = Units.inchesToMeters(22);
     public static final DifferentialDriveKinematics kinematics =
         new DifferentialDriveKinematics(trackWidth);
 
@@ -116,9 +117,9 @@ public final class Constants {
     public static final double RamseteB = 2;
 
     // Max speeds
-    public static final double maxSpeed = Units.feetToMeters(14);
-    public static final double maxAccel = Units.feetToMeters(14);
-    public static final double maxVoltageApplied = 10;
+    public static final double maxSpeed = Units.feetToMeters(2);
+    public static final double maxAccel = Units.feetToMeters(2);
+    public static final double maxVoltageApplied = 3;
   }
 
   public static final class ClimberConstants {

@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -12,13 +13,18 @@ public class SnekSystem extends SubsystemBase {
       new CANSparkMax(Constants.RobotMap.lowerSnek, CANSparkMaxLowLevel.MotorType.kBrushless);
   private CANSparkMax upperSnek =
       new CANSparkMax(Constants.RobotMap.upperSnek, CANSparkMaxLowLevel.MotorType.kBrushless);
-  public static final DigitalInput lowerLimit = new DigitalInput(Constants.RobotMap.lowerSnek);
-  public static final DigitalInput upperLimit = new DigitalInput(Constants.RobotMap.upperSnek);
+  private static final DigitalInput lowerLimit =
+      new DigitalInput(Constants.RobotMap.snekLowerSwitch);
+  private static final DigitalInput upperLimit =
+      new DigitalInput(Constants.RobotMap.snekUpperSwitch);
 
   public SnekSystem() {
     // ya mum
     lowerSnek.restoreFactoryDefaults();
     upperSnek.restoreFactoryDefaults();
+
+    lowerSnek.setIdleMode(IdleMode.kBrake);
+    upperSnek.setIdleMode(IdleMode.kBrake);
 
     lowerSnek.setSmartCurrentLimit(Constants.SnekConstants.currentLimit);
     upperSnek.setSmartCurrentLimit(Constants.SnekConstants.currentLimit);
@@ -27,22 +33,22 @@ public class SnekSystem extends SubsystemBase {
   }
 
   public void loadSnek() {
-    if (lowerLimit.get() && upperLimit.get()) {
+    if (getLowerLimit() && getUpperLimit()) {
       lowerSnek.set(0);
       upperSnek.set(0);
-    } else if (!lowerLimit.get() && upperLimit.get()) {
+    } else if (!getLowerLimit() && getUpperLimit()) {
       lowerSnek.set(Constants.SnekConstants.snekSpeed);
       upperSnek.set(0);
     } else {
       lowerSnek.set(Constants.SnekConstants.snekSpeed);
-      upperSnek.set(Constants.SnekConstants.snekSpeed);
+      upperSnek.set(Constants.SnekConstants.upperSnekSpeed);
     }
   }
 
   public void periodic() {
 
-    SmartDashboard.putBoolean("Lower Sensor", this.getLowerLimit());
-    SmartDashboard.putBoolean("Upper Sensor", this.getUpperLimit());
+    SmartDashboard.putBoolean("Lower Sensorz", this.getLowerLimit());
+    SmartDashboard.putBoolean("Upper Sensorz", this.getUpperLimit());
   }
 
   public boolean getLowerLimit() {
