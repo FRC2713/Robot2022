@@ -41,14 +41,14 @@ public final class Constants {
     public static final int climberMotorLeft = 12;
 
     // DIO
-    public static final int snekLowerSwitch = Constants.zero;
+    public static final int snekLowerSwitch = 3;
     public static final int snekUpperSwitch = 1;
   }
 
   public static final class DriveConstants {
     public static final double kJoystickTurnDeadzone = 0.04;
-    public static final double wheelDiameter = 4;
-    public static final double gearRatio = 60.0 / 10.0;
+    public static final double wheelDiameter = 5;
+    public static final double gearRatio = 60.0 / 11.0 * 28.0 / 20; // 60.0 / 10.0;
     public static final double distPerPulse =
         (1.0 / gearRatio) * Units.inchesToMeters(wheelDiameter) * Math.PI;
 
@@ -61,23 +61,39 @@ public final class Constants {
   }
 
   public static final class IntakeConstants {
-    public static final TunableNumber kP = new TunableNumber("Intake/Four Bar kP", 1);
+    public static final double fourBarRatio = 1.0 / 60.0 * 16 / 48;
+    public static final TunableNumber kP = new TunableNumber("Intake/kP", 0.0);
+    public static final TunableNumber kF = new TunableNumber("Intake/kF", 0.005);
+    public static final TunableNumber fourBarCurrentLimit =
+        new TunableNumber("Intake/4 Bar Current Limit", 10);
+    public static final TunableNumber smartMotionMaxVelocity =
+        new TunableNumber("Intake/Smart Motion Max Velocity", 1000);
+    public static final TunableNumber smartMotionMaxAcceleration =
+        new TunableNumber("Intake/Smart Motion Max Acceleration", 1000);
+    public static final TunableNumber smartMotionAllowableError =
+        new TunableNumber("Intake/Smart Motion Allowable Error", 0.001);
+    public static final double extensionPoint = 0.05;
 
     public static final int rollerCurrentLimit = 20;
-    public static final int fourBarCurrentLimit = 30;
-    public static final double speed = 0.5;
+    public static final double typicalRollerRPM = 2000;
+    public static final double rollerRatio = 12.0 / 60.0;
+    public static final double maxRollerRpm = 11000 * rollerRatio;
   }
 
   public static final class ShooterConstants {
-    public static final double gearRatio = 1;
+    public static final double gearRatio = 21.0 / 38.0;
     public static final int currentLimit = 40;
     public static final TunableNumber kP = new TunableNumber("Shooter/kP", 0.9);
     public static final TunableNumber kFF = new TunableNumber("Shooter/kFF", 0.5);
-    public static final int RPM = 500;
+    public static final TunableNumber typicalShotSpeed = new TunableNumber("Shooter/Speed", 0.6);
+    public static final boolean waitUntilAtSpeed = false;
+    public static final TunableNumber rampRate = new TunableNumber("Shooter/Ramp Rate", 0.0);
   }
 
   public static final class SnekConstants {
     public static final int currentLimit = 20;
+    public static final double snekSpeed = 0.25;
+    public static final double upperSnekSpeed = 0.15;
   }
 
   public static final class AutoConstants {
@@ -90,7 +106,7 @@ public final class Constants {
     public static final double kPDriveVel = 3.95;
 
     // more kinematics stuff
-    public static final double trackWidth = 0.66;
+    public static final double trackWidth = Units.inchesToMeters(22);
     public static final DifferentialDriveKinematics kinematics =
         new DifferentialDriveKinematics(trackWidth);
 
@@ -101,8 +117,31 @@ public final class Constants {
     public static final double RamseteB = 2;
 
     // Max speeds
-    public static final double maxSpeed = Units.feetToMeters(14);
-    public static final double maxAccel = Units.feetToMeters(14);
-    public static final double maxVoltageApplied = 10;
+    public static final double maxSpeed = Units.feetToMeters(2);
+    public static final double maxAccel = Units.feetToMeters(2);
+    public static final double maxVoltageApplied = 3;
+  }
+
+  public static final class ClimberConstants {
+    public static final int kCurrentLimit = 40;
+
+    public static final TunableNumber leftKP = new TunableNumber("Climber/Left KP", 0.0);
+    public static final TunableNumber leftKF = new TunableNumber("Climber/Left KF", 0.005);
+    public static final TunableNumber leftSmartMotionMaxVelocity =
+        new TunableNumber("Climber/Left Max Velocity", 1000);
+    public static final TunableNumber leftSmartMotionMaxAcceleration =
+        new TunableNumber("Climber/Left Max Accel", 1000);
+
+    public static final TunableNumber rightKP = new TunableNumber("Climber/Right KP", 0.0);
+    public static final TunableNumber rightKF = new TunableNumber("Climber/Right KF", 0.005);
+    public static final TunableNumber rightSmartMotionMaxVelocity =
+        new TunableNumber("Climber/Right Max Velocity", 1000);
+    public static final TunableNumber rightSmartMotionMaxAcceleration =
+        new TunableNumber("Climber/Right Max Accel", 1000);
+
+    public static final double speed = 1.0;
+    public static final double maximumHeight = 200;
+    public static final TunableNumber acceptableError =
+        new TunableNumber("Climber/Acceptable Error", 20);
   }
 }

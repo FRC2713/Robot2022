@@ -148,4 +148,9 @@ public class Util {
 
     return new Trajectory(invertedStates);
   }
+
+  public static boolean isWithinAcceptableError(
+      double value, double target, double acceptableError) {
+    return Math.abs(target - value) <= acceptableError;
+  }
 }

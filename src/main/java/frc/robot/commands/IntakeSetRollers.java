@@ -6,19 +6,18 @@ import frc.robot.subsystems.IntakeSubsystem;
 public class IntakeSetRollers extends CommandBase {
 
   private final IntakeSubsystem intake;
-  private double speed;
+  private double rpm;
 
-  public IntakeSetRollers(IntakeSubsystem intake, double speed) {
+  public IntakeSetRollers(IntakeSubsystem intake, double rpm) {
     this.intake = intake;
-    this.speed = speed;
+    this.rpm = rpm;
 
     addRequirements(intake);
   }
 
   @Override
   public void execute() {
-
-    intake.setRollerSpeed(speed);
+    intake.setRollerRPM(rpm);
   }
 
   @Override

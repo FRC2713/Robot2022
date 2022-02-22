@@ -17,7 +17,7 @@ public class IntakeSetFourBar extends CommandBase {
 
   @Override
   public void execute() {
-
+    System.out.println("Setting fourbar to " + position);
     intake.setFourBarPosition(position);
   }
 

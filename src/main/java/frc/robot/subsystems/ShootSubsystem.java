@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.wpi.first.math.controller.BangBangController;
@@ -18,6 +17,7 @@ public class ShootSubsystem extends SubsystemBase {
           Constants.RobotMap.flywheelRightPort, CANSparkMaxLowLevel.MotorType.kBrushless);
   private BangBangController bangbang = new BangBangController(25); // Margin of error/tolerance
   public FlywheelControl flywheelMode = FlywheelControl.BANG_BANG;
+  private double RPM;
 
   public enum FlywheelControl {
     BANG_BANG,
@@ -25,10 +25,11 @@ public class ShootSubsystem extends SubsystemBase {
   }
 
   public ShootSubsystem() {
-    fly2.follow(fly1);
-
     fly1.restoreFactoryDefaults();
     fly2.restoreFactoryDefaults();
+
+    fly1.setInverted(true);
+    fly2.follow(fly1, true);
 
     fly1.getEncoder().setVelocityConversionFactor(Constants.ShooterConstants.gearRatio);
 
@@ -39,16 +40,29 @@ public class ShootSubsystem extends SubsystemBase {
 
     fly1.getPIDController().setP(Constants.ShooterConstants.kP.get());
     fly1.getPIDController().setFF(Constants.ShooterConstants.kFF.get());
+
+    fly1.setOpenLoopRampRate(Constants.ShooterConstants.rampRate.get());
   }
 
-  public void setTargetRPM(int targetRPM) {
+  public void setTargetRPM(double targetRPM) {
     // stuff :)
-    SmartDashboard.putNumber("ShooterSetpoint", targetRPM);
-    if (flywheelMode == FlywheelControl.PID) {
-      fly1.getPIDController().setReference(targetRPM, ControlType.kVelocity);
-    } else if (flywheelMode == FlywheelControl.BANG_BANG) {
-      bangbang.setSetpoint(targetRPM);
-    }
+    // RPM = targetRPM;
+    // SmartDashboard.putNumber("ShooterSetpoint", targetRPM);
+    // if (flywheelMode == FlywheelControl.PID) {
+    //   fly1.getPIDController().setReference(targetRPM, ControlType.kVelocity);
+    // } else if (flywheelMode == FlywheelControl.BANG_BANG) {
+    //   bangbang.setSetpoint(targetRPM);
+    // }
+
+    fly1.set(targetRPM);
+  }
+
+  public boolean closeEnough() {
+    // if (Math.abs(RPM - fly1.getEncoder().getVelocity()) > 50) {
+    //   return false;
+    // } else return true;
+
+    return true;
   }
 
   public void stopFlywheel() { // SCRAM
@@ -58,7 +72,7 @@ public class ShootSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     if (flywheelMode == FlywheelControl.BANG_BANG) {
-      fly1.set(bangbang.calculate(fly1.getEncoder().getVelocity()));
+      // fly1.set(bangbang.calculate(fly1.getEncoder().getVelocity()));
     } else if (flywheelMode == FlywheelControl.PID) {
       // enjoy the funny shooter because it doesn't need code :)
     }
