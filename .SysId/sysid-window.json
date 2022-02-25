@@ -28,7 +28,7 @@
     },
     "###Program Log": {
       "Collapsed": "0",
-      "Pos": "685,1167",
+      "Pos": "683,1161",
       "Size": "809,538"
     },
     "Debug##Default": {
@@ -38,17 +38,17 @@
     },
     "Deploy Status": {
       "Collapsed": "0",
-      "Pos": "735,244",
+      "Pos": "736,244",
       "Size": "1500,1487"
     },
     "Diagnostic Plots": {
       "Collapsed": "0",
-      "Pos": "1561,90",
-      "Size": "1363,1170"
+      "Pos": "1534,58",
+      "Size": "1396,1713"
     },
     "Warning": {
       "Collapsed": "0",
-      "Pos": "1552,66",
+      "Pos": "1556,66",
       "Size": "772,1594"
     }
   }
