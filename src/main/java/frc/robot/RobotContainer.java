@@ -131,12 +131,6 @@ public class RobotContainer {
             new SetShooterRPM(
                 shootSubsystem, Constants.zero, Constants.ShooterConstants.waitUntilAtSpeed));
 
-    // new JoystickButton(driver, XboxController.Button.kB.value)
-    //     .whenPressed(
-    //         () -> {
-    //           shootSubsystem.setTargetRPM(Constants.zero);
-    //         });
-
     new JoystickButton(driver, XboxController.Button.kY.value)
         .whenPressed(
             new ParallelCommandGroup(
@@ -168,11 +162,17 @@ public class RobotContainer {
                 },
                 snekSystem));
 
-    // new JoystickButton(controller, XboxController.Button.kB.value)
-    // .whenPressed(
-    // () -> {
-    // shootSubsystem.setTargetRPM(Constants.zero);
-    // });
+    new JoystickButton(operator, XboxController.Button.kY.value)
+        .whenPressed(
+            () -> {
+              climber.setHeight(Constants.ClimberConstants.lowHeight);
+            });
+
+    new JoystickButton(operator, XboxController.Button.kX.value)
+        .whenPressed(
+            () -> {
+              climber.setHeight(Constants.ClimberConstants.midHeight);
+            });
 
     // new JoystickButton(controller, XboxController.Button.kY.value)
     // .whenActive(new IntakeSetRollers(robotIntake,
