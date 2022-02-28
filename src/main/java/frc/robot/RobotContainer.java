@@ -60,11 +60,11 @@ public class RobotContainer {
             climber));
 
     snekSystem.setDefaultCommand(
-        new RunCommand(
-            () -> {
-              snekSystem.loadSnek();
-            },
-            snekSystem));
+    new RunCommand(
+    () -> {
+    snekSystem.loadSnek();
+    },
+    snekSystem));
 
     // fourBar.setDefaultCommand(
     // new RunCommand(
@@ -89,29 +89,29 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // new JoystickButton(operator, XboxController.Button.kA.value)
-    //     // .whileActiveContinuous(new ForceSnek(snekSystem));
-    //     .whenActive(
-    //         new InstantCommand(
-    //             () -> {
-    //               snekSystem.setLowerSnekSpeed(0.5);
-    //               snekSystem.setUpperSnekSpeed(0.5);
-    //             },
-    //             snekSystem))
-    //     .whenInactive(
-    //         new InstantCommand(
-    //             () -> {
-    //               snekSystem.setLowerSnekSpeed(0);
-    //               snekSystem.setUpperSnekSpeed(0);
-    //             },
-    //             snekSystem));
+    // // .whileActiveContinuous(new ForceSnek(snekSystem));
+    // .whenActive(
+    // new InstantCommand(
+    // () -> {
+    // snekSystem.setLowerSnekSpeed(0.5);
+    // snekSystem.setUpperSnekSpeed(0.5);
+    // },
+    // snekSystem))
+    // .whenInactive(
+    // new InstantCommand(
+    // () -> {
+    // snekSystem.setLowerSnekSpeed(0);
+    // snekSystem.setUpperSnekSpeed(0);
+    // },
+    // snekSystem));
 
     // snekSystem.setDefaultCommand(
-    //     new RunCommand(
-    //         () -> {
-    //           snekSystem.setLowerSnekSpeed(operator.getLeftTriggerAxis());
-    //           snekSystem.setUpperSnekSpeed(operator.getRightTriggerAxis());
-    //         },
-    //         snekSystem));
+    // new RunCommand(
+    // () -> {
+    // snekSystem.setLowerSnekSpeed(operator.getLeftTriggerAxis());
+    // snekSystem.setUpperSnekSpeed(operator.getRightTriggerAxis());
+    // },
+    // snekSystem));
 
     new JoystickButton(operator, XboxController.Button.kLeftBumper.value)
         .whileActiveOnce(
@@ -132,10 +132,10 @@ public class RobotContainer {
                 shootSubsystem, Constants.zero, Constants.ShooterConstants.waitUntilAtSpeed));
 
     // new JoystickButton(driver, XboxController.Button.kB.value)
-    //     .whenPressed(
-    //         () -> {
-    //           shootSubsystem.setTargetRPM(Constants.zero);
-    //         });
+    // .whenPressed(
+    // () -> {
+    // shootSubsystem.setTargetRPM(Constants.zero);
+    // });
 
     new JoystickButton(driver, XboxController.Button.kY.value)
         .whenPressed(
@@ -156,6 +156,13 @@ public class RobotContainer {
                 () -> {
                   snekSystem.setLowerSnekSpeed(1);
                   snekSystem.setUpperSnekSpeed(1);
+                },
+                snekSystem))
+        .whenReleased(
+            new InstantCommand(
+                () -> {
+                  snekSystem.setLowerSnekSpeed(0);
+                  snekSystem.setUpperSnekSpeed(0);
                 },
                 snekSystem));
 

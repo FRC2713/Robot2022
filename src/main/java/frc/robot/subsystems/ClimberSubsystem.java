@@ -33,7 +33,8 @@ public class ClimberSubsystem extends SubsystemBase {
     spark.restoreFactoryDefaults();
     spark.setIdleMode(IdleMode.kBrake);
     spark.setInverted(inverted);
-    spark.getPIDController().setFF(kF);
+    spark.getPIDController().setFF(0);
+    spark.getPIDController().setI(0);
     spark.getPIDController().setP(kP);
     spark.setSmartCurrentLimit(Constants.ClimberConstants.kCurrentLimit);
   }
@@ -44,7 +45,8 @@ public class ClimberSubsystem extends SubsystemBase {
             (spark) -> {
               SmartDashboard.putNumber("climber speed", speed);
               // if at bottom, disallow negative speed
-              if (spark.getEncoder().getPosition() <= 10 && speed < 0) {
+              if (spark.getEncoder().getPosition() <= Constants.ClimberConstants.minimumHeight
+                  && speed < 0) {
                 spark.set(0);
                 return;
               }
@@ -60,7 +62,25 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public void periodic() {
-    SmartDashboard.putNumber("Clibmer encoder", left.getEncoder().getPosition());
+    SmartDashboard.putNumber("Climber encoder", left.getEncoder().getPosition());
+
+    left.getPIDController().setP(Constants.ClimberConstants.leftKP.get());
+    right.getPIDController().setP(Constants.ClimberConstants.rightKP.get());
+
+    List.of(left, right)
+        .forEach(
+            (spark) -> {
+              // if at bottom, disallow negative speed
+              if (spark.getEncoder().getPosition() <= Constants.ClimberConstants.minimumHeight
+                  && spark.getEncoder().getVelocity() < 0) {
+                spark.set(0);
+              }
+              // if at top, disallow positive speed
+              if (spark.getEncoder().getPosition() >= Constants.ClimberConstants.maximumHeight
+                  && spark.getEncoder().getVelocity() > 0) {
+                spark.set(0);
+              }
+            });
   }
 
   public void resetTelescopeEncoder() {
@@ -77,7 +97,10 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public void setHeight(double height) {
-    left.getPIDController().setReference(height, ControlType.kSmartMotion);
-    // right.getPIDController().setReference(height, ControlType.kSmartMotion);
+    if (Constants.ClimberConstants.minimumHeight < height
+        && height < Constants.ClimberConstants.maximumHeight) {
+      left.getPIDController().setReference(height, ControlType.kPosition);
+      right.getPIDController().setReference(height, ControlType.kPosition);
+    }
   }
 }
