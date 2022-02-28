@@ -59,21 +59,12 @@ public class RobotContainer {
             },
             climber));
 
-    // climber.setDefaultCommand(
-    //     new RunCommand(
-    //         () -> {
-    //           if (Constants.ClimberConstants.midRungHeight.hasChanged()) {
-    //             climber.setHeight(Constants.ClimberConstants.midRungHeight.get());
-    //           }
-    //         },
-    //         climber));
-
-    // snekSystem.setDefaultCommand(
-    // new RunCommand(
-    // () -> {
-    // snekSystem.loadSnek();
-    // },
-    // snekSystem));
+    snekSystem.setDefaultCommand(
+    new RunCommand(
+    () -> {
+    snekSystem.loadSnek();
+    },
+    snekSystem));
 
     // fourBar.setDefaultCommand(
     // new RunCommand(

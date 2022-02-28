@@ -37,8 +37,6 @@ public class ClimberSubsystem extends SubsystemBase {
     spark.getPIDController().setI(0);
     spark.getPIDController().setP(kP);
     spark.setSmartCurrentLimit(Constants.ClimberConstants.kCurrentLimit);
-
-    spark.getPIDController().setOutputRange(-1, 1);
   }
 
   public void setTelescopeSpeed(double speed) {
@@ -76,13 +74,11 @@ public class ClimberSubsystem extends SubsystemBase {
               if (spark.getEncoder().getPosition() <= Constants.ClimberConstants.minimumHeight
                   && spark.getEncoder().getVelocity() < 0) {
                 spark.set(0);
-                // return;
               }
               // if at top, disallow positive speed
               if (spark.getEncoder().getPosition() >= Constants.ClimberConstants.maximumHeight
                   && spark.getEncoder().getVelocity() > 0) {
                 spark.set(0);
-                // return;
               }
             });
   }
