@@ -1,12 +1,14 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.wpi.first.math.controller.BangBangController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.util.Util;
 
 public class ShootSubsystem extends SubsystemBase {
   private CANSparkMax fly1 =
@@ -46,23 +48,17 @@ public class ShootSubsystem extends SubsystemBase {
 
   public void setTargetRPM(double targetRPM) {
     // stuff :)
-    // RPM = targetRPM;
-    // SmartDashboard.putNumber("ShooterSetpoint", targetRPM);
-    // if (flywheelMode == FlywheelControl.PID) {
-    //   fly1.getPIDController().setReference(targetRPM, ControlType.kVelocity);
-    // } else if (flywheelMode == FlywheelControl.BANG_BANG) {
-    //   bangbang.setSetpoint(targetRPM);
-    // }
-
-    fly1.set(targetRPM);
+    RPM = targetRPM;
+    SmartDashboard.putNumber("ShooterSetpoint", targetRPM);
+    if (flywheelMode == FlywheelControl.PID) {
+      fly1.getPIDController().setReference(targetRPM, ControlType.kVelocity);
+      // } else if (flywheelMode == FlywheelControl.BANG_BANG) {
+      //   bangbang.setSetpoint(targetRPM);
+    }
   }
 
   public boolean closeEnough() {
-    // if (Math.abs(RPM - fly1.getEncoder().getVelocity()) > 50) {
-    //   return false;
-    // } else return true;
-
-    return true;
+    return Util.isWithinAcceptableError(fly1.getEncoder().getVelocity(), RPM, 100);
   }
 
   public void stopFlywheel() { // SCRAM

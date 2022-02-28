@@ -85,8 +85,8 @@ public final class Constants {
     public static final int currentLimit = 40;
     public static final TunableNumber kP = new TunableNumber("Shooter/kP", 0.9);
     public static final TunableNumber kFF = new TunableNumber("Shooter/kFF", 0.5);
-    public static final TunableNumber typicalShotSpeed = new TunableNumber("Shooter/Speed", 0.6);
-    public static final boolean waitUntilAtSpeed = false;
+    public static final TunableNumber typicalShotSpeed = new TunableNumber("Shooter/Speed", 500);
+    public static final boolean waitUntilAtSpeed = true;
     public static final TunableNumber rampRate = new TunableNumber("Shooter/Ramp Rate", 0.0);
   }
 
