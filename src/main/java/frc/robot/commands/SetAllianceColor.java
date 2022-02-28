@@ -6,12 +6,12 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.StripSubsystem;
 import frc.robot.subsystems.StripSubsystem.Pattern;
 
-public class AllianceColor extends CommandBase {
+public class SetAllianceColor extends CommandBase {
 
   private Alliance alliance;
   private StripSubsystem strip;
 
-  public AllianceColor() {
+  public SetAllianceColor() {
     strip = StripSubsystem.getInstance();
     addRequirements(strip);
   }
