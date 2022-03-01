@@ -59,12 +59,12 @@ public class RobotContainer {
             },
             climber));
 
-    snekSystem.setDefaultCommand(
-        new RunCommand(
-            () -> {
-              snekSystem.loadSnek();
-            },
-            snekSystem));
+    // snekSystem.setDefaultCommand(
+    //     new RunCommand(
+    //         () -> {
+    //           snekSystem.loadSnek();
+    //         },
+    //         snekSystem));
 
     // fourBar.setDefaultCommand(
     // new RunCommand(
