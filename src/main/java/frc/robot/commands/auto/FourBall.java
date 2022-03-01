@@ -61,7 +61,7 @@ public class FourBall extends SequentialCommandGroup {
             RamsetA.RamseteSchmoove(leg2, driveSubsystem),
             new ShootTillEmpty(shootSubsystem, snekSystem),
             RamsetA.RamseteSchmoove(leg3, driveSubsystem),
-            RamsetA.RamseteSchmoove(Util.invertTrajectory(leg3), driveSubsystem),
-            new ShootTillEmpty(shootSubsystem, snekSystem)));
+            RamsetA.RamseteSchmoove(Util.invertTrajectory(leg3), driveSubsystem)),
+        new ShootTillEmpty(shootSubsystem, snekSystem));
   }
 }
