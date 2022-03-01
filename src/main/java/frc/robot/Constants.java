@@ -147,7 +147,7 @@ public final class Constants {
     public static final double minimumHeight = 40;
     public static final double maximumHeight = 170;
     public static final TunableNumber acceptableError =
-        new TunableNumber("Climber/Acceptable Error", 20);
+        new TunableNumber("Climber/Acceptable Error", 1);
 
     public static final TunableNumber midRungHeight =
         new TunableNumber("Climber/Mid Rung Height", 125);
