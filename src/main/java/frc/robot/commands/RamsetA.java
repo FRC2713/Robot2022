@@ -37,7 +37,9 @@ public class RamsetA extends SequentialCommandGroup {
         new CentripetalAccelerationConstraint(Constants.AutoConstants.maxCentripetalAcceleration);
     return TrajectoryGenerator.generateTrajectory(
         waypoints,
-        new TrajectoryConfig(maxVelocity, Constants.AutoConstants.maxAccel)
+        new TrajectoryConfig(
+                Math.min(maxVelocity, Constants.AutoConstants.maxSpeed),
+                Constants.AutoConstants.maxAccel)
             .setStartVelocity(startVelocity)
             .setEndVelocity(endVelocity)
             .setReversed(reversed)

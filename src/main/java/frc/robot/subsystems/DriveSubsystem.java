@@ -41,14 +41,17 @@ public class DriveSubsystem extends SubsystemBase {
     right1.restoreFactoryDefaults();
     left2.restoreFactoryDefaults();
     right2.restoreFactoryDefaults();
+
     left2.follow(left1);
     right2.follow(right1);
 
     left1.setInverted(true);
     right1.setInverted(false);
 
-    left1.setSmartCurrentLimit(30);
-    right1.setSmartCurrentLimit(30);
+    left1.setSmartCurrentLimit(40);
+    right1.setSmartCurrentLimit(40);
+
+    setHalfBrakeHalfCoast();
 
     left1.getEncoder().setPositionConversionFactor(Constants.DriveConstants.distPerPulse);
     right1.getEncoder().setPositionConversionFactor(Constants.DriveConstants.distPerPulse);
@@ -57,9 +60,9 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void setHalfBrakeHalfCoast() {
-    left1.setIdleMode(IdleMode.kBrake);
+    left1.setIdleMode(IdleMode.kCoast);
     left2.setIdleMode(IdleMode.kCoast);
-    right1.setIdleMode(IdleMode.kBrake);
+    right1.setIdleMode(IdleMode.kCoast);
     right2.setIdleMode(IdleMode.kCoast);
   }
 

@@ -27,18 +27,14 @@ public class IdealFullAuto extends SequentialCommandGroup {
     addCommands(
         new DeployIntake(intakeSubsystem, intakeFourBar), // deploys intake
         // snek works, because of the defaultCommand in RobotContainer
-        new RamsetA()
-            .RamseteSchmoove(
-                leg1,
-                driveSubsystem), // first leg of the journey, ideally picks up a ball on the way
+        RamsetA.RamseteSchmoove(
+            leg1, driveSubsystem), // first leg of the journey, ideally picks up a ball on the way
         new ShootALowBall(
             shootSubsystem,
             snekSystem), // shoots until the ball goes by, in theory; will need two of these
         // eventually for two balls
-        new RamsetA()
-            .RamseteSchmoove(
-                leg2,
-                driveSubsystem), // second leg of the journey, should pick up two balls on the way
+        RamsetA.RamseteSchmoove(
+            leg2, driveSubsystem), // second leg of the journey, should pick up two balls on the way
         new ShootALowBall(
             shootSubsystem,
             snekSystem), // shoots until the ball goes by, in theory; will need two of these
