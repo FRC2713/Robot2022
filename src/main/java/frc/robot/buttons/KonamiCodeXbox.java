@@ -84,17 +84,17 @@ public class KonamiCodeXbox extends Button {
     } else {
       step = 0;
     }
-    // step 9 - a
+    // step 9 - b
     if (step == 8) {
-      if (xboxController.getAButtonReleased()) {
+      if (xboxController.getBButtonReleased()) {
         step = 9;
       }
     } else {
       step = 0;
     }
-    // step 10 - b
+    // step 10 - a
     if (step == 9) {
-      if (xboxController.getBButtonReleased()) {
+      if (xboxController.getAButtonReleased()) {
         step = 10;
       }
     } else {
