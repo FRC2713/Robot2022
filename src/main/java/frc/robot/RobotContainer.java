@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.ClimberSetHeight;
 import frc.robot.commands.IntakeSetFourBar;
 import frc.robot.commands.IntakeSetRollers;
 import frc.robot.commands.SetShooterRPM;
@@ -60,11 +61,11 @@ public class RobotContainer {
             climber));
 
     snekSystem.setDefaultCommand(
-    new RunCommand(
-    () -> {
-    snekSystem.loadSnek();
-    },
-    snekSystem));
+        new RunCommand(
+            () -> {
+              snekSystem.loadSnek();
+            },
+            snekSystem));
 
     // fourBar.setDefaultCommand(
     // new RunCommand(
@@ -175,11 +176,11 @@ public class RobotContainer {
                 },
                 snekSystem));
 
-    // new JoystickButton(controller, XboxController.Button.kB.value)
-    // .whenPressed(
-    // () -> {
-    // shootSubsystem.setTargetRPM(Constants.zero);
-    // });
+    new JoystickButton(operator, XboxController.Button.kX.value)
+        .whenPressed(new ClimberSetHeight(climber, Constants.ClimberConstants.lowHeight));
+
+    new JoystickButton(operator, XboxController.Button.kY.value)
+        .whenPressed(new ClimberSetHeight(climber, Constants.ClimberConstants.midHeight));
 
     // new JoystickButton(controller, XboxController.Button.kY.value)
     // .whenActive(new IntakeSetRollers(robotIntake,
