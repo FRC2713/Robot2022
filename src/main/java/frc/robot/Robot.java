@@ -62,9 +62,10 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean("Is Enabled", isEnabled());
     SmartDashboard.putBoolean("Is Disabled", isDisabled());
 
-    SmartDashboard.putNumber("can Bus utilization",RobotController.getCANStatus().percentBusUtilization);
+    SmartDashboard.putNumber(
+        "can Bus utilization", RobotController.getCANStatus().percentBusUtilization);
 
-    SmartDashboard.putNumber("Time",DriverStation.getMatchTime());
+    SmartDashboard.putNumber("Time", DriverStation.getMatchTime());
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
