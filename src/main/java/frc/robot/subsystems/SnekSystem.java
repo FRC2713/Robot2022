@@ -46,7 +46,6 @@ public class SnekSystem extends SubsystemBase {
   }
 
   public void periodic() {
-
     SmartDashboard.putBoolean("Lower Sensorz", this.getLowerLimit());
     SmartDashboard.putBoolean("Upper Sensorz", this.getUpperLimit());
   }

@@ -10,10 +10,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import frc.robot.commands.SetAllianceColor;
-import frc.robot.commands.auto.FourBall;
-import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.StripSubsystem;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ClimberSetHeight;
@@ -26,6 +22,8 @@ import frc.robot.subsystems.IntakeFourBar;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShootSubsystem;
 import frc.robot.subsystems.SnekSystem;
+import frc.robot.subsystems.StripSubsystem;
+import frc.robot.subsystems.StripSubsystem.Pattern;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -42,8 +40,8 @@ public class RobotContainer {
   public static final SnekSystem snekSystem = new SnekSystem();
   private final ClimberSubsystem climber = new ClimberSubsystem();
 
-  public final XboxController driver = new XboxController(Constants.zero);
-  public final XboxController operator = new XboxController(1);
+  public static final XboxController driver = new XboxController(Constants.zero);
+  public static final XboxController operator = new XboxController(1);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -57,7 +55,6 @@ public class RobotContainer {
             },
             driveSubsystem));
 
-    StripSubsystem.getInstance().setDefaultCommand(new SetAllianceColor());
     climber.setDefaultCommand(
         new RunCommand(
             () -> {
@@ -71,6 +68,18 @@ public class RobotContainer {
               snekSystem.loadSnek();
             },
             snekSystem));
+
+    StripSubsystem.getInstance()
+        .setDefaultCommand(
+            new RunCommand(
+                () -> {
+                  if (snekSystem.getUpperLimit()) {
+                    StripSubsystem.getInstance().setColor(Pattern.Color1HeartbeatFast);
+                  } else {
+                    StripSubsystem.getInstance().setColor(Pattern.Red);
+                  }
+                },
+                StripSubsystem.getInstance()));
 
     // fourBar.setDefaultCommand(
     // new RunCommand(

@@ -16,11 +16,14 @@ public class StripSubsystem extends SubsystemBase {
   }
 
   public static StripSubsystem getInstance() {
-    if (strip == null) strip = new StripSubsystem();
+    if (strip == null) {
+      strip = new StripSubsystem();
+    }
+
     return strip;
   }
 
-  public void lightUp(Pattern pattern) {
+  public void setColor(Pattern pattern) {
     stripspark.set(pattern.getValue());
   }
 

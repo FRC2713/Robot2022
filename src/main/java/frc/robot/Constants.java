@@ -42,9 +42,13 @@ public final class Constants {
     public static final int climberMotorLeft = 12;
 
     // DIO
-    public static final int stripPort = 0;
+
     public static final int snekLowerSwitch = 3;
     public static final int snekUpperSwitch = 1;
+
+    // PWM
+
+    public static final int stripPort = 0;
   }
 
   public static final class DriveConstants {

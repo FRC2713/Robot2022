@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.StripSubsystem;
 import frc.robot.subsystems.StripSubsystem.Pattern;
@@ -14,6 +15,8 @@ public class SetAllianceColor extends CommandBase {
   public SetAllianceColor() {
     strip = StripSubsystem.getInstance();
     addRequirements(strip);
+
+    SmartDashboard.putString("ZZZZZ", "IU AM RUNNING");
   }
 
   @Override
@@ -25,7 +28,8 @@ public class SetAllianceColor extends CommandBase {
 
   @Override
   public void execute() {
-    Alliance newAlliance = DriverStation.getInstance().getAlliance();
+    Alliance newAlliance = DriverStation.getAlliance();
+
     if (newAlliance != alliance) {
       alliance = newAlliance;
       setColor();
@@ -34,11 +38,11 @@ public class SetAllianceColor extends CommandBase {
 
   private void setColor() {
     if (alliance == Alliance.Blue) {
-      strip.lightUp(Pattern.LightChaseBlue);
+      strip.setColor(Pattern.LightChaseBlue);
     } else if (alliance == Alliance.Red) {
-      strip.lightUp(Pattern.LightChaseRed);
+      strip.setColor(Pattern.LightChaseRed);
     } else {
-      strip.lightUp(Pattern.LightChaseGray);
+      strip.setColor(Pattern.LightChaseGray);
     }
   }
 
