@@ -140,10 +140,18 @@ public class RobotContainer {
                         },
                         snekSystem)
                     .withTimeout(0.25),
-                new SetShooterRPM(
-                    shootSubsystem,
-                    Constants.ShooterConstants.typicalShotSpeed.get(),
-                    Constants.ShooterConstants.waitUntilAtSpeed)))
+                new ParallelCommandGroup(
+                    new RunCommand(
+                            () -> {
+                              snekSystem.setLowerSnekSpeed(0);
+                              snekSystem.setUpperSnekSpeed(0);
+                            },
+                            snekSystem)
+                        .withInterrupt(() -> shootSubsystem.closeEnough()),
+                    new SetShooterRPM(
+                        shootSubsystem,
+                        Constants.ShooterConstants.typicalShotSpeed.get(),
+                        Constants.ShooterConstants.waitUntilAtSpeed))))
         .whenInactive(
             new SetShooterRPM(
                 shootSubsystem, Constants.zero, Constants.ShooterConstants.waitUntilAtSpeed));
