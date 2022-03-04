@@ -144,14 +144,20 @@ public class DriveSubsystem extends SubsystemBase {
   public void GTADrive(double leftTrigger, double rightTrigger, double turn) {
     turn = MathUtil.applyDeadband(turn, Constants.DriveConstants.kJoystickTurnDeadzone);
     turn = turn * turn * Math.signum(turn);
-
+         //right
     double left = rightTrigger - leftTrigger + turn;
+          //left
     double right = rightTrigger - leftTrigger - turn;
+    if ( leftTrigger > 0 )  {
+       left = rightTrigger - leftTrigger - turn;
+       right = rightTrigger - leftTrigger + turn;
+    }
     left = Math.min(1.0, Math.max(-1.0, left));
     right = Math.max(-1.0, Math.min(1.0, right));
 
     this.right1.set(right);
     this.left1.set(left);
+
   }
 
   @Override
