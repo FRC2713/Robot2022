@@ -131,12 +131,12 @@ public class RobotContainer {
         .whenInactive(
             new SetShooterRPM(
                 shootSubsystem, Constants.zero, Constants.ShooterConstants.waitUntilAtSpeed));
-    //new JoystickButton(driver, XboxController.Button.kLeftBumper.value)
-    //    .whileHeld(
-    //        new RunCommand(
-    //            () -> {
-    //              driveSubsystem.GTADrive(.25, 0, 0);
-    //            }));
+    new JoystickButton(driver, XboxController.Button.kLeftBumper.value)
+        .whileHeld(
+            new RunCommand(
+                () -> {
+                  driveSubsystem.GTADrive(.25, 0, 0);
+                }));
     // new JoystickButton(driver, XboxController.Button.kB.value)
     // .whenPressed(
     // () -> {
