@@ -14,6 +14,8 @@ public class IntakeFourBar extends SubsystemBase {
   private CANSparkMax fourBar;
   private TunableNumber tuningSetpoint = new TunableNumber("Intake/Tuning Setpoint", 0);
 
+  public boolean operatorControlled = false;
+
   private Debouncer currentIsHigh = new Debouncer(1); // 1 second
 
   public IntakeFourBar() {
@@ -45,11 +47,15 @@ public class IntakeFourBar extends SubsystemBase {
     fourBar.enableSoftLimit(SoftLimitDirection.kForward, true);
     fourBar.enableSoftLimit(SoftLimitDirection.kReverse, true);
     fourBar.setSoftLimit(SoftLimitDirection.kForward, Constants.IntakeConstants.extensionPoint);
-    fourBar.setSoftLimit(SoftLimitDirection.kReverse, Constants.IntakeConstants.extensionPoint);
+    fourBar.setSoftLimit(SoftLimitDirection.kReverse, Constants.zero);
   }
 
   public void setFourBarPosition(double position) {
     fourBar.getPIDController().setReference(position, CANSparkMax.ControlType.kSmartMotion);
+  }
+
+  public void operateFourBar(double input) {
+    fourBar.set(input / 10);
   }
 
   public void setFourBarMotor(double speed) {
@@ -57,7 +63,7 @@ public class IntakeFourBar extends SubsystemBase {
   }
 
   public void zero() {
-    fourBar.getEncoder().setPosition(0);
+    fourBar.getEncoder().setPosition(Constants.zero);
   }
 
   @Override

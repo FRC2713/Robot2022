@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ClimberSetHeight;
 import frc.robot.commands.IntakeSetFourBar;
 import frc.robot.commands.IntakeSetRollers;
@@ -61,6 +62,13 @@ public class RobotContainer {
               climber.setTelescopeSpeed(-MathUtil.applyDeadband(operator.getRightY(), 0.1));
             },
             climber));
+
+    fourBar.setDefaultCommand(
+        new RunCommand(
+            () -> {
+              if (fourBar.operatorControlled) fourBar.operateFourBar(operator.getLeftX());
+            },
+            fourBar));
 
     snekSystem.setDefaultCommand(
         new RunCommand(
@@ -161,6 +169,17 @@ public class RobotContainer {
     // () -> {
     // shootSubsystem.setTargetRPM(Constants.zero);
     // });
+
+    new Trigger(() -> (operator.getBackButton() && operator.getStartButton()))
+        .toggleWhenActive(
+            new InstantCommand(
+                () -> {
+                  fourBar.operatorControlled = !fourBar.operatorControlled;
+                  if (!fourBar.operatorControlled) {
+                    fourBar.zero();
+                  }
+                },
+                fourBar));
 
     new JoystickButton(driver, XboxController.Button.kY.value)
         .whenPressed(
