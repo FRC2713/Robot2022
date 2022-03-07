@@ -72,7 +72,8 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public void periodic() {
-    SmartDashboard.putNumber("Climber encoder", left.getEncoder().getPosition());
+    SmartDashboard.putNumber("Climber encoder left", left.getEncoder().getPosition());
+    SmartDashboard.putNumber("Climber encoder right", right.getEncoder().getPosition());
 
     left.getPIDController().setP(Constants.ClimberConstants.leftKP.get());
     right.getPIDController().setP(Constants.ClimberConstants.rightKP.get());

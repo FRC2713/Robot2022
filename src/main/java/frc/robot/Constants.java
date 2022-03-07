@@ -148,14 +148,14 @@ public final class Constants {
     public static final double speed = 1.0;
 
     public static final double lowHeight = 80;
-    public static final double midHeight = 120;
+    public static final double midHeight = 200;
 
     public static final float minimumHeight = 40.0f;
-    public static final float maximumHeight = 170.0f;
+    public static final float maximumHeight = 200.0f;
     public static final TunableNumber acceptableError =
         new TunableNumber("Climber/Acceptable Error", 1);
 
-    public static final TunableNumber midRungHeight =
-        new TunableNumber("Climber/Mid Rung Height", 125);
+    //   public static final TunableNumber midRungHeight =
+    //       new TunableNumber("Climber/Mid Rung Height", 170);
   }
 }
