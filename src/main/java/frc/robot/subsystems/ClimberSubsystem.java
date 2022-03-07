@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -27,6 +28,15 @@ public class ClimberSubsystem extends SubsystemBase {
         Constants.ClimberConstants.rightKF.get(),
         Constants.ClimberConstants.rightKP.get(),
         true);
+
+    left.enableSoftLimit(SoftLimitDirection.kForward, true);
+    left.enableSoftLimit(SoftLimitDirection.kReverse, true);
+    left.setSoftLimit(SoftLimitDirection.kForward, Constants.ClimberConstants.maximumHeight);
+    left.setSoftLimit(SoftLimitDirection.kReverse, Constants.ClimberConstants.minimumHeight);
+    right.enableSoftLimit(SoftLimitDirection.kForward, true);
+    right.enableSoftLimit(SoftLimitDirection.kReverse, true);
+    right.setSoftLimit(SoftLimitDirection.kForward, Constants.ClimberConstants.maximumHeight);
+    right.setSoftLimit(SoftLimitDirection.kReverse, Constants.ClimberConstants.minimumHeight);
   }
 
   private void configureSpark(CANSparkMax spark, double kF, double kP, boolean inverted) {
@@ -62,25 +72,11 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public void periodic() {
-    SmartDashboard.putNumber("Climber encoder", left.getEncoder().getPosition());
+    SmartDashboard.putNumber("Climber encoder left", left.getEncoder().getPosition());
+    SmartDashboard.putNumber("Climber encoder right", right.getEncoder().getPosition());
 
     left.getPIDController().setP(Constants.ClimberConstants.leftKP.get());
     right.getPIDController().setP(Constants.ClimberConstants.rightKP.get());
-
-    List.of(left, right)
-        .forEach(
-            (spark) -> {
-              // if at bottom, disallow negative speed
-              if (spark.getEncoder().getPosition() <= Constants.ClimberConstants.minimumHeight
-                  && spark.getEncoder().getVelocity() < 0) {
-                spark.set(0);
-              }
-              // if at top, disallow positive speed
-              if (spark.getEncoder().getPosition() >= Constants.ClimberConstants.maximumHeight
-                  && spark.getEncoder().getVelocity() > 0) {
-                spark.set(0);
-              }
-            });
   }
 
   public void resetTelescopeEncoder() {
@@ -97,10 +93,12 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public void setHeight(double height) {
-    if (Constants.ClimberConstants.minimumHeight < height
-        && height < Constants.ClimberConstants.maximumHeight) {
-      left.getPIDController().setReference(height, ControlType.kPosition);
-      right.getPIDController().setReference(height, ControlType.kPosition);
+    if (height < Constants.ClimberConstants.minimumHeight
+        || height > Constants.ClimberConstants.maximumHeight) {
+      System.err.println("Inputted number outside of allowed climb range - aborted");
+      return;
     }
+    left.getPIDController().setReference(height, ControlType.kPosition);
+    right.getPIDController().setReference(height, ControlType.kPosition);
   }
 }

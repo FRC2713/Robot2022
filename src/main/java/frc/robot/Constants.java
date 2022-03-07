@@ -23,6 +23,7 @@ public final class Constants {
 
   public static final class RobotMap {
     // MOTORS
+
     public static final int frontLeftMotorPort = 1;
     public static final int backLeftMotorPort = 2;
     public static final int frontRightMotorPort = 3;
@@ -41,8 +42,13 @@ public final class Constants {
     public static final int climberMotorLeft = 12;
 
     // DIO
+
     public static final int snekLowerSwitch = 3;
     public static final int snekUpperSwitch = 1;
+
+    // PWM
+
+    public static final int stripPort = 0;
   }
 
   public static final class DriveConstants {
@@ -72,7 +78,7 @@ public final class Constants {
         new TunableNumber("Intake/Smart Motion Max Acceleration", 1000);
     public static final TunableNumber smartMotionAllowableError =
         new TunableNumber("Intake/Smart Motion Allowable Error", 0.001);
-    public static final double extensionPoint = 0.05;
+    public static final float extensionPoint = 0.05f;
 
     public static final int rollerCurrentLimit = 20;
     public static final double typicalRollerRPM = 2000;
@@ -142,14 +148,14 @@ public final class Constants {
     public static final double speed = 1.0;
 
     public static final double lowHeight = 80;
-    public static final double midHeight = 120;
+    public static final double midHeight = 200;
 
-    public static final double minimumHeight = 40;
-    public static final double maximumHeight = 170;
+    public static final float minimumHeight = 40.0f;
+    public static final float maximumHeight = 200.0f;
     public static final TunableNumber acceptableError =
         new TunableNumber("Climber/Acceptable Error", 1);
 
-    public static final TunableNumber midRungHeight =
-        new TunableNumber("Climber/Mid Rung Height", 125);
+    //   public static final TunableNumber midRungHeight =
+    //       new TunableNumber("Climber/Mid Rung Height", 170);
   }
 }
