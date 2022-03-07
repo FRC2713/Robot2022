@@ -4,12 +4,12 @@ import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
 
-public class ForwardsBackwards extends CommandBase {
+public class Backwards extends CommandBase {
     private final DriveSubsystem drive;
     private RelativeEncoder encoder;
     private double startingDistance;
 
-    public ForwardsBackwards(DriveSubsystem drive){
+    public Backwards(DriveSubsystem drive){
         this.drive = drive;
         encoder = drive.getRightEncoder();
         addRequirements(drive);
@@ -20,7 +20,7 @@ public class ForwardsBackwards extends CommandBase {
     }
     @Override
     public void execute(){
-        drive.GTADrive(.1, .1,0);
+        drive.GTADrive(.5, 0,0);
     }
     @Override
     public boolean isFinished() {
