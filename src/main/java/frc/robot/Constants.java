@@ -78,7 +78,7 @@ public final class Constants {
         new TunableNumber("Intake/Smart Motion Max Acceleration", 1000);
     public static final TunableNumber smartMotionAllowableError =
         new TunableNumber("Intake/Smart Motion Allowable Error", 0.001);
-    public static final double extensionPoint = 0.05;
+    public static final float extensionPoint = 0.05f;
 
     public static final int rollerCurrentLimit = 20;
     public static final double typicalRollerRPM = 2000;
@@ -150,8 +150,8 @@ public final class Constants {
     public static final double lowHeight = 80;
     public static final double midHeight = 120;
 
-    public static final double minimumHeight = 40;
-    public static final double maximumHeight = 170;
+    public static final float minimumHeight = 40.0f;
+    public static final float maximumHeight = 170.0f;
     public static final TunableNumber acceptableError =
         new TunableNumber("Climber/Acceptable Error", 1);
 

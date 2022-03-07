@@ -73,10 +73,12 @@ public class RobotContainer {
         .setDefaultCommand(
             new RunCommand(
                 () -> {
-                  if (snekSystem.getUpperLimit()) {
-                    StripSubsystem.getInstance().setColor(Pattern.Color1HeartbeatFast);
-                  } else {
+                  if (snekSystem.getUpperLimit() && snekSystem.getLowerLimit()) {
                     StripSubsystem.getInstance().setColor(Pattern.Red);
+                  } else if (snekSystem.getUpperLimit() || snekSystem.getUpperLimit()) {
+                    StripSubsystem.getInstance().setColor(Pattern.StrobeGold);
+                  } else {
+                    StripSubsystem.getInstance().setColor(Pattern.StrobeWhite);
                   }
                 },
                 StripSubsystem.getInstance()));
@@ -138,10 +140,18 @@ public class RobotContainer {
                         },
                         snekSystem)
                     .withTimeout(0.25),
-                new SetShooterRPM(
-                    shootSubsystem,
-                    Constants.ShooterConstants.typicalShotSpeed.get(),
-                    Constants.ShooterConstants.waitUntilAtSpeed)))
+                new ParallelCommandGroup(
+                    new RunCommand(
+                            () -> {
+                              snekSystem.setLowerSnekSpeed(0);
+                              snekSystem.setUpperSnekSpeed(0);
+                            },
+                            snekSystem)
+                        .withInterrupt(() -> shootSubsystem.closeEnough()),
+                    new SetShooterRPM(
+                        shootSubsystem,
+                        Constants.ShooterConstants.typicalShotSpeed.get(),
+                        Constants.ShooterConstants.waitUntilAtSpeed))))
         .whenInactive(
             new SetShooterRPM(
                 shootSubsystem, Constants.zero, Constants.ShooterConstants.waitUntilAtSpeed));

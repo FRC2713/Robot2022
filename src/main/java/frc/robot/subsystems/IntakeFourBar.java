@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -40,6 +41,11 @@ public class IntakeFourBar extends SubsystemBase {
     fourBar.getPIDController().setFF(Constants.IntakeConstants.kF.get());
     fourBar.getEncoder().setPositionConversionFactor(Constants.IntakeConstants.fourBarRatio);
     fourBar.getEncoder().setVelocityConversionFactor(Constants.IntakeConstants.fourBarRatio);
+
+    fourBar.enableSoftLimit(SoftLimitDirection.kForward, true);
+    fourBar.enableSoftLimit(SoftLimitDirection.kReverse, true);
+    fourBar.setSoftLimit(SoftLimitDirection.kForward, Constants.IntakeConstants.extensionPoint);
+    fourBar.setSoftLimit(SoftLimitDirection.kReverse, Constants.IntakeConstants.extensionPoint);
   }
 
   public void setFourBarPosition(double position) {
