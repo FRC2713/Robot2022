@@ -75,8 +75,10 @@ public class RobotContainer {
                 () -> {
                   if (snekSystem.getUpperLimit() && snekSystem.getLowerLimit()) {
                     strip.setColor(Pattern.White);
-                  } else if (snekSystem.getUpperLimit() || snekSystem.getUpperLimit()) {
+                  } else if (snekSystem.getUpperLimit()) {
                       strip.setColor(Pattern.Yellow);
+                  } else if(snekSystem.getLowerLimit()) {
+                      strip.setColor(Pattern.Green);
                   } else {
                       strip.setAllianceColor(strip);
                   }
