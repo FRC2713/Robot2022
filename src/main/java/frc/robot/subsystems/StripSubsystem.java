@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.RobotMap;
@@ -7,28 +8,31 @@ import frc.robot.Constants.RobotMap;
 /** Add your docs here. */
 public class StripSubsystem extends SubsystemBase {
 
-  private static StripSubsystem strip;
+  //private static StripSubsystem strip;
 
-  private Spark stripspark;
+  private Spark stripSpark;
 
-  private StripSubsystem() {
-    stripspark = new Spark(RobotMap.stripPort);
-  }
-
-  public static StripSubsystem getInstance() {
-    if (strip == null) {
-      strip = new StripSubsystem();
-    }
-
-    return strip;
+  public StripSubsystem() {
+    stripSpark = new Spark(RobotMap.stripPort);
   }
 
   public void setColor(Pattern pattern) {
-    stripspark.set(pattern.getValue());
+    stripSpark.set(pattern.getValue());
+  }
+
+  public void setAllianceColor(StripSubsystem strip) {
+    DriverStation.Alliance alliance = DriverStation.getAlliance();
+    if (alliance == DriverStation.Alliance.Blue) {
+      strip.setColor(Pattern.Blue);
+    } else if (alliance == DriverStation.Alliance.Red) {
+      strip.setColor(Pattern.Red);
+    } else {
+      strip.setColor(Pattern.RainbowRainbow);
+    }
   }
 
   public void stop() {
-    stripspark.set(0);
+    stripSpark.set(0);
   }
 
   public enum Pattern {

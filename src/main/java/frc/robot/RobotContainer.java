@@ -42,6 +42,7 @@ public class RobotContainer {
   public static final IntakeFourBar fourBar = new IntakeFourBar();
   public static final ShootSubsystem shootSubsystem = new ShootSubsystem();
   public static final SnekSystem snekSystem = new SnekSystem();
+  public static final StripSubsystem strip = new StripSubsystem();
   private final ClimberSubsystem climber = new ClimberSubsystem();
 
   public static final XboxController driver = new XboxController(Constants.zero);
@@ -83,21 +84,19 @@ public class RobotContainer {
             },
             snekSystem));
 
-    StripSubsystem.getInstance()
-        .setDefaultCommand(
+        strip.setDefaultCommand(
             new RunCommand(
                 () -> {
-                  if (fourBar.getOperatorControlled()) {
-                    StripSubsystem.getInstance().setColor(Pattern.TwinklesRainbow);
-                  } else if (snekSystem.getUpperLimit() && snekSystem.getLowerLimit()) {
-                    StripSubsystem.getInstance().setColor(Pattern.Green);
-                  } else if (snekSystem.getUpperLimit() || snekSystem.getUpperLimit()) {
-                    StripSubsystem.getInstance().setColor(Pattern.HeartbeatWhite);
-                  } else {
-                    StripSubsystem.getInstance().setColor(Pattern.Color1LightChase);
-                  }
-                },
-                StripSubsystem.getInstance()));
+                    if(Constants.ClimberConstants.midHeight + 2 >= climber.getLeftHeight() && climber.getLeftHeight()  >= Constants.ClimberConstants.midHeight - 2){
+                    strip.setColor(Pattern.Lime);
+                    } else if (snekSystem.getUpperLimit() && snekSystem.getLowerLimit()) {
+                    strip.setColor(Pattern.White);
+                    } else if (snekSystem.getUpperLimit() || snekSystem.getLowerLimit()) {
+                    strip.setColor(Pattern.Yellow);
+                    } else {
+                    strip.setAllianceColor(strip);
+                    }
+                }));
 
     // fourBar.setDefaultCommand(
     // new RunCommand(
