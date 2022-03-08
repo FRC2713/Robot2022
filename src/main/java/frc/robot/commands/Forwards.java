@@ -27,6 +27,6 @@ public class Forwards extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return !(encoder.getPosition() - startingDistance <= 3);
+    return !(encoder.getPosition() - startingDistance <= 1);
   }
 }

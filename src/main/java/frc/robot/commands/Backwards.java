@@ -27,6 +27,6 @@ public class Backwards extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return !(Math.abs(encoder.getPosition() - startingDistance) <= 3);
+    return !(Math.abs(encoder.getPosition() - startingDistance) <= 1);
   }
 }
