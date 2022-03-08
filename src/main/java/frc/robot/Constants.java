@@ -43,8 +43,8 @@ public final class Constants {
 
     // DIO
 
-    public static final int snekLowerSwitch = 3;
-    public static final int snekUpperSwitch = 1;
+    public static final int snekLowerSwitch = 1;
+    public static final int snekUpperSwitch = 3;
 
     // PWM
 
@@ -77,8 +77,8 @@ public final class Constants {
     public static final TunableNumber smartMotionMaxAcceleration =
         new TunableNumber("Intake/Smart Motion Max Acceleration", 1000);
     public static final TunableNumber smartMotionAllowableError =
-        new TunableNumber("Intake/Smart Motion Allowable Error", 0.001);
-    public static final float extensionPoint = 0.05f;
+        new TunableNumber("Intake/Smart Motion Allowable Error", 0.0001);
+    public static final float extensionPoint = 0.03f;
 
     public static final int rollerCurrentLimit = 20;
     public static final double typicalRollerRPM = 2000;
@@ -98,8 +98,8 @@ public final class Constants {
 
   public static final class SnekConstants {
     public static final int currentLimit = 20;
-    public static final double snekSpeed = 0.25;
-    public static final double upperSnekSpeed = 0.15;
+    public static final double snekSpeed = 0.4;
+    public static final double upperSnekSpeed = 0.4;
   }
 
   public static final class AutoConstants {

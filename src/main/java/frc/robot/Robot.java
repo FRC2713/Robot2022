@@ -92,8 +92,8 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     // hello!
     if (RobotContainer.snekSystem.getUpperLimit()) {
-      RobotContainer.driver.setRumble(RumbleType.kLeftRumble, 0.5);
-      RobotContainer.driver.setRumble(RumbleType.kRightRumble, 0.5);
+      // RobotContainer.driver.setRumble(RumbleType.kLeftRumble, 0.5);
+      // RobotContainer.driver.setRumble(RumbleType.kRightRumble, 0.5);
     } else {
 
       RobotContainer.driver.setRumble(RumbleType.kLeftRumble, 0);

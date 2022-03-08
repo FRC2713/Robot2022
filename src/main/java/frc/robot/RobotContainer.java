@@ -66,7 +66,7 @@ public class RobotContainer {
     fourBar.setDefaultCommand(
         new RunCommand(
             () -> {
-              if (fourBar.operatorControlled) {
+              if (fourBar.getOperatorControlled()) {
                 fourBar.operateFourBar(operator.getLeftX());
               }
             },
@@ -161,7 +161,13 @@ public class RobotContainer {
                     new SetShooterRPM(
                         shootSubsystem,
                         Constants.ShooterConstants.typicalShotSpeed.get(),
-                        Constants.ShooterConstants.waitUntilAtSpeed))))
+                        Constants.ShooterConstants.waitUntilAtSpeed)),
+                new RunCommand(
+                    () -> {
+                      snekSystem.setUpperSnekSpeed(1.0);
+                      snekSystem.setLowerSnekSpeed(1.0);
+                    },
+                    snekSystem)))
         .whenInactive(
             new SetShooterRPM(
                 shootSubsystem, Constants.zero, Constants.ShooterConstants.waitUntilAtSpeed));
@@ -176,10 +182,7 @@ public class RobotContainer {
         .whenActive(
             new InstantCommand(
                 () -> {
-                  fourBar.operatorControlled = !fourBar.operatorControlled;
-                  if (!fourBar.operatorControlled) {
-                    fourBar.zero();
-                  }
+                  fourBar.setOperatorControlled(!fourBar.getOperatorControlled());
                 },
                 fourBar));
 

@@ -14,7 +14,7 @@ public class IntakeFourBar extends SubsystemBase {
   private CANSparkMax fourBar;
   private TunableNumber tuningSetpoint = new TunableNumber("Intake/Tuning Setpoint", 0);
 
-  public boolean operatorControlled = false;
+  private boolean operatorControlled = false;
 
   private Debouncer currentIsHigh = new Debouncer(1); // 1 second
 
@@ -44,10 +44,7 @@ public class IntakeFourBar extends SubsystemBase {
     fourBar.getEncoder().setPositionConversionFactor(Constants.IntakeConstants.fourBarRatio);
     fourBar.getEncoder().setVelocityConversionFactor(Constants.IntakeConstants.fourBarRatio);
 
-    fourBar.enableSoftLimit(SoftLimitDirection.kForward, true);
-    fourBar.enableSoftLimit(SoftLimitDirection.kReverse, true);
-    fourBar.setSoftLimit(SoftLimitDirection.kForward, Constants.IntakeConstants.extensionPoint);
-    fourBar.setSoftLimit(SoftLimitDirection.kReverse, Constants.zero);
+    setOperatorControlled(false);
   }
 
   public void setFourBarPosition(double position) {
@@ -64,6 +61,24 @@ public class IntakeFourBar extends SubsystemBase {
 
   public void zero() {
     fourBar.getEncoder().setPosition(Constants.zero);
+  }
+
+  public boolean getOperatorControlled() {
+    return operatorControlled;
+  }
+
+  public void setOperatorControlled(boolean enabled) {
+    operatorControlled = enabled;
+    if (operatorControlled) {
+      fourBar.enableSoftLimit(SoftLimitDirection.kForward, false);
+      fourBar.enableSoftLimit(SoftLimitDirection.kReverse, false);
+    } else {
+      zero();
+      fourBar.enableSoftLimit(SoftLimitDirection.kForward, true);
+      fourBar.enableSoftLimit(SoftLimitDirection.kReverse, true);
+      fourBar.setSoftLimit(SoftLimitDirection.kForward, Constants.IntakeConstants.extensionPoint);
+      fourBar.setSoftLimit(SoftLimitDirection.kReverse, Constants.zero);
+    }
   }
 
   @Override
