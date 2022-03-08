@@ -18,7 +18,7 @@ import frc.robot.util.TunableNumber;
  */
 public final class Constants {
 
-  public static final boolean tuningMode = false;
+  public static final boolean tuningMode = true;
   public static final int zero = 0; // in case you need a zero :)
 
   public static final class RobotMap {
@@ -67,7 +67,7 @@ public final class Constants {
   }
 
   public static final class IntakeConstants {
-    public static final double fourBarRatio = 1.0 / 60.0 * 16 / 48;
+    public static final double fourBarRatio = 1.0 / 60.0 * (40.0 / 51.0);
     public static final TunableNumber kP = new TunableNumber("Intake/kP", 0.0);
     public static final TunableNumber kF = new TunableNumber("Intake/kF", 0.005);
     public static final TunableNumber fourBarCurrentLimit =

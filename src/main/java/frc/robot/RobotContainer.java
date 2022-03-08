@@ -83,7 +83,9 @@ public class RobotContainer {
         .setDefaultCommand(
             new RunCommand(
                 () -> {
-                  if (snekSystem.getUpperLimit() && snekSystem.getLowerLimit()) {
+                  if (fourBar.operatorControlled) {
+                    StripSubsystem.getInstance().setColor(Pattern.FireMedium);
+                  } else if (snekSystem.getUpperLimit() && snekSystem.getLowerLimit()) {
                     StripSubsystem.getInstance().setColor(Pattern.Red);
                   } else if (snekSystem.getUpperLimit() || snekSystem.getUpperLimit()) {
                     StripSubsystem.getInstance().setColor(Pattern.StrobeGold);
