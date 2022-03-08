@@ -23,7 +23,8 @@ public class FancySpin extends CommandBase {
   public void execute() {
     drive.GTADrive(0, 0, turnSpeed);
     count++;
-    turnSpeed = (Math.abs(12 - Math.abs(12 - count)) * 0.035) + 0.1;
+    //not safe spins too fast we will fix.
+    turnSpeed = (Math.abs(24 - Math.abs(24 - count)) * 0.035) + 0.1;
   }
 
   @Override
@@ -34,7 +35,7 @@ public class FancySpin extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return count > 24;
+    return count > 48;
     // return !((drive.getDegrees() - startingAngle) <= 360);
   }
 }
