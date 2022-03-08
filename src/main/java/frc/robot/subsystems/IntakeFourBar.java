@@ -55,7 +55,7 @@ public class IntakeFourBar extends SubsystemBase {
   }
 
   public void operateFourBar(double input) {
-    fourBar.set(input / 10);
+    fourBar.set(input / 10.0);
   }
 
   public void setFourBarMotor(double speed) {

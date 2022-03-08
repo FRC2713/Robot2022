@@ -66,7 +66,9 @@ public class RobotContainer {
     fourBar.setDefaultCommand(
         new RunCommand(
             () -> {
-              if (fourBar.operatorControlled) fourBar.operateFourBar(operator.getLeftX());
+              if (fourBar.operatorControlled) {
+                fourBar.operateFourBar(operator.getLeftX());
+              }
             },
             fourBar));
 
@@ -171,7 +173,7 @@ public class RobotContainer {
     // });
 
     new Trigger(() -> (operator.getBackButton() && operator.getStartButton()))
-        .toggleWhenActive(
+        .whenActive(
             new InstantCommand(
                 () -> {
                   fourBar.operatorControlled = !fourBar.operatorControlled;
