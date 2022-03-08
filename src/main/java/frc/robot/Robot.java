@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.Spin;
 import frc.robot.commands.auto.FourBall;
 
 /**
@@ -21,16 +22,15 @@ import frc.robot.commands.auto.FourBall;
 public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer = new RobotContainer();
-
   private Command m_autonomousCommand =
-      new FourBall(
-              RobotContainer.driveSubsystem,
-              RobotContainer.robotIntake,
-              RobotContainer.fourBar,
-              RobotContainer.shootSubsystem,
-              RobotContainer.snekSystem)
-          .andThen(
-              () -> RobotContainer.driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
+  new FourBall(
+          RobotContainer.driveSubsystem,
+          RobotContainer.robotIntake,
+          RobotContainer.fourBar,
+          RobotContainer.shootSubsystem,
+          RobotContainer.snekSystem)
+      .andThen(
+          () -> RobotContainer.driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
   // new SimpleScore(
   //     RobotContainer.driveSubsystem, RobotContainer.shootSubsystem, RobotContainer.snekSystem);
 
