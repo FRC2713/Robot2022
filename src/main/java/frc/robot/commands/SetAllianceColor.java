@@ -1,3 +1,4 @@
+/*
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -13,7 +14,7 @@ public class SetAllianceColor extends CommandBase {
   private StripSubsystem strip;
 
   public SetAllianceColor() {
-    strip = StripSubsystem.getInstance();
+
     addRequirements(strip);
 
     SmartDashboard.putString("ZZZZZ", "IU AM RUNNING");
@@ -51,3 +52,4 @@ public class SetAllianceColor extends CommandBase {
     return false;
   }
 }
+*/

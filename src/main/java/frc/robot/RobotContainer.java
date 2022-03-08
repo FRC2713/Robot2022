@@ -38,6 +38,7 @@ public class RobotContainer {
   public static final IntakeFourBar fourBar = new IntakeFourBar();
   public static final ShootSubsystem shootSubsystem = new ShootSubsystem();
   public static final SnekSystem snekSystem = new SnekSystem();
+  public static final StripSubsystem strip = new StripSubsystem();
   private final ClimberSubsystem climber = new ClimberSubsystem();
 
   public static final XboxController driver = new XboxController(Constants.zero);
@@ -69,19 +70,17 @@ public class RobotContainer {
             },
             snekSystem));
 
-    StripSubsystem.getInstance()
-        .setDefaultCommand(
+        strip.setDefaultCommand(
             new RunCommand(
                 () -> {
                   if (snekSystem.getUpperLimit() && snekSystem.getLowerLimit()) {
-                    StripSubsystem.getInstance().setColor(Pattern.Red);
+                    strip.setColor(Pattern.White);
                   } else if (snekSystem.getUpperLimit() || snekSystem.getUpperLimit()) {
-                    StripSubsystem.getInstance().setColor(Pattern.StrobeGold);
+                      strip.setColor(Pattern.Yellow);
                   } else {
-                    StripSubsystem.getInstance().setColor(Pattern.StrobeWhite);
+                      strip.setAllianceColor(strip);
                   }
-                },
-                StripSubsystem.getInstance()));
+                }));
 
     // fourBar.setDefaultCommand(
     // new RunCommand(
