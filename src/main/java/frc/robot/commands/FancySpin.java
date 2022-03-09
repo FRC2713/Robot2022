@@ -23,6 +23,7 @@ public class FancySpin extends CommandBase {
   public void execute() {
     drive.GTADrive(0, 0, turnSpeed);
     count++;
+    //untested might be too fast
     turnSpeed = -(1/324) * Math.pow((count-18), 2) + 1;
   }
 
