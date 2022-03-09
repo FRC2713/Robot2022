@@ -11,7 +11,6 @@ public class StripSubsystem extends SubsystemBase {
   //private static StripSubsystem strip;
 
   private Spark stripSpark;
-  private DriverStation.Alliance alliance;
 
   public StripSubsystem() {
     stripSpark = new Spark(RobotMap.stripPort);
@@ -22,6 +21,7 @@ public class StripSubsystem extends SubsystemBase {
   }
 
   public void setAllianceColor(StripSubsystem strip) {
+    DriverStation.Alliance alliance = DriverStation.getAlliance();
     if (alliance == DriverStation.Alliance.Blue) {
       strip.setColor(Pattern.Blue);
     } else if (alliance == DriverStation.Alliance.Red) {
