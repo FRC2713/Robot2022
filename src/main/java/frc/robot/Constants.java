@@ -3,7 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
-
+// liam sais hi :)
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
 import frc.robot.util.TunableNumber;
@@ -89,9 +89,9 @@ public final class Constants {
   public static final class ShooterConstants {
     public static final double gearRatio = 21.0 / 38.0;
     public static final int currentLimit = 40;
-    public static final TunableNumber kP = new TunableNumber("Shooter/kP", 0.0003);
-    public static final TunableNumber kFF = new TunableNumber("Shooter/kFF", 0.00031);
-    public static final TunableNumber typicalShotSpeed = new TunableNumber("Shooter/Speed", 2000);
+    public static final TunableNumber kP = new TunableNumber("Shooter/kP", 0.00015);
+    public static final TunableNumber kFF = new TunableNumber("Shooter/kFF", 0.00034);
+    public static final TunableNumber typicalShotSpeed = new TunableNumber("Shooter/Speed", 2400);
     public static final boolean waitUntilAtSpeed = false;
     public static final TunableNumber rampRate = new TunableNumber("Shooter/Ramp Rate", 0.05);
   }

@@ -51,7 +51,7 @@ public class DriveSubsystem extends SubsystemBase {
     left1.setSmartCurrentLimit(40);
     right1.setSmartCurrentLimit(40);
 
-    setHalfBrakeHalfCoast();
+    setAllCoast();
 
     left1.getEncoder().setPositionConversionFactor(Constants.DriveConstants.distPerPulse);
     right1.getEncoder().setPositionConversionFactor(Constants.DriveConstants.distPerPulse);

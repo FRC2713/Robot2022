@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ClimberSetHeight;
-import frc.robot.commands.IntakeSetFourBar;
 import frc.robot.commands.IntakeSetRollers;
 import frc.robot.commands.SetShooterRPM;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -141,8 +140,8 @@ public class RobotContainer {
     // snekSystem.setUpperSnekSpeed(operator.getRightTriggerAxis());
     // },
     // snekSystem));
-
-    new JoystickButton(operator, XboxController.Button.kLeftBumper.value)
+    // SAMMY DONT FORGET TO CHANGE THIS BACK
+    new JoystickButton(driver, XboxController.Button.kLeftBumper.value)
         .whileActiveOnce(
             new SequentialCommandGroup(
                 new RunCommand(
@@ -191,12 +190,14 @@ public class RobotContainer {
     new JoystickButton(driver, XboxController.Button.kY.value)
         .whenPressed(
             new ParallelCommandGroup(
-                new IntakeSetRollers(robotIntake, Constants.IntakeConstants.typicalRollerRPM),
-                new IntakeSetFourBar(fourBar, Constants.IntakeConstants.extensionPoint)))
+                new IntakeSetRollers(robotIntake, Constants.IntakeConstants.typicalRollerRPM)
+                //       new IntakeSetFourBar(fourBar, Constants.IntakeConstants.extensionPoint)
+                ))
         .whenReleased(
             new ParallelCommandGroup(
-                new IntakeSetRollers(robotIntake, Constants.zero),
-                new IntakeSetFourBar(fourBar, 0)));
+                new IntakeSetRollers(robotIntake, Constants.zero)
+                //     new IntakeSetFourBar(fourBar, 0)
+                ));
 
     // climbSubsystem code - should use X, with manual input from the vertical axis
     // of the second
