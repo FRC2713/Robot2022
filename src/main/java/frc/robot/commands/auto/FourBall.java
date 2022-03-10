@@ -27,8 +27,7 @@ public class FourBall extends SequentialCommandGroup {
           0.0,
           List.of(
               FieldConstants.StartingPoints.tarmacD,
-              FieldConstants.cargoE.transformBy(
-                  Util.Geometry.transformFromTranslation(Units.inchesToMeters(6), 0))),
+              FieldConstants.cargoE),
           0.0,
           Units.feetToMeters(5),
           false);
