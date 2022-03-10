@@ -18,7 +18,7 @@ import frc.robot.util.TunableNumber;
  */
 public final class Constants {
 
-  public static final boolean tuningMode = true;
+  public static final boolean tuningMode = false;
   public static final int zero = 0; // in case you need a zero :)
 
   public static final class RobotMap {
@@ -92,7 +92,7 @@ public final class Constants {
     public static final TunableNumber kP = new TunableNumber("Shooter/kP", 0.00015);
     public static final TunableNumber kFF = new TunableNumber("Shooter/kFF", 0.00034);
     public static final TunableNumber typicalShotSpeed = new TunableNumber("Shooter/Speed", 2400);
-    public static final boolean waitUntilAtSpeed = false;
+    public static final boolean waitUntilAtSpeed = true;
     public static final TunableNumber rampRate = new TunableNumber("Shooter/Ramp Rate", 0.05);
   }
 
