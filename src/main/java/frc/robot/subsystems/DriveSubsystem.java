@@ -48,10 +48,10 @@ public class DriveSubsystem extends SubsystemBase {
     left1.setInverted(true);
     right1.setInverted(false);
 
-    left1.setSmartCurrentLimit(40);
-    right1.setSmartCurrentLimit(40);
+    left1.setSmartCurrentLimit(65);
+    right1.setSmartCurrentLimit(65);
 
-    setHalfBrakeHalfCoast();
+    setAllCoast();
 
     left1.getEncoder().setPositionConversionFactor(Constants.DriveConstants.distPerPulse);
     right1.getEncoder().setPositionConversionFactor(Constants.DriveConstants.distPerPulse);
@@ -152,6 +152,29 @@ public class DriveSubsystem extends SubsystemBase {
 
     this.right1.set(right);
     this.left1.set(left);
+  }
+
+  public void CarDrive(double leftTrigger, double rightTrigger, double turn) {
+    turn = MathUtil.applyDeadband(turn, Constants.DriveConstants.kJoystickTurnDeadzone);
+    turn = turn * turn * Math.signum(turn);
+    if (rightTrigger < leftTrigger) {
+
+      double left = rightTrigger - leftTrigger - turn;
+      double right = rightTrigger - leftTrigger + turn;
+      left = Math.min(1.0, Math.max(-1.0, left));
+      right = Math.max(-1.0, Math.min(1.0, right));
+
+      this.right1.set(right);
+      this.left1.set(left);
+    } else {
+      double left = rightTrigger - leftTrigger + turn;
+      double right = rightTrigger - leftTrigger - turn;
+      left = Math.min(1.0, Math.max(-1.0, left));
+      right = Math.max(-1.0, Math.min(1.0, right));
+
+      this.right1.set(right);
+      this.left1.set(left);
+    }
   }
 
   @Override

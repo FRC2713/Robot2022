@@ -4,10 +4,12 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.DeployIntake;
 import frc.robot.commands.RamsetA;
-import frc.robot.commands.ShootTillEmpty;
+import frc.robot.commands.ShootEverything;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeFourBar;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -25,10 +27,7 @@ public class FourBall extends SequentialCommandGroup {
   private static Trajectory leg1 =
       RamsetA.makeTrajectory(
           0.0,
-          List.of(
-              FieldConstants.StartingPoints.tarmacD,
-              FieldConstants.cargoE.transformBy(
-                  Util.Geometry.transformFromTranslation(Units.inchesToMeters(6), 0))),
+          List.of(FieldConstants.StartingPoints.tarmacD, FieldConstants.cargoE),
           0.0,
           Units.feetToMeters(5),
           false);
@@ -48,6 +47,16 @@ public class FourBall extends SequentialCommandGroup {
           0,
           false);
 
+  private static Trajectory leg4 =
+      RamsetA.makeTrajectory(
+          0,
+          List.of(
+              FieldConstants.cargoG,
+              FieldConstants.StartingPoints.fenderB.transformBy(
+                  Util.Geometry.transformFromTranslation(0, Units.feetToMeters(0)))),
+          0,
+          true);
+
   public FourBall(
       DriveSubsystem driveSubsystem,
       IntakeSubsystem intakeSubsystem,
@@ -56,12 +65,28 @@ public class FourBall extends SequentialCommandGroup {
       SnekSystem snekSystem) {
     addCommands(
         sequence(
-            new DeployIntake(intakeSubsystem, fourBar),
-            RamsetA.RamseteSchmoove(leg1, driveSubsystem),
-            RamsetA.RamseteSchmoove(leg2, driveSubsystem),
-            new ShootTillEmpty(shootSubsystem, snekSystem),
-            RamsetA.RamseteSchmoove(leg3, driveSubsystem),
-            RamsetA.RamseteSchmoove(Util.invertTrajectory(leg3), driveSubsystem)),
-        new ShootTillEmpty(shootSubsystem, snekSystem));
+            new ParallelRaceGroup(
+                new RunCommand(
+                    () -> {
+                      snekSystem.loadSnek();
+                    },
+                    snekSystem),
+                sequence(
+                    new DeployIntake(intakeSubsystem, fourBar),
+                    RamsetA.RamseteSchmoove(leg1, driveSubsystem),
+                    RamsetA.RamseteSchmoove(leg2, driveSubsystem))),
+            new ShootEverything(snekSystem, shootSubsystem),
+            new ParallelRaceGroup(
+                new RunCommand(
+                    () -> {
+                      shootSubsystem.setTargetRPM(0);
+                      snekSystem.loadSnek();
+                    },
+                    snekSystem,
+                    shootSubsystem),
+                sequence(
+                    RamsetA.RamseteSchmoove(leg3, driveSubsystem),
+                    RamsetA.RamseteSchmoove(leg4, driveSubsystem)))),
+        new ShootEverything(snekSystem, shootSubsystem));
   }
 }

@@ -118,10 +118,21 @@ public class Util {
       return new Rotation2d(translation.getX(), translation.getY());
     }
 
-    public static Pose2d offsetDrivetrainFromPose(Pose2d pose) {
+    enum Direction {
+      POSITIVE(1),
+      NEGATIVE(-1);
+
+      double sign;
+
+      Direction(double sign) {
+        this.sign = sign;
+      }
+    }
+
+    public static Pose2d offsetDrivetrainFromPose(Pose2d pose, Direction direction) {
       return pose.transformBy(
           new Transform2d(
-              new Translation2d(Constants.DriveConstants.fullRobotLength / 2, 0),
+              new Translation2d(direction.sign * Constants.DriveConstants.fullRobotLength / 2, 0),
               new Rotation2d()));
     }
 

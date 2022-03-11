@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ClimberSetHeight;
 import frc.robot.commands.IntakeSetFourBar;
 import frc.robot.commands.IntakeSetRollers;
@@ -22,6 +23,8 @@ import frc.robot.subsystems.IntakeFourBar;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShootSubsystem;
 import frc.robot.subsystems.SnekSystem;
+import frc.robot.subsystems.StripSubsystem;
+import frc.robot.subsystems.StripSubsystem.Pattern;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -38,8 +41,8 @@ public class RobotContainer {
   public static final SnekSystem snekSystem = new SnekSystem();
   private final ClimberSubsystem climber = new ClimberSubsystem();
 
-  public final XboxController driver = new XboxController(Constants.zero);
-  public final XboxController operator = new XboxController(1);
+  public static final XboxController driver = new XboxController(Constants.zero);
+  public static final XboxController operator = new XboxController(1);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -60,12 +63,37 @@ public class RobotContainer {
             },
             climber));
 
+    fourBar.setDefaultCommand(
+        new RunCommand(
+            () -> {
+              if (fourBar.getOperatorControlled()) {
+                fourBar.operateFourBar(operator.getLeftX());
+              }
+            },
+            fourBar));
+
     snekSystem.setDefaultCommand(
         new RunCommand(
             () -> {
               snekSystem.loadSnek();
             },
             snekSystem));
+
+    StripSubsystem.getInstance()
+        .setDefaultCommand(
+            new RunCommand(
+                () -> {
+                  if (fourBar.getOperatorControlled()) {
+                    StripSubsystem.getInstance().setColor(Pattern.FireMedium);
+                  } else if (snekSystem.getUpperLimit() && snekSystem.getLowerLimit()) {
+                    StripSubsystem.getInstance().setColor(Pattern.Red);
+                  } else if (snekSystem.getUpperLimit() || snekSystem.getUpperLimit()) {
+                    StripSubsystem.getInstance().setColor(Pattern.StrobeGold);
+                  } else {
+                    StripSubsystem.getInstance().setColor(Pattern.StrobeWhite);
+                  }
+                },
+                StripSubsystem.getInstance()));
 
     // fourBar.setDefaultCommand(
     // new RunCommand(
@@ -113,8 +141,8 @@ public class RobotContainer {
     // snekSystem.setUpperSnekSpeed(operator.getRightTriggerAxis());
     // },
     // snekSystem));
-
-    new JoystickButton(operator, XboxController.Button.kLeftBumper.value)
+    // SAMMY DONT FORGET TO CHANGE THIS BACK
+    new JoystickButton(driver, XboxController.Button.kLeftBumper.value)
         .whileActiveOnce(
             new SequentialCommandGroup(
                 new RunCommand(
@@ -124,10 +152,24 @@ public class RobotContainer {
                         },
                         snekSystem)
                     .withTimeout(0.25),
-                new SetShooterRPM(
-                    shootSubsystem,
-                    Constants.ShooterConstants.typicalShotSpeed.get(),
-                    Constants.ShooterConstants.waitUntilAtSpeed)))
+                new ParallelCommandGroup(
+                    new RunCommand(
+                            () -> {
+                              snekSystem.setLowerSnekSpeed(0);
+                              snekSystem.setUpperSnekSpeed(0);
+                            },
+                            snekSystem)
+                        .withInterrupt(() -> shootSubsystem.closeEnough()),
+                    new SetShooterRPM(
+                        shootSubsystem,
+                        Constants.ShooterConstants.typicalShotSpeed.get(),
+                        Constants.ShooterConstants.waitUntilAtSpeed)),
+                new RunCommand(
+                    () -> {
+                      snekSystem.setUpperSnekSpeed(1.0);
+                      snekSystem.setLowerSnekSpeed(1.0);
+                    },
+                    snekSystem)))
         .whenInactive(
             new SetShooterRPM(
                 shootSubsystem, Constants.zero, Constants.ShooterConstants.waitUntilAtSpeed));
@@ -137,6 +179,14 @@ public class RobotContainer {
     // () -> {
     // shootSubsystem.setTargetRPM(Constants.zero);
     // });
+
+    new Trigger(() -> (operator.getBackButton() && operator.getStartButton()))
+        .whenActive(
+            new InstantCommand(
+                () -> {
+                  fourBar.setOperatorControlled(!fourBar.getOperatorControlled());
+                },
+                fourBar));
 
     new JoystickButton(driver, XboxController.Button.kY.value)
         .whenPressed(
