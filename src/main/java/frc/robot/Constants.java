@@ -78,10 +78,10 @@ public final class Constants {
         new TunableNumber("Intake/Smart Motion Max Acceleration", 1000);
     public static final TunableNumber smartMotionAllowableError =
         new TunableNumber("Intake/Smart Motion Allowable Error", 0.0001);
-    public static final float extensionPoint = 0.03f;
+    public static final float extensionPoint = 0.02f;
 
     public static final int rollerCurrentLimit = 20;
-    public static final double typicalRollerRPM = 2000;
+    public static final double typicalRollerRPM = 2200;
     public static final double rollerRatio = 12.0 / 60.0;
     public static final double maxRollerRpm = 11000 * rollerRatio;
   }
@@ -105,11 +105,11 @@ public final class Constants {
   public static final class AutoConstants {
     // FF and FB gains; NEED TO BE DETERMINED ON THE FULLY BUILT ROBOT, WILL CHANGE
     // WITH WEIGHT
-    public static final double ksVolts = 0.15166; // 0.20541;
-    public static final double kvVoltSecondsPerMeter = 2.5108; // 2.4361;
-    public static final double kaVoltSecondsSquaredPerMeter = 0.34944; // 0.25946;
+    public static final double ksVolts = 0.15161; // 0.15166; // 0.20541;
+    public static final double kvVoltSecondsPerMeter = 2.511; // 2.5108; // 2.4361;
+    public static final double kaVoltSecondsSquaredPerMeter = 0.34892; // 0.34944; // 0.25946;
 
-    public static final double kPDriveVel = 2.9805; // 3.95;
+    public static final double kPDriveVel = 5.7664; // 2.9805; // 3.95;
 
     // more kinematics stuff
     public static final double trackWidth = Units.inchesToMeters(22);
@@ -123,9 +123,9 @@ public final class Constants {
     public static final double RamseteB = 2;
 
     // Max speeds
-    public static final double maxSpeed = Units.feetToMeters(2);
-    public static final double maxAccel = Units.feetToMeters(2);
-    public static final double maxVoltageApplied = 3;
+    public static final double maxSpeed = Units.feetToMeters(10);
+    public static final double maxAccel = Units.feetToMeters(10);
+    public static final double maxVoltageApplied = 10;
   }
 
   public static final class ClimberConstants {
