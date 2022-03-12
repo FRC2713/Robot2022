@@ -47,6 +47,20 @@ public class IntakeFourBar extends SubsystemBase {
     setOperatorControlled(false);
   }
 
+  public void disablePID() {
+    fourBar.getPIDController().setP(0);
+    fourBar.getPIDController().setI(0);
+    fourBar.getPIDController().setD(0);
+    fourBar.getPIDController().setFF(0);
+  }
+
+  public void enablePID() {
+    fourBar.getPIDController().setP(Constants.IntakeConstants.kP.get());
+    fourBar.getPIDController().setI(0);
+    fourBar.getPIDController().setD(0);
+    fourBar.getPIDController().setFF(Constants.IntakeConstants.kF.get());
+  }
+
   public void setFourBarPosition(double position) {
     fourBar.getPIDController().setReference(position, CANSparkMax.ControlType.kSmartMotion);
   }
@@ -55,7 +69,12 @@ public class IntakeFourBar extends SubsystemBase {
     fourBar.set(input / 10.0);
   }
 
+  public double getFourBarMotorCurrent() {
+    return fourBar.getOutputCurrent();
+  }
+
   public void setFourBarMotor(double speed) {
+    fourBar.getPIDController();
     fourBar.set(speed);
   }
 

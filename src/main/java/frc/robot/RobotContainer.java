@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ClimberSetHeight;
+import frc.robot.commands.IntakeExtendToLimit;
 import frc.robot.commands.IntakeSetFourBar;
 import frc.robot.commands.IntakeSetRollers;
 import frc.robot.commands.SetShooterRPM;
@@ -192,7 +193,7 @@ public class RobotContainer {
         .whenPressed(
             new ParallelCommandGroup(
                 new IntakeSetRollers(robotIntake, Constants.IntakeConstants.typicalRollerRPM),
-                new IntakeSetFourBar(fourBar, Constants.IntakeConstants.extensionPoint)))
+                new IntakeExtendToLimit(fourBar, .3, 25)))
         .whenReleased(
             new ParallelCommandGroup(
                 new IntakeSetRollers(robotIntake, Constants.zero),
