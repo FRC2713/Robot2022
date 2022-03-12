@@ -93,11 +93,21 @@ public class IntakeFourBar extends SubsystemBase {
       fourBar.enableSoftLimit(SoftLimitDirection.kReverse, false);
     } else {
       zero();
-      fourBar.enableSoftLimit(SoftLimitDirection.kForward, true);
-      fourBar.enableSoftLimit(SoftLimitDirection.kReverse, true);
-      fourBar.setSoftLimit(SoftLimitDirection.kForward, Constants.IntakeConstants.extensionPoint);
-      fourBar.setSoftLimit(SoftLimitDirection.kReverse, Constants.zero);
+      // fourBar.enableSoftLimit(SoftLimitDirection.kForward, true);
+      // fourBar.enableSoftLimit(SoftLimitDirection.kReverse, true);
+      // fourBar.setSoftLimit(SoftLimitDirection.kForward,
+      // Constants.IntakeConstants.extensionPoint);
+      // fourBar.setSoftLimit(SoftLimitDirection.kReverse, Constants.zero);
     }
+  }
+
+  public void retractFourBar() {
+    double position = fourBar.getEncoder().getPosition();
+    this.setFourBarPosition(position - Constants.IntakeConstants.extensionPoint);
+  }
+
+  public double getHomePosition() {
+    return (fourBar.getEncoder().getPosition() - Constants.IntakeConstants.extensionPoint);
   }
 
   @Override

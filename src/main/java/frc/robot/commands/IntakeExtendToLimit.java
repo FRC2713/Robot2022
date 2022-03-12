@@ -20,7 +20,6 @@ public class IntakeExtendToLimit extends CommandBase {
   @Override
   public void initialize() {
     this.intake.setOperatorControlled(true);
-    this.intake.disablePID();
     this.intake.setFourBarMotor(this.motorSpeed);
   }
 
@@ -35,6 +34,5 @@ public class IntakeExtendToLimit extends CommandBase {
   public void end(boolean interrupted) {
     this.intake.setFourBarMotor(0);
     this.intake.setOperatorControlled(false);
-    this.intake.enablePID();
   }
 }

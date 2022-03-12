@@ -197,7 +197,7 @@ public class RobotContainer {
         .whenReleased(
             new ParallelCommandGroup(
                 new IntakeSetRollers(robotIntake, Constants.zero),
-                new IntakeSetFourBar(fourBar, 0)));
+                new IntakeSetFourBar(fourBar, fourBar.getHomePosition())));
 
     // climbSubsystem code - should use X, with manual input from the vertical axis
     // of the second
