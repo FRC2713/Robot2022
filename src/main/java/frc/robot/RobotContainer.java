@@ -14,10 +14,12 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ClimberSetHeight;
+import frc.robot.commands.FinishShot;
 import frc.robot.commands.IntakeExtendToLimit;
 import frc.robot.commands.IntakeSetFourBar;
 import frc.robot.commands.IntakeSetRollers;
-import frc.robot.commands.SetShooterRPM;
+import frc.robot.commands.LoadSnek;
+import frc.robot.commands.PrepShot;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeFourBar;
@@ -73,12 +75,7 @@ public class RobotContainer {
             },
             fourBar));
 
-    snekSystem.setDefaultCommand(
-        new RunCommand(
-            () -> {
-              snekSystem.loadSnek();
-            },
-            snekSystem));
+    snekSystem.setDefaultCommand(new LoadSnek(snekSystem));
 
     StripSubsystem.getInstance()
         .setDefaultCommand(
@@ -146,34 +143,7 @@ public class RobotContainer {
     new JoystickButton(driver, XboxController.Button.kLeftBumper.value)
         .whileActiveOnce(
             new SequentialCommandGroup(
-                new RunCommand(
-                        () -> {
-                          snekSystem.setUpperSnekSpeed(-0.4);
-                          snekSystem.setLowerSnekSpeed(-0.1);
-                        },
-                        snekSystem)
-                    .withTimeout(0.25),
-                new ParallelCommandGroup(
-                    new RunCommand(
-                            () -> {
-                              snekSystem.setLowerSnekSpeed(0);
-                              snekSystem.setUpperSnekSpeed(0);
-                            },
-                            snekSystem)
-                        .withInterrupt(() -> shootSubsystem.closeEnough()),
-                    new SetShooterRPM(
-                        shootSubsystem,
-                        Constants.ShooterConstants.typicalShotSpeed.get(),
-                        Constants.ShooterConstants.waitUntilAtSpeed)),
-                new RunCommand(
-                    () -> {
-                      snekSystem.setUpperSnekSpeed(1.0);
-                      snekSystem.setLowerSnekSpeed(1.0);
-                    },
-                    snekSystem)))
-        .whenInactive(
-            new SetShooterRPM(
-                shootSubsystem, Constants.zero, Constants.ShooterConstants.waitUntilAtSpeed));
+                new PrepShot(shootSubsystem, snekSystem, true), new FinishShot(snekSystem)));
 
     // new JoystickButton(driver, XboxController.Button.kB.value)
     // .whenPressed(

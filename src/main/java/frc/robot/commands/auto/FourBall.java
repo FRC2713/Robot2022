@@ -5,9 +5,9 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.DeployIntake;
+import frc.robot.commands.LoadSnek;
 import frc.robot.commands.RamsetA;
 import frc.robot.commands.ShootEverything;
 import frc.robot.subsystems.DriveSubsystem;
@@ -66,24 +66,14 @@ public class FourBall extends SequentialCommandGroup {
     addCommands(
         sequence(
             new ParallelRaceGroup(
-                new RunCommand(
-                    () -> {
-                      snekSystem.loadSnek();
-                    },
-                    snekSystem),
+                new LoadSnek(snekSystem),
                 sequence(
                     new DeployIntake(intakeSubsystem, fourBar),
                     RamsetA.RamseteSchmoove(leg1, driveSubsystem),
                     RamsetA.RamseteSchmoove(leg2, driveSubsystem))),
             new ShootEverything(snekSystem, shootSubsystem),
             new ParallelRaceGroup(
-                new RunCommand(
-                    () -> {
-                      shootSubsystem.setTargetRPM(0);
-                      snekSystem.loadSnek();
-                    },
-                    snekSystem,
-                    shootSubsystem),
+                new LoadSnek(snekSystem),
                 sequence(
                     RamsetA.RamseteSchmoove(leg3, driveSubsystem),
                     RamsetA.RamseteSchmoove(leg4, driveSubsystem)))),
