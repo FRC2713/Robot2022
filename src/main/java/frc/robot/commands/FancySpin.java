@@ -24,7 +24,7 @@ public class FancySpin extends CommandBase {
     drive.GTADrive(0, 0, turnSpeed);
     count++;
     //untested might be too fast
-    turnSpeed = -(1/324) * Math.pow((count-18), 2) + 1;
+    turnSpeed = -(0.4/324) * Math.pow((count-18), 2) + 0.4;
   }
 
   @Override

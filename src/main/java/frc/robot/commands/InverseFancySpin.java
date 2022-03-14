@@ -23,7 +23,7 @@ public class InverseFancySpin extends CommandBase {
     public void execute() {
         drive.GTADrive(0, 0, turnSpeed);
         count++;
-        turnSpeed = (1/324) * Math.pow((count-18), 2);
+        turnSpeed = (0.4/324) * Math.pow((count-18), 2);
     }
 
     @Override
