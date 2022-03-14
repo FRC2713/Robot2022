@@ -22,6 +22,7 @@ public class ShootEverything extends SequentialCommandGroup {
         // },
         // snekSystem)
         // .withTimeout(0.25),
-        new PrepShot(shootSubsystem, snekSystem, false), new FinishShot(snekSystem));
+        new PrepShot(shootSubsystem, snekSystem, false),
+        new FinishShot(snekSystem, shootSubsystem));
   }
 }

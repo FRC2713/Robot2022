@@ -76,6 +76,7 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
+    RobotContainer.driveSubsystem.setHalfBrakeHalfCoast();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
@@ -89,6 +90,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    RobotContainer.driveSubsystem.setAllCoast();
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
@@ -106,7 +108,6 @@ public class Robot extends TimedRobot {
       // RobotContainer.driver.setRumble(RumbleType.kLeftRumble, 0.5);
       // RobotContainer.driver.setRumble(RumbleType.kRightRumble, 0.5);
     } else {
-
       RobotContainer.driver.setRumble(RumbleType.kLeftRumble, 0);
       RobotContainer.driver.setRumble(RumbleType.kRightRumble, 0);
     }

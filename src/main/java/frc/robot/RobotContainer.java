@@ -20,6 +20,8 @@ import frc.robot.commands.IntakeSetFourBar;
 import frc.robot.commands.IntakeSetRollers;
 import frc.robot.commands.LoadSnek;
 import frc.robot.commands.PrepShot;
+import frc.robot.commands.SetShooterRPM;
+import frc.robot.commands.SetSnekSpeed;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeFourBar;
@@ -82,13 +84,13 @@ public class RobotContainer {
             new RunCommand(
                 () -> {
                   if (fourBar.getOperatorControlled()) {
-                    StripSubsystem.getInstance().setColor(Pattern.FireMedium);
+                    StripSubsystem.getInstance().setColor(Pattern.TwinklesRainbow);
                   } else if (snekSystem.getUpperLimit() && snekSystem.getLowerLimit()) {
-                    StripSubsystem.getInstance().setColor(Pattern.Red);
+                    StripSubsystem.getInstance().setColor(Pattern.Green);
                   } else if (snekSystem.getUpperLimit() || snekSystem.getUpperLimit()) {
-                    StripSubsystem.getInstance().setColor(Pattern.StrobeGold);
+                    StripSubsystem.getInstance().setColor(Pattern.HeartbeatWhite);
                   } else {
-                    StripSubsystem.getInstance().setColor(Pattern.StrobeWhite);
+                    StripSubsystem.getInstance().setColor(Pattern.Color1LightChase);
                   }
                 },
                 StripSubsystem.getInstance()));
@@ -143,7 +145,11 @@ public class RobotContainer {
     new JoystickButton(driver, XboxController.Button.kLeftBumper.value)
         .whileActiveOnce(
             new SequentialCommandGroup(
-                new PrepShot(shootSubsystem, snekSystem, true), new FinishShot(snekSystem)));
+                new PrepShot(shootSubsystem, snekSystem, true),
+                new FinishShot(snekSystem, shootSubsystem)))
+        .whenInactive(
+            new ParallelCommandGroup(
+                new SetSnekSpeed(snekSystem, 0, 0), new SetShooterRPM(shootSubsystem, 0, false)));
 
     // new JoystickButton(driver, XboxController.Button.kB.value)
     // .whenPressed(

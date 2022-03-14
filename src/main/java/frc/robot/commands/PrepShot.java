@@ -5,25 +5,33 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.subsystems.ShootSubsystem;
 import frc.robot.subsystems.SnekSystem;
 
-public class PrepShot extends ParallelCommandGroup {
+public class PrepShot extends SequentialCommandGroup {
 
   /** Creates a new PrepShot. */
   public PrepShot(ShootSubsystem shootSubsystem, SnekSystem snekSystem, boolean shouldRollback) {
     if (shouldRollback) {
       addCommands(
-          new SetSnekSpeed(snekSystem, -0.4, -0.1)
-              .withInterrupt(() -> shootSubsystem.closeEnough()),
-          new SetShooterRPM(
-              shootSubsystem,
-              Constants.ShooterConstants.typicalShotSpeed.get(),
-              Constants.ShooterConstants.waitUntilAtSpeed));
+          new SetSnekSpeed(
+                  snekSystem,
+                  Constants.SnekConstants.upperReversePower,
+                  Constants.SnekConstants.lowerReversePower)
+              .perpetually()
+              .withTimeout(Constants.SnekConstants.reverseDuration),
+          new ParallelCommandGroup(
+              new SetSnekSpeed(snekSystem, 0, 0).withInterrupt(shootSubsystem::closeEnough),
+              new SetShooterRPM(
+                  shootSubsystem,
+                  Constants.ShooterConstants.typicalShotSpeed.get(),
+                  Constants.ShooterConstants.waitUntilAtSpeed)));
     } else {
       addCommands(
-          new SetSnekSpeed(snekSystem, 0, 0).withInterrupt(() -> shootSubsystem.closeEnough()),
+          // new SetSnekSpeed(snekSystem, 0, 0).withInterrupt(() ->
+          // shootSubsystem.closeEnough()),
           new SetShooterRPM(
               shootSubsystem,
               Constants.ShooterConstants.typicalShotSpeed.get(),
