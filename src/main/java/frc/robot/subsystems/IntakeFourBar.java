@@ -12,6 +12,7 @@ import frc.robot.util.TunableNumber;
 public class IntakeFourBar extends SubsystemBase {
 
   private CANSparkMax fourBar;
+  private CANSparkMax fourBarSecondary;
   private TunableNumber tuningSetpoint = new TunableNumber("Intake/Tuning Setpoint", 0);
 
   private boolean operatorControlled = false;
@@ -21,13 +22,20 @@ public class IntakeFourBar extends SubsystemBase {
   public IntakeFourBar() {
     fourBar = new CANSparkMax(Constants.RobotMap.intakeMotorFourBar, MotorType.kBrushless);
 
+    fourBarSecondary = new CANSparkMax(Constants.RobotMap.intakeMotorola, MotorType.kBrushless);
+
     fourBar.restoreFactoryDefaults();
+    fourBarSecondary.restoreFactoryDefaults();
 
     fourBar.setInverted(false);
+
+    fourBarSecondary.follow(fourBar, true);
 
     fourBar.setSmartCurrentLimit((int) Constants.IntakeConstants.fourBarCurrentLimit.get());
 
     fourBar.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    fourBarSecondary.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    
     fourBar
         .getPIDController()
         .setSmartMotionMaxVelocity(Constants.IntakeConstants.smartMotionMaxVelocity.get(), 0);

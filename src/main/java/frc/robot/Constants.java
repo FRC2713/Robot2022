@@ -33,13 +33,14 @@ public final class Constants {
     public static final int flywheelRightPort = 6;
 
     public static final int intakeMotorRollers = 7;
-    public static final int intakeMotorFourBar = 8;
+    public static final int intakeMotorola = 8;
+    public static final int intakeMotorFourBar = 9;
 
-    public static final int lowerSnek = 9;
-    public static final int upperSnek = 10;
+    public static final int lowerSnek = 10;
+    public static final int upperSnek = 11;
 
-    public static final int climberMotorRight = 11;
-    public static final int climberMotorLeft = 12;
+    public static final int climberMotorRight = 12;
+    public static final int climberMotorLeft = 13;
 
     // DIO
 
