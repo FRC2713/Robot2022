@@ -38,7 +38,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public boolean getCurrentIsHigh() {
-    return currentIsHigh.calculate(rollers.getOutputCurrent() > 10);
+    return currentIsHigh.calculate(rollers.getOutputCurrent() > Constants.IntakeConstants.rollerTypicalCurrent);
   }
 
   @Override
