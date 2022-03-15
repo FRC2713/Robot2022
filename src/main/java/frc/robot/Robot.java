@@ -21,7 +21,7 @@ import frc.robot.commands.auto.FourBall;
  */
 public class Robot extends TimedRobot {
 
-  private RobotContainer m_robotContainer = new RobotContainer();
+  // private RobotContainer m_robotContainer = new RobotContainer();
 
   private Command m_autonomousCommand =
       new FourBall(
@@ -104,9 +104,9 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     // hello!
-    if (RobotContainer.snekSystem.getUpperLimit()) {
-      // RobotContainer.driver.setRumble(RumbleType.kLeftRumble, 0.5);
-      // RobotContainer.driver.setRumble(RumbleType.kRightRumble, 0.5);
+    if (RobotContainer.robotIntake.getCurrentIsHigh()) {
+       RobotContainer.driver.setRumble(RumbleType.kLeftRumble, 0.5);
+       RobotContainer.driver.setRumble(RumbleType.kRightRumble, 0.5);
     } else {
       RobotContainer.driver.setRumble(RumbleType.kLeftRumble, 0);
       RobotContainer.driver.setRumble(RumbleType.kRightRumble, 0);

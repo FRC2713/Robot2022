@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ClimberSetHeight;
 import frc.robot.commands.FinishShot;
-import frc.robot.commands.IntakeExtendToLimit;
 import frc.robot.commands.IntakeSetFourBar;
 import frc.robot.commands.IntakeSetRollers;
 import frc.robot.commands.LoadSnek;
@@ -169,11 +168,11 @@ public class RobotContainer {
         .whenPressed(
             new ParallelCommandGroup(
                 new IntakeSetRollers(robotIntake, Constants.IntakeConstants.typicalRollerRPM),
-                new IntakeExtendToLimit(fourBar, .3, 25)))
+                new IntakeSetFourBar(fourBar, Constants.IntakeConstants.extensionPoint)))
         .whenReleased(
             new ParallelCommandGroup(
                 new IntakeSetRollers(robotIntake, Constants.zero),
-                new IntakeSetFourBar(fourBar, fourBar.getHomePosition())));
+                new IntakeSetFourBar(fourBar, Constants.zero)));
 
     // climbSubsystem code - should use X, with manual input from the vertical axis
     // of the second

@@ -10,6 +10,8 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -18,6 +20,8 @@ import frc.robot.Constants.RobotMap;
 public class IntakeSubsystem extends SubsystemBase {
 
   private CANSparkMax rollers;
+
+  private Debouncer currentIsHigh = new Debouncer(1); // 1 second
 
   public IntakeSubsystem() {
     rollers = new CANSparkMax(RobotMap.intakeMotorRollers, MotorType.kBrushless);
@@ -31,6 +35,10 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public void setRollerRPM(double rpm) {
     rollers.set(rpm / Constants.IntakeConstants.maxRollerRpm);
+  }
+
+  public boolean getCurrentIsHigh() {
+    return currentIsHigh.calculate(rollers.getOutputCurrent() > 10);
   }
 
   @Override

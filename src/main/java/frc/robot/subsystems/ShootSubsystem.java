@@ -4,7 +4,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel;
-import edu.wpi.first.math.controller.BangBangController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -17,7 +16,7 @@ public class ShootSubsystem extends SubsystemBase {
   private CANSparkMax fly2 =
       new CANSparkMax(
           Constants.RobotMap.flywheelRightPort, CANSparkMaxLowLevel.MotorType.kBrushless);
-  private BangBangController bangbang = new BangBangController(10); // Margin of error/tolerance
+  // private BangBangController bangbang = new BangBangController(10); // Margin of error/tolerance
   public FlywheelControl flywheelMode = FlywheelControl.PID;
   private double rpmSetpoint = 0;
 
