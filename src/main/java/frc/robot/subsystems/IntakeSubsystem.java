@@ -10,7 +10,6 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -38,7 +37,8 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public boolean getCurrentIsHigh() {
-    return currentIsHigh.calculate(rollers.getOutputCurrent() > Constants.IntakeConstants.rollerTypicalCurrent);
+    return currentIsHigh.calculate(
+        rollers.getOutputCurrent() > Constants.IntakeConstants.rollerTypicalCurrent);
   }
 
   @Override

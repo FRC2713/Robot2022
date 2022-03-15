@@ -16,7 +16,6 @@ public class IntakeFourBar extends SubsystemBase {
 
   private boolean operatorControlled = false;
 
-
   public IntakeFourBar() {
     fourBar = new CANSparkMax(Constants.RobotMap.intakeMotorFourBar, MotorType.kBrushless);
 
@@ -33,7 +32,7 @@ public class IntakeFourBar extends SubsystemBase {
 
     fourBar.setIdleMode(CANSparkMax.IdleMode.kBrake);
     fourBarSecondary.setIdleMode(CANSparkMax.IdleMode.kBrake);
-    
+
     fourBar
         .getPIDController()
         .setSmartMotionMaxVelocity(Constants.IntakeConstants.smartMotionMaxVelocity.get(), 0);
