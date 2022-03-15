@@ -75,10 +75,10 @@ public class RobotContainer {
                 () -> {
                   if (snekSystem.getUpperLimit() && snekSystem.getLowerLimit()) {
                     strip.setColor(Pattern.White);
-                  } else if (snekSystem.getUpperLimit()) {
+                  } else if (snekSystem.getUpperLimit() || snekSystem.getLowerLimit()) {
                       strip.setColor(Pattern.Yellow);
-                  } else if(snekSystem.getLowerLimit()) {
-                      strip.setColor(Pattern.Green);
+                  } else if(Constants.ClimberConstants.midHeight + 2 >= climber.getLeftHeight() && climber.getLeftHeight()  >= Constants.ClimberConstants.midHeight - 2){
+                      strip.setColor(Pattern.Lime);
                   } else {
                       strip.setAllianceColor(strip);
                   }
