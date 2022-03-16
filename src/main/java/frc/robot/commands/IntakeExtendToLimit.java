@@ -25,7 +25,7 @@ public class IntakeExtendToLimit extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    double fourBarCurrent = this.intake.getFourBarMotorCurrent();
+    double fourBarCurrent = this.intake.getFilteredFourBarMotorCurrent();
     // SmartDashboard.putNumber("IntakeFourBarCurrent", fourBarCurrent);
     return fourBarCurrent > this.currentLimit;
   }
