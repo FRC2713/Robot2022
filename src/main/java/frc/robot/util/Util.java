@@ -130,9 +130,15 @@ public class Util {
     }
 
     public static Pose2d offsetDrivetrainFromPose(Pose2d pose, Direction direction) {
+      return offsetDrivetrainFromPose(pose, direction, 0);
+    }
+
+    public static Pose2d offsetDrivetrainFromPose(
+        Pose2d pose, Direction direction, double fudgeFactor) {
       return pose.transformBy(
           new Transform2d(
-              new Translation2d(direction.sign * Constants.DriveConstants.fullRobotLength / 2, 0),
+              new Translation2d(
+                  direction.sign * Constants.DriveConstants.fullRobotLength / 2 + fudgeFactor, 0),
               new Rotation2d()));
     }
 

@@ -16,7 +16,8 @@ public class IntakeFourBar extends SubsystemBase {
 
   private boolean operatorControlled = false;
 
-  private LinearFilter currentFilter = LinearFilter.singlePoleIIR(0.1, 0.02);
+  // private LinearFilter currentFilter = LinearFilter.singlePoleIIR(0.25, 0.02);
+  private LinearFilter currentFilter = LinearFilter.movingAverage(10);
   private double currentAmperage = 0;
 
   public IntakeFourBar() {
@@ -126,11 +127,16 @@ public class IntakeFourBar extends SubsystemBase {
     return (fourBar.getEncoder().getPosition() - Constants.IntakeConstants.extensionPoint);
   }
 
+  public double getVelocity() {
+    return fourBar.getEncoder().getVelocity();
+  }
+
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Intake/Four Bar Position", fourBar.getEncoder().getPosition());
     SmartDashboard.putNumber("Intake/Four Bar Current Draw", fourBar.getOutputCurrent());
     currentAmperage = currentFilter.calculate(getUnfilteredFourBarMotorCurrent());
+    SmartDashboard.putNumber("Intake/Filtered Current", currentAmperage);
 
     if (Constants.tuningMode) {
       fourBar.setSmartCurrentLimit((int) Constants.IntakeConstants.fourBarCurrentLimit.get());

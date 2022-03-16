@@ -123,7 +123,8 @@ public class FieldConstants {
           terminalCenter.transformBy(
               new Transform2d(
                   new Translation2d(terminalCargoOffset, 0), Rotation2d.fromDegrees(180))),
-          Direction.NEGATIVE);
+          Direction.NEGATIVE,
+          Units.inchesToMeters(6));
 
   // Starting points
   public static class StartingPoints {
@@ -134,7 +135,13 @@ public class FieldConstants {
     public static final Pose2d tarmacC =
         referenceC.transformBy(Util.Geometry.transformFromTranslation(-0.5, -0.1));
     public static final Pose2d tarmacD =
-        referenceD.transformBy(Util.Geometry.transformFromTranslation(-0.5, -0.7));
+        // referenceD.transformBy(Util.Geometry.transformFromTranslation(-0.5, -0.7));
+        Util.Geometry.offsetDrivetrainFromPose(
+            new Pose2d(
+                new Translation2d(
+                    cargoE.getTranslation().getX(), referenceD.getTranslation().getY()),
+                cargoE.getRotation()),
+            Direction.NEGATIVE);
 
     public static final Pose2d fenderA =
         Util.Geometry.offsetDrivetrainFromPose(FieldConstants.fenderA, Direction.POSITIVE);

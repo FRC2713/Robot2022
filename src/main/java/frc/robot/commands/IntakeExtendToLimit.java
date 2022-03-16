@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.IntakeFourBar;
@@ -8,6 +9,7 @@ public class IntakeExtendToLimit extends CommandBase {
   private final IntakeFourBar intake;
   private double currentLimit = 0;
   private double motorSpeed = 0;
+  private Debouncer currentIsHigh = new Debouncer(0.25);
 
   public IntakeExtendToLimit(IntakeFourBar fourBar, double speed, double currentLim) {
     this.intake = fourBar;
@@ -26,8 +28,11 @@ public class IntakeExtendToLimit extends CommandBase {
   @Override
   public boolean isFinished() {
     double fourBarCurrent = this.intake.getFilteredFourBarMotorCurrent();
+    boolean isHighCurrent = this.currentIsHigh.calculate(fourBarCurrent > 10);
+    boolean isMoving = this.intake.getVelocity() > 0;
     // SmartDashboard.putNumber("IntakeFourBarCurrent", fourBarCurrent);
-    return fourBarCurrent > this.currentLimit;
+    // return fourBarCurrent > this.currentLimit;
+    return isHighCurrent;
   }
 
   @Override

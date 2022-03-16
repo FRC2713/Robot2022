@@ -10,12 +10,12 @@ import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
+import frc.robot.commands.FinishShot;
 import frc.robot.commands.IntakeExtendToLimit;
 import frc.robot.commands.IntakeSetRollers;
 import frc.robot.commands.LoadSnek;
 import frc.robot.commands.RamsetA;
 import frc.robot.commands.SetShooterRPM;
-import frc.robot.commands.SetSnekSpeed;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeFourBar;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -63,8 +63,8 @@ public class FourBall extends SequentialCommandGroup {
           0,
           true);
 
-  public static Command scoreAllBalls(SnekSystem snekSystem) {
-    return new SetSnekSpeed(snekSystem, 1.0, 1.0);
+  public static Command scoreAllBalls(SnekSystem snekSystem, ShootSubsystem shootSubsystem) {
+    return new FinishShot(snekSystem, shootSubsystem);
   }
 
   public FourBall(
@@ -107,10 +107,10 @@ public class FourBall extends SequentialCommandGroup {
     addCommands(
         driveToFirstBallAndPickUp,
         driveToHubFromFirstBall,
-        scoreAllBalls(snekSystem),
+        scoreAllBalls(snekSystem, shootSubsystem),
         driveThroughThirdBallToFourth,
         driveToHubAgain,
-        scoreAllBalls(snekSystem));
+        scoreAllBalls(snekSystem, shootSubsystem));
 
     // addCommands(
     // new ParallelCommandGroup(
