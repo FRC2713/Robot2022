@@ -4,14 +4,18 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Constants;
 import frc.robot.commands.IntakeExtendToLimit;
+import frc.robot.commands.IntakeSetRollers;
 import frc.robot.commands.LoadSnek;
 import frc.robot.commands.RamsetA;
-import frc.robot.commands.ShootEverything;
+import frc.robot.commands.SetShooterRPM;
+import frc.robot.commands.SetSnekSpeed;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeFourBar;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -65,21 +69,62 @@ public class FourBall extends SequentialCommandGroup {
       IntakeFourBar fourBar,
       ShootSubsystem shootSubsystem,
       SnekSystem snekSystem) {
+
+    Command driveToFirstBallAndPickUp =
+        new ParallelDeadlineGroup(
+            RamsetA.RamseteSchmoove(leg1, driveSubsystem),
+            new IntakeExtendToLimit(fourBar, 0.25, 15),
+            new IntakeSetRollers(intakeSubsystem, Constants.IntakeConstants.typicalRollerRPM),
+            new LoadSnek(snekSystem));
+
+    Command driveToHubFromFirstBall =
+        new ParallelRaceGroup(
+            new ParallelCommandGroup(
+                new SetShooterRPM(
+                    shootSubsystem, Constants.ShooterConstants.typicalShotSpeed.get(), true),
+                RamsetA.RamseteSchmoove(leg2, driveSubsystem)),
+            new LoadSnek(snekSystem));
+
+    Command scoreAllBalls = new SetSnekSpeed(snekSystem, 1.0, 1.0);
+
+    Command driveThroughThirdBallToFourth =
+        new ParallelDeadlineGroup(
+            RamsetA.RamseteSchmoove(leg3, driveSubsystem),
+            new LoadSnek(snekSystem),
+            new SetShooterRPM(
+                shootSubsystem, Constants.ShooterConstants.typicalShotSpeed.get(), true));
+
+    Command driveToHubAgain =
+        new ParallelRaceGroup(
+            new ParallelCommandGroup(
+                new SetShooterRPM(
+                    shootSubsystem, Constants.ShooterConstants.typicalShotSpeed.get(), true),
+                RamsetA.RamseteSchmoove(leg4, driveSubsystem)),
+            new LoadSnek(snekSystem));
+
     addCommands(
-        new ParallelCommandGroup(
-            new IntakeExtendToLimit(fourBar, 0.25, 15).perpetually(),
-            sequence(
-                new ParallelDeadlineGroup(
-                    sequence(
-                        RamsetA.RamseteSchmoove(leg1, driveSubsystem),
-                        RamsetA.RamseteSchmoove(leg2, driveSubsystem)),
-                    new LoadSnek(snekSystem))),
-            new ShootEverything(snekSystem, shootSubsystem),
-            new ParallelRaceGroup(
-                new LoadSnek(snekSystem),
-                sequence(
-                    RamsetA.RamseteSchmoove(leg3, driveSubsystem),
-                    RamsetA.RamseteSchmoove(leg4, driveSubsystem))),
-            new ShootEverything(snekSystem, shootSubsystem)));
+        driveToFirstBallAndPickUp,
+        driveToHubFromFirstBall,
+        scoreAllBalls,
+        driveThroughThirdBallToFourth,
+        driveToHubAgain,
+        scoreAllBalls);
+
+    // addCommands(
+    // new ParallelCommandGroup(
+    // new IntakeExtendToLimit(fourBar, 0.25, 15).perpetually(),
+    // sequence(
+    // new ParallelDeadlineGroup(
+    // sequence(
+    // RamsetA.RamseteSchmoove(leg1, driveSubsystem),
+    // RamsetA.RamseteSchmoove(leg2, driveSubsystem)),
+    // new LoadSnek(snekSystem))),
+    // new ShootEverything(snekSystem, shootSubsystem),
+    // new ParallelRaceGroup(
+    // new LoadSnek(snekSystem),
+    // sequence(
+    // RamsetA.RamseteSchmoove(leg3, driveSubsystem),
+    // RamsetA.RamseteSchmoove(leg4, driveSubsystem))),
+    // new ShootEverything(snekSystem, shootSubsystem)));
   }
 }
