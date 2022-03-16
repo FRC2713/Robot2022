@@ -3,7 +3,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import edu.wpi.first.math.filter.Debouncer;
+import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -16,7 +16,8 @@ public class IntakeFourBar extends SubsystemBase {
 
   private boolean operatorControlled = false;
 
-  private Debouncer currentIsHigh = new Debouncer(1); // 1 second
+  private LinearFilter currentFilter = LinearFilter.singlePoleIIR(0.1, 0.02);
+  private double currentAmperage = 0;
 
   public IntakeFourBar() {
     fourBar = new CANSparkMax(Constants.RobotMap.intakeMotorFourBar, MotorType.kBrushless);
@@ -72,7 +73,11 @@ public class IntakeFourBar extends SubsystemBase {
     fourBar.set(input / 10.0);
   }
 
-  public double getFourBarMotorCurrent() {
+  public double getFilteredFourBarMotorCurrent() {
+    return currentAmperage;
+  }
+
+  private double getUnfilteredFourBarMotorCurrent() {
     return fourBar.getOutputCurrent();
   }
 
@@ -125,6 +130,7 @@ public class IntakeFourBar extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber("Intake/Four Bar Position", fourBar.getEncoder().getPosition());
     SmartDashboard.putNumber("Intake/Four Bar Current Draw", fourBar.getOutputCurrent());
+    currentAmperage = currentFilter.calculate(getUnfilteredFourBarMotorCurrent());
 
     if (Constants.tuningMode) {
       fourBar.setSmartCurrentLimit((int) Constants.IntakeConstants.fourBarCurrentLimit.get());

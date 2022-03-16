@@ -63,6 +63,10 @@ public class FourBall extends SequentialCommandGroup {
           0,
           true);
 
+  public static Command scoreAllBalls(SnekSystem snekSystem) {
+    return new SetSnekSpeed(snekSystem, 1.0, 1.0);
+  }
+
   public FourBall(
       DriveSubsystem driveSubsystem,
       IntakeSubsystem intakeSubsystem,
@@ -85,8 +89,6 @@ public class FourBall extends SequentialCommandGroup {
                 RamsetA.RamseteSchmoove(leg2, driveSubsystem)),
             new LoadSnek(snekSystem));
 
-    Command scoreAllBalls = new SetSnekSpeed(snekSystem, 1.0, 1.0);
-
     Command driveThroughThirdBallToFourth =
         new ParallelDeadlineGroup(
             RamsetA.RamseteSchmoove(leg3, driveSubsystem),
@@ -105,10 +107,10 @@ public class FourBall extends SequentialCommandGroup {
     addCommands(
         driveToFirstBallAndPickUp,
         driveToHubFromFirstBall,
-        scoreAllBalls,
+        scoreAllBalls(snekSystem),
         driveThroughThirdBallToFourth,
         driveToHubAgain,
-        scoreAllBalls);
+        scoreAllBalls(snekSystem));
 
     // addCommands(
     // new ParallelCommandGroup(
