@@ -4,9 +4,11 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.DeployIntake;
+import frc.robot.commands.IntakeExtendToLimit;
 import frc.robot.commands.LoadSnek;
 import frc.robot.commands.RamsetA;
 import frc.robot.commands.ShootEverything;
@@ -29,7 +31,7 @@ public class FourBall extends SequentialCommandGroup {
           0.0,
           List.of(FieldConstants.StartingPoints.tarmacD, FieldConstants.cargoE),
           0.0,
-          Units.feetToMeters(5),
+          Units.feetToMeters(8),
           false);
 
   private static Trajectory leg2 =
@@ -64,19 +66,20 @@ public class FourBall extends SequentialCommandGroup {
       ShootSubsystem shootSubsystem,
       SnekSystem snekSystem) {
     addCommands(
-        sequence(
-            new ParallelRaceGroup(
-                new LoadSnek(snekSystem),
-                sequence(
-                    new DeployIntake(intakeSubsystem, fourBar),
-                    RamsetA.RamseteSchmoove(leg1, driveSubsystem),
-                    RamsetA.RamseteSchmoove(leg2, driveSubsystem))),
+        new ParallelCommandGroup(
+            new IntakeExtendToLimit(fourBar, 0.25, 15).perpetually(),
+            sequence(
+                new ParallelDeadlineGroup(
+                    sequence(
+                        RamsetA.RamseteSchmoove(leg1, driveSubsystem),
+                        RamsetA.RamseteSchmoove(leg2, driveSubsystem)),
+                    new LoadSnek(snekSystem))),
             new ShootEverything(snekSystem, shootSubsystem),
             new ParallelRaceGroup(
                 new LoadSnek(snekSystem),
                 sequence(
                     RamsetA.RamseteSchmoove(leg3, driveSubsystem),
-                    RamsetA.RamseteSchmoove(leg4, driveSubsystem)))),
-        new ShootEverything(snekSystem, shootSubsystem));
+                    RamsetA.RamseteSchmoove(leg4, driveSubsystem))),
+            new ShootEverything(snekSystem, shootSubsystem)));
   }
 }

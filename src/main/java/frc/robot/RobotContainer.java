@@ -14,11 +14,9 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ClimberSetHeight;
-import frc.robot.commands.FinishShot;
 import frc.robot.commands.IntakeExtendToLimit;
 import frc.robot.commands.IntakeSetFourBar;
 import frc.robot.commands.IntakeSetRollers;
-import frc.robot.commands.LoadSnek;
 import frc.robot.commands.PrepShot;
 import frc.robot.commands.SetShooterRPM;
 import frc.robot.commands.SetSnekSpeed;
@@ -68,16 +66,22 @@ public class RobotContainer {
             },
             climber));
 
-    fourBar.setDefaultCommand(
+    // fourBar.setDefaultCommand(
+    //     new RunCommand(
+    //         () -> {
+    //           if (fourBar.getOperatorControlled()) {
+    //             fourBar.operateFourBar(operator.getLeftX());
+    //           }
+    //         },
+    //         fourBar));
+
+    // snekSystem.setDefaultCommand(new LoadSnek(snekSystem));
+    snekSystem.setDefaultCommand(
         new RunCommand(
             () -> {
-              if (fourBar.getOperatorControlled()) {
-                fourBar.operateFourBar(operator.getLeftX());
-              }
+              snekSystem.loadSnek();
             },
-            fourBar));
-
-    snekSystem.setDefaultCommand(new LoadSnek(snekSystem));
+            snekSystem));
 
     StripSubsystem.getInstance()
         .setDefaultCommand(
@@ -146,7 +150,7 @@ public class RobotContainer {
         .whileActiveOnce(
             new SequentialCommandGroup(
                 new PrepShot(shootSubsystem, snekSystem, true),
-                new FinishShot(snekSystem, shootSubsystem)))
+                new SetSnekSpeed(snekSystem, 1.0, 1.0).perpetually()))
         .whenInactive(
             new ParallelCommandGroup(
                 new SetSnekSpeed(snekSystem, 0, 0), new SetShooterRPM(shootSubsystem, 0, false)));
@@ -166,14 +170,14 @@ public class RobotContainer {
                 fourBar));
 
     new JoystickButton(driver, XboxController.Button.kY.value)
-        .whenPressed(
+        .whileHeld(
             new ParallelCommandGroup(
                 new IntakeSetRollers(robotIntake, Constants.IntakeConstants.typicalRollerRPM),
-                new IntakeExtendToLimit(fourBar, .3, 25)))
+                new IntakeExtendToLimit(fourBar, 0.25, 15)))
         .whenReleased(
             new ParallelCommandGroup(
                 new IntakeSetRollers(robotIntake, Constants.zero),
-                new IntakeSetFourBar(fourBar, fourBar.getHomePosition())));
+                new IntakeSetFourBar(fourBar, 0.0)));
 
     // climbSubsystem code - should use X, with manual input from the vertical axis
     // of the second

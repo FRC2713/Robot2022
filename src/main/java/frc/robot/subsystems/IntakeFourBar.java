@@ -11,7 +11,7 @@ import frc.robot.util.TunableNumber;
 
 public class IntakeFourBar extends SubsystemBase {
 
-  private CANSparkMax fourBar;
+  private CANSparkMax fourBar, fourBar2;
   private TunableNumber tuningSetpoint = new TunableNumber("Intake/Tuning Setpoint", 0);
 
   private boolean operatorControlled = false;
@@ -20,10 +20,13 @@ public class IntakeFourBar extends SubsystemBase {
 
   public IntakeFourBar() {
     fourBar = new CANSparkMax(Constants.RobotMap.intakeMotorFourBar, MotorType.kBrushless);
+    fourBar2 = new CANSparkMax(Constants.RobotMap.intakeMotorFourBar2, MotorType.kBrushless);
 
+    fourBar2.restoreFactoryDefaults();
     fourBar.restoreFactoryDefaults();
 
-    fourBar.setInverted(false);
+    fourBar.setInverted(true);
+    fourBar2.follow(fourBar, true);
 
     fourBar.setSmartCurrentLimit((int) Constants.IntakeConstants.fourBarCurrentLimit.get());
 
@@ -44,7 +47,7 @@ public class IntakeFourBar extends SubsystemBase {
     fourBar.getEncoder().setPositionConversionFactor(Constants.IntakeConstants.fourBarRatio);
     fourBar.getEncoder().setVelocityConversionFactor(Constants.IntakeConstants.fourBarRatio);
 
-    setOperatorControlled(false);
+    // setOperatorControlled(false);
   }
 
   public void disablePID() {
@@ -76,6 +79,14 @@ public class IntakeFourBar extends SubsystemBase {
   public void setFourBarMotor(double speed) {
     fourBar.getPIDController();
     fourBar.set(speed);
+  }
+
+  public void setEncoderPosition(double distance) {
+    fourBar.getEncoder().setPosition(distance);
+  }
+
+  public double getEncoderPosition() {
+    return fourBar.getEncoder().getPosition();
   }
 
   public void zero() {
