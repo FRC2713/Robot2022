@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.DriveConstants;
 
 public class DriveSubsystem extends SubsystemBase {
   private CANSparkMax left1 =
@@ -48,10 +49,10 @@ public class DriveSubsystem extends SubsystemBase {
     left1.setInverted(true);
     right1.setInverted(false);
 
-    left1.setSmartCurrentLimit(40);
-    right1.setSmartCurrentLimit(40);
+    left1.setSmartCurrentLimit(DriveConstants.currentLimit);
+    right1.setSmartCurrentLimit(DriveConstants.currentLimit);
 
-    setHalfBrakeHalfCoast();
+    setAllCoast();
 
     left1.getEncoder().setPositionConversionFactor(Constants.DriveConstants.distPerPulse);
     right1.getEncoder().setPositionConversionFactor(Constants.DriveConstants.distPerPulse);
@@ -60,9 +61,9 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void setHalfBrakeHalfCoast() {
-    left1.setIdleMode(IdleMode.kCoast);
+    left1.setIdleMode(IdleMode.kBrake);
     left2.setIdleMode(IdleMode.kCoast);
-    right1.setIdleMode(IdleMode.kCoast);
+    right1.setIdleMode(IdleMode.kBrake);
     right2.setIdleMode(IdleMode.kCoast);
   }
 
@@ -152,6 +153,29 @@ public class DriveSubsystem extends SubsystemBase {
 
     this.right1.set(right);
     this.left1.set(left);
+  }
+
+  public void CarDrive(double leftTrigger, double rightTrigger, double turn) {
+    turn = MathUtil.applyDeadband(turn, Constants.DriveConstants.kJoystickTurnDeadzone);
+    turn = turn * turn * Math.signum(turn);
+    if (rightTrigger < leftTrigger) {
+
+      double left = rightTrigger - leftTrigger - turn;
+      double right = rightTrigger - leftTrigger + turn;
+      left = Math.min(1.0, Math.max(-1.0, left));
+      right = Math.max(-1.0, Math.min(1.0, right));
+
+      this.right1.set(right);
+      this.left1.set(left);
+    } else {
+      double left = rightTrigger - leftTrigger + turn;
+      double right = rightTrigger - leftTrigger - turn;
+      left = Math.min(1.0, Math.max(-1.0, left));
+      right = Math.max(-1.0, Math.min(1.0, right));
+
+      this.right1.set(right);
+      this.left1.set(left);
+    }
   }
 
   @Override

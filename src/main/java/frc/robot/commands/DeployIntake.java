@@ -10,7 +10,7 @@ public class DeployIntake extends ParallelCommandGroup {
 
   public DeployIntake(IntakeSubsystem intakeSubsystem, IntakeFourBar intakeFourBar) {
     addCommands(
-        new IntakeSetFourBar(intakeFourBar, Constants.IntakeConstants.extensionPoint),
+        new IntakeExtendToLimit(intakeFourBar, 0.25, 15),
         new IntakeSetRollers(intakeSubsystem, Constants.IntakeConstants.typicalRollerRPM));
   }
 }

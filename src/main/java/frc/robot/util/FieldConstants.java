@@ -5,6 +5,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
+import frc.robot.util.Util.Geometry.Direction;
 
 public class FieldConstants {
   // Field dimensions
@@ -98,8 +99,10 @@ public class FieldConstants {
       referenceC.transformBy(
           Util.Geometry.transformFromTranslation(referenceToCargoX, -referenceToCargoY));
   public static final Pose2d cargoE =
-      referenceD.transformBy(
-          Util.Geometry.transformFromTranslation(referenceToCargoX, -referenceToCargoY));
+      Util.Geometry.offsetDrivetrainFromPose(
+          referenceD.transformBy(
+              Util.Geometry.transformFromTranslation(referenceToCargoX, -referenceToCargoY)),
+          Direction.NEGATIVE);
   public static final Pose2d cargoF =
       referenceD.transformBy(
           Util.Geometry.transformFromTranslation(referenceToCargoX, referenceToCargoY));
@@ -116,8 +119,12 @@ public class FieldConstants {
           terminalOuterRotation.minus(Rotation2d.fromDegrees(90.0)));
   public static final double terminalCargoOffset = Units.inchesToMeters(10.43);
   public static final Pose2d cargoG =
-      terminalCenter.transformBy(
-          new Transform2d(new Translation2d(terminalCargoOffset, 0), Rotation2d.fromDegrees(180)));
+      Util.Geometry.offsetDrivetrainFromPose(
+          terminalCenter.transformBy(
+              new Transform2d(
+                  new Translation2d(terminalCargoOffset, 0), Rotation2d.fromDegrees(180))),
+          Direction.NEGATIVE,
+          Units.inchesToMeters(6));
 
   // Starting points
   public static class StartingPoints {
@@ -128,11 +135,17 @@ public class FieldConstants {
     public static final Pose2d tarmacC =
         referenceC.transformBy(Util.Geometry.transformFromTranslation(-0.5, -0.1));
     public static final Pose2d tarmacD =
-        referenceD.transformBy(Util.Geometry.transformFromTranslation(-0.5, -0.7));
+        // referenceD.transformBy(Util.Geometry.transformFromTranslation(-0.5, -0.7));
+        Util.Geometry.offsetDrivetrainFromPose(
+            new Pose2d(
+                new Translation2d(
+                    cargoE.getTranslation().getX(), referenceD.getTranslation().getY()),
+                cargoE.getRotation()),
+            Direction.NEGATIVE);
 
     public static final Pose2d fenderA =
-        Util.Geometry.offsetDrivetrainFromPose(FieldConstants.fenderA);
+        Util.Geometry.offsetDrivetrainFromPose(FieldConstants.fenderA, Direction.POSITIVE);
     public static final Pose2d fenderB =
-        Util.Geometry.offsetDrivetrainFromPose(FieldConstants.fenderB);
+        Util.Geometry.offsetDrivetrainFromPose(FieldConstants.fenderB, Direction.POSITIVE);
   }
 }
