@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ClimberSetHeight;
 import frc.robot.commands.IntakeExtendToLimit;
-import frc.robot.commands.IntakeSetFourBar;
 import frc.robot.commands.IntakeSetRollers;
 import frc.robot.commands.PrepShot;
 import frc.robot.commands.SetShooterRPM;
@@ -68,13 +67,13 @@ public class RobotContainer {
             climber));
 
     // fourBar.setDefaultCommand(
-    //     new RunCommand(
-    //         () -> {
-    //           if (fourBar.getOperatorControlled()) {
-    //             fourBar.operateFourBar(operator.getLeftX());
-    //           }
-    //         },
-    //         fourBar));
+    // new RunCommand(
+    // () -> {
+    // if (fourBar.getOperatorControlled()) {
+    // fourBar.operateFourBar(operator.getLeftX());
+    // }
+    // },
+    // fourBar));
 
     // snekSystem.setDefaultCommand(new LoadSnek(snekSystem));
     snekSystem.setDefaultCommand(
@@ -174,11 +173,11 @@ public class RobotContainer {
         .whileHeld(
             new ParallelCommandGroup(
                 new IntakeSetRollers(robotIntake, Constants.IntakeConstants.typicalRollerRPM),
-                new IntakeExtendToLimit(fourBar, 0.25, 15)))
+                new IntakeExtendToLimit(fourBar, Constants.IntakeConstants.intakeExtensionSpeed)))
         .whenReleased(
             new ParallelCommandGroup(
                 new IntakeSetRollers(robotIntake, Constants.zero),
-                new IntakeSetFourBar(fourBar, 0.0)));
+                new IntakeExtendToLimit(fourBar, Constants.IntakeConstants.intakeRetractionSpeed)));
 
     // climbSubsystem code - should use X, with manual input from the vertical axis
     // of the second

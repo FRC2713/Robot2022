@@ -87,6 +87,11 @@ public final class Constants {
     public static final double typicalRollerRPM = 2200;
     public static final double rollerRatio = 12.0 / 60.0;
     public static final double maxRollerRpm = 11000 * rollerRatio;
+
+    public static final double intakeExtensionCurrentLimit = 10;
+    public static final double intakeExtensionSpeed = 0.25;
+    public static final double intakeRetractionSpeed = -0.25;
+    public static final double intakeHighCurrentMinimumTime = 0.25;
   }
 
   public static final class ShooterConstants {
