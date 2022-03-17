@@ -7,12 +7,11 @@ import frc.robot.subsystems.DriveSubsystem;
 public class DanceRoutine extends SequentialCommandGroup {
   public DanceRoutine(DriveSubsystem drive) {
     addCommands(
-            new Spin(drive),
-            new Backwards(drive),
-            new Forwards(drive),
-            new FancySpin(drive),
-            new MoveCircle(drive),
-            new InverseFancySpin(drive)
-    );
+        new Spin(drive),
+        //  new Backwards(drive),
+        // new Forwards(drive),
+        new FancySpin(drive),
+        new MoveCircle(drive),
+        new InverseFancySpin(drive));
   }
 }
