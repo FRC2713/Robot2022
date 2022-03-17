@@ -84,19 +84,21 @@ public class RobotContainer {
             },
             snekSystem));
 
-        strip.setDefaultCommand(
-            new RunCommand(
-                () -> {
-                    if(Constants.ClimberConstants.midHeight + 2 >= climber.getLeftHeight() && climber.getLeftHeight()  >= Constants.ClimberConstants.midHeight - 2){
-                    strip.setColor(Pattern.Lime);
-                    } else if (snekSystem.getUpperLimit() && snekSystem.getLowerLimit()) {
-                    strip.setColor(Pattern.White);
-                    } else if (snekSystem.getUpperLimit() || snekSystem.getLowerLimit()) {
-                    strip.setColor(Pattern.Yellow);
-                    } else {
-                    strip.setAllianceColor(strip);
-                    }
-                }));
+    strip.setDefaultCommand(
+        new RunCommand(
+            () -> {
+              if (Constants.ClimberConstants.midHeight + 2 >= climber.getLeftHeight()
+                  && climber.getLeftHeight() >= Constants.ClimberConstants.midHeight - 2) {
+                strip.setColor(Pattern.Lime);
+              } else if (snekSystem.getUpperLimit() && snekSystem.getLowerLimit()) {
+                strip.setColor(Pattern.White);
+              } else if (snekSystem.getUpperLimit() || snekSystem.getLowerLimit()) {
+                strip.setColor(Pattern.Yellow);
+              } else {
+                strip.setAllianceColor(strip);
+              }
+            },
+            strip));
 
     // fourBar.setDefaultCommand(
     // new RunCommand(

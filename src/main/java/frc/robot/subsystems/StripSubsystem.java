@@ -8,7 +8,7 @@ import frc.robot.Constants.RobotMap;
 /** Add your docs here. */
 public class StripSubsystem extends SubsystemBase {
 
-  //private static StripSubsystem strip;
+  // private static StripSubsystem strip;
 
   private Spark stripSpark;
 
