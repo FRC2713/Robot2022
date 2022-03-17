@@ -9,7 +9,8 @@ public class IntakeExtendToLimit extends CommandBase {
   private final IntakeFourBar intake;
   private double currentLimit = 0;
   private double motorSpeed = 0;
-  private Debouncer currentIsHigh = new Debouncer(0.25);
+  private Debouncer currentIsHigh =
+      new Debouncer(Constants.IntakeConstants.intakeHighCurrentMinimumTime);
 
   public IntakeExtendToLimit(IntakeFourBar fourBar, double speed, double currentLim) {
     this.intake = fourBar;
@@ -17,6 +18,10 @@ public class IntakeExtendToLimit extends CommandBase {
     this.motorSpeed = speed;
 
     addRequirements(intake);
+  }
+
+  public IntakeExtendToLimit(IntakeFourBar fourBar, double speed) {
+    this(fourBar, speed, Constants.IntakeConstants.intakeExtensionCurrentLimit);
   }
 
   @Override
@@ -28,10 +33,7 @@ public class IntakeExtendToLimit extends CommandBase {
   @Override
   public boolean isFinished() {
     double fourBarCurrent = this.intake.getFilteredFourBarMotorCurrent();
-    boolean isHighCurrent = this.currentIsHigh.calculate(fourBarCurrent > 10);
-    boolean isMoving = this.intake.getVelocity() > 0;
-    // SmartDashboard.putNumber("IntakeFourBarCurrent", fourBarCurrent);
-    // return fourBarCurrent > this.currentLimit;
+    boolean isHighCurrent = this.currentIsHigh.calculate(fourBarCurrent > currentLimit);
     return isHighCurrent;
   }
 

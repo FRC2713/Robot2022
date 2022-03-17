@@ -77,7 +77,7 @@ public class FourBall extends SequentialCommandGroup {
     Command driveToFirstBallAndPickUp =
         new ParallelDeadlineGroup(
             RamsetA.RamseteSchmoove(leg1, driveSubsystem),
-            new IntakeExtendToLimit(fourBar, 0.25, 15),
+            new IntakeExtendToLimit(fourBar, Constants.IntakeConstants.intakeExtensionSpeed),
             new IntakeSetRollers(intakeSubsystem, Constants.IntakeConstants.typicalRollerRPM),
             new LoadSnek(snekSystem));
 
