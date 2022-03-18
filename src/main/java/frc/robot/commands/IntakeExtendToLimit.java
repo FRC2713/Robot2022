@@ -44,5 +44,6 @@ public class IntakeExtendToLimit extends CommandBase {
     if (this.intake.getEncoderPosition() > 0.05) {
       this.intake.setEncoderPosition(Constants.IntakeConstants.extensionPoint);
     }
+    this.intake.resetFilter();
   }
 }

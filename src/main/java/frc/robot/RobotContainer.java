@@ -182,33 +182,36 @@ public class RobotContainer {
     // climbSubsystem code - should use X, with manual input from the vertical axis
     // of the second
     // stick
-    new JoystickButton(operator, XboxController.Button.kA.value)
-        .whileHeld(
-            new InstantCommand(
-                () -> {
-                  snekSystem.setLowerSnekSpeed(1);
-                  snekSystem.setUpperSnekSpeed(1);
-                },
-                snekSystem))
-        .whenReleased(
-            new InstantCommand(
-                () -> {
-                  snekSystem.setLowerSnekSpeed(0);
-                  snekSystem.setUpperSnekSpeed(0);
-                },
-                snekSystem));
+    // new JoystickButton(operator, XboxController.Button.kA.value)
+    //     .whileHeld(
+    //         new InstantCommand(
+    //             () -> {
+    //               snekSystem.setLowerSnekSpeed(1);
+    //               snekSystem.setUpperSnekSpeed(1);
+    //             },
+    //             snekSystem))
+    //     .whenReleased(
+    //         new InstantCommand(
+    //             () -> {
+    //               snekSystem.setLowerSnekSpeed(0);
+    //               snekSystem.setUpperSnekSpeed(0);
+    //             },
+    //             snekSystem));
 
-    new JoystickButton(operator, XboxController.Button.kB.value)
-        .whileHeld(
-            new InstantCommand(
-                () -> {
-                  snekSystem.setLowerSnekSpeed(-1);
-                  snekSystem.setUpperSnekSpeed(-1);
-                },
-                snekSystem));
+    // new JoystickButton(operator, XboxController.Button.kB.value)
+    //     .whileHeld(
+    //         new InstantCommand(
+    //             () -> {
+    //               snekSystem.setLowerSnekSpeed(-1);
+    //               snekSystem.setUpperSnekSpeed(-1);
+    //             },
+    //             snekSystem));
 
     new JoystickButton(operator, XboxController.Button.kX.value)
         .whenPressed(new ClimberSetHeight(climber, Constants.ClimberConstants.lowHeight));
+
+    new JoystickButton(operator, XboxController.Button.kA.value)
+        .whenPressed(new ClimberSetHeight(climber, Constants.ClimberConstants.minimumHeight));
 
     new JoystickButton(operator, XboxController.Button.kY.value)
         .whenPressed(new ClimberSetHeight(climber, Constants.ClimberConstants.midHeight));

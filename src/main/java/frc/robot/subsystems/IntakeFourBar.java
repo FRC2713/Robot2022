@@ -70,6 +70,10 @@ public class IntakeFourBar extends SubsystemBase {
     fourBar.getPIDController().setReference(position, CANSparkMax.ControlType.kSmartMotion);
   }
 
+  public void resetFilter() {
+    currentFilter.reset();
+  }
+
   public void operateFourBar(double input) {
     fourBar.set(input / 10.0);
   }

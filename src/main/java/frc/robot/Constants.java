@@ -91,7 +91,7 @@ public final class Constants {
     public static final double intakeExtensionCurrentLimit = 10;
     public static final double intakeExtensionSpeed = 0.25;
     public static final double intakeRetractionSpeed = -0.25;
-    public static final double intakeHighCurrentMinimumTime = 0.25;
+    public static final double intakeHighCurrentMinimumTime = 0.5;
   }
 
   public static final class ShooterConstants {
