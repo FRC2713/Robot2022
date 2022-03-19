@@ -4,14 +4,16 @@
 
 package frc.robot;
 
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.auto.FourBall;
+import frc.robot.commands.auto.SimpleScore;
+import frc.robot.commands.auto.TwoBallSecondary;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -21,9 +23,10 @@ import frc.robot.commands.auto.FourBall;
  */
 public class Robot extends TimedRobot {
 
+  private SendableChooser<Command> autoSelect = new SendableChooser<>();
   private RobotContainer m_robotContainer = new RobotContainer();
 
-  private Command m_autonomousCommand =
+  private Command fourBallAuto =
       new FourBall(
               RobotContainer.driveSubsystem,
               RobotContainer.robotIntake,
@@ -32,9 +35,33 @@ public class Robot extends TimedRobot {
               RobotContainer.snekSystem)
           .andThen(
               () -> RobotContainer.driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
+
+  private Command twoBallAuto =
+      new TwoBallSecondary(
+              RobotContainer.driveSubsystem,
+              RobotContainer.robotIntake,
+              RobotContainer.fourBar,
+              RobotContainer.shootSubsystem,
+              RobotContainer.snekSystem)
+          .andThen(
+              () -> RobotContainer.driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
+
+  private Command simpleScore =
+      new SimpleScore(
+          RobotContainer.driveSubsystem, RobotContainer.shootSubsystem, RobotContainer.snekSystem);
+
+  private Command m_autonomousCommand =
+      new FourBall(
+              // new FourBall(
+              RobotContainer.driveSubsystem,
+              RobotContainer.robotIntake,
+              RobotContainer.fourBar,
+              RobotContainer.shootSubsystem,
+              RobotContainer.snekSystem)
+          .andThen(
+              () -> RobotContainer.driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
   // new SimpleScore(
-  // RobotContainer.driveSubsystem, RobotContainer.shootSubsystem,
-  // RobotContainer.snekSystem);
+  //     RobotContainer.driveSubsystem, RobotContainer.shootSubsystem, RobotContainer.snekSystem);
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -43,6 +70,11 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     CameraServer.startAutomaticCapture();
+    autoSelect.setDefaultOption("4 ball (default)", fourBallAuto);
+    autoSelect.addOption("4 ball", fourBallAuto);
+    autoSelect.addOption("2 ball", twoBallAuto);
+    autoSelect.addOption("simple score", simpleScore);
+    SmartDashboard.putData(autoSelect);
   }
 
   /**
@@ -54,23 +86,16 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    // Runs the Scheduler. This is responsible for polling buttons, adding
-    // newly-scheduled
-    // commands, running already-scheduled commands, removing finished or
-    // interrupted commands,
-    // and running subsystem periodic() methods. This must be called from the
-    // robot's periodic
+    // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
+    // commands, running already-scheduled commands, removing finished or interrupted commands,
+    // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-
-    SmartDashboard.putNumber("MATCH TIME", DriverStation.getMatchTime());
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
-  public void disabledInit() {
-    RobotContainer.driveSubsystem.setAllCoast();
-  }
+  public void disabledInit() {}
 
   @Override
   public void disabledPeriodic() {}
@@ -78,7 +103,9 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    RobotContainer.driveSubsystem.setHalfBrakeHalfCoast();
+
+    // m_autonomousCommand = autoSelect.getSelected();
+    m_autonomousCommand = fourBallAuto;
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
@@ -92,7 +119,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    RobotContainer.driveSubsystem.setAllCoast();
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
@@ -106,13 +132,14 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     // hello!
-    if (RobotContainer.snekSystem.getUpperLimit()) {
-      // RobotContainer.driver.setRumble(RumbleType.kLeftRumble, 0.5);
-      // RobotContainer.driver.setRumble(RumbleType.kRightRumble, 0.5);
-    } else {
-      RobotContainer.driver.setRumble(RumbleType.kLeftRumble, 0);
-      RobotContainer.driver.setRumble(RumbleType.kRightRumble, 0);
-    }
+    // if (RobotContainer.snekSystem.getUpperLimit()) {
+    //   RobotContainer.driver.setRumble(RumbleType.kLeftRumble, 0.5);
+    //   RobotContainer.driver.setRumble(RumbleType.kRightRumble, 0.5);
+    // } else {
+
+    RobotContainer.driver.setRumble(RumbleType.kLeftRumble, 0);
+    RobotContainer.driver.setRumble(RumbleType.kRightRumble, 0);
+    // }
   }
 
   @Override

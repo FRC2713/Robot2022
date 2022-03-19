@@ -96,8 +96,10 @@ public class FieldConstants {
       referenceB.transformBy(
           Util.Geometry.transformFromTranslation(referenceToCargoX, referenceToCargoY));
   public static final Pose2d cargoD =
-      referenceC.transformBy(
-          Util.Geometry.transformFromTranslation(referenceToCargoX, -referenceToCargoY));
+      referenceC
+          .transformBy(
+              Util.Geometry.transformFromTranslation(referenceToCargoX, -referenceToCargoY))
+          .transformBy(Util.Geometry.transformFromTranslation(0, Units.inchesToMeters(6))); // 0, 6
   public static final Pose2d cargoE =
       Util.Geometry.offsetDrivetrainFromPose(
           referenceD.transformBy(

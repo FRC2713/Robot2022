@@ -91,7 +91,7 @@ public final class Constants {
     public static final double intakeExtensionCurrentLimit = 10;
     public static final double intakeExtensionSpeed = 0.25;
     public static final double intakeRetractionSpeed = -0.25;
-    public static final double intakeHighCurrentMinimumTime = 0.5;
+    public static final double intakeHighCurrentMinimumTime = 0.25;
   }
 
   public static final class ShooterConstants {
@@ -99,7 +99,7 @@ public final class Constants {
     public static final int currentLimit = 40;
     public static final TunableNumber kP = new TunableNumber("Shooter/kP", 0.00015);
     public static final TunableNumber kFF = new TunableNumber("Shooter/kFF", 0.00034);
-    public static final TunableNumber typicalShotSpeed = new TunableNumber("Shooter/Speed", 2400);
+    public static final TunableNumber typicalShotSpeed = new TunableNumber("Shooter/Speed", 2200);
     public static final boolean waitUntilAtSpeed = true;
     public static final TunableNumber rampRate = new TunableNumber("Shooter/Ramp Rate", 0.05);
   }

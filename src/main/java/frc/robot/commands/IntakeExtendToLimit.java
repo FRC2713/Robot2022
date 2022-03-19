@@ -39,7 +39,7 @@ public class IntakeExtendToLimit extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
-    this.intake.setFourBarMotor(0);
+    // this.intake.setFourBarMotor(0);
     // this.intake.setOperatorControlled(false);
     if (this.intake.getEncoderPosition() > 0.05) {
       this.intake.setEncoderPosition(Constants.IntakeConstants.extensionPoint);

@@ -170,11 +170,11 @@ public class RobotContainer {
                 fourBar));
 
     new JoystickButton(driver, XboxController.Button.kY.value)
-        .whileHeld(
+        .whileActiveOnce(
             new ParallelCommandGroup(
                 new IntakeSetRollers(robotIntake, Constants.IntakeConstants.typicalRollerRPM),
                 new IntakeExtendToLimit(fourBar, Constants.IntakeConstants.intakeExtensionSpeed)))
-        .whenReleased(
+        .whenInactive(
             new ParallelCommandGroup(
                 new IntakeSetRollers(robotIntake, Constants.zero),
                 new IntakeExtendToLimit(fourBar, Constants.IntakeConstants.intakeRetractionSpeed)));
