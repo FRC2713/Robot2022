@@ -17,6 +17,12 @@ public class ShootSubsystem extends SubsystemBase {
   private CANSparkMax fly2 =
       new CANSparkMax(
           Constants.RobotMap.flywheelRightPort, CANSparkMaxLowLevel.MotorType.kBrushless);
+  private CANSparkMax fly3 =
+          new CANSparkMax(
+                  Constants.RobotMap.flywheelTopLeft, CANSparkMaxLowLevel.MotorType.kBrushless);
+  private CANSparkMax fly4 =
+          new CANSparkMax(
+                  Constants.RobotMap.flywheelTopRight, CANSparkMaxLowLevel.MotorType.kBrushless);
   private BangBangController bangbang = new BangBangController(10); // Margin of error/tolerance
   public FlywheelControl flywheelMode = FlywheelControl.PID;
   private double rpmSetpoint = 0;
@@ -29,23 +35,35 @@ public class ShootSubsystem extends SubsystemBase {
   public ShootSubsystem() {
     fly1.restoreFactoryDefaults();
     fly2.restoreFactoryDefaults();
+    fly3.restoreFactoryDefaults();
+    fly4.restoreFactoryDefaults();
 
     fly1.setInverted(true);
     fly2.follow(fly1, true);
+    fly3.setInverted(false);
+    fly4.follow(fly3, true);
 
-    fly1.getEncoder().setVelocityConversionFactor(Constants.ShooterConstants.gearRatio);
+    fly1.getEncoder().setVelocityConversionFactor(Constants.ShooterConstants.PrimaryGearRatio);
+    fly3.getEncoder().setVelocityConversionFactor(Constants.ShooterConstants.TopGearRatio);
 
     fly1.setIdleMode(IdleMode.kCoast);
     fly2.setIdleMode(IdleMode.kCoast);
+    fly3.setIdleMode(IdleMode.kCoast);
+    fly4.setIdleMode(IdleMode.kCoast);
 
     fly1.setSmartCurrentLimit(Constants.ShooterConstants.currentLimit);
+    fly3.setSmartCurrentLimit(Constants.ShooterConstants.currentLimit);
 
     fly1.getPIDController().setP(Constants.ShooterConstants.kP.get());
     fly1.getPIDController().setFF(Constants.ShooterConstants.kFF.get());
+    fly3.getPIDController().setP(Constants.ShooterConstants.kP.get());
+    fly3.getPIDController().setFF(Constants.ShooterConstants.kFF.get());
 
     fly1.setOpenLoopRampRate(Constants.ShooterConstants.rampRate.get());
+    fly3.setOpenLoopRampRate(Constants.ShooterConstants.rampRate.get());
 
     fly1.getPIDController().setOutputRange(0, 1);
+    fly3.getPIDController().setOutputRange(0, 1);
   }
 
   public void setTargetRPM(double targetRPM) {

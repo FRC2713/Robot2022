@@ -31,6 +31,8 @@ public final class Constants {
 
     public static final int flywheelLeftPort = 5;
     public static final int flywheelRightPort = 6;
+    public static final int flywheelTopLeft = 14;
+    public static final int flywheelTopRight = 15;
 
     public static final int intakeMotorRollers = 7;
     public static final int intakeMotorFourBar = 8;
@@ -95,7 +97,8 @@ public final class Constants {
   }
 
   public static final class ShooterConstants {
-    public static final double gearRatio = 21.0 / 38.0;
+    public static final double PrimaryGearRatio = 1.0;
+    public static final double TopGearRatio = 12.0 / 33.0;
     public static final int currentLimit = 40;
     public static final TunableNumber kP = new TunableNumber("Shooter/kP", 0.00015);
     public static final TunableNumber kFF = new TunableNumber("Shooter/kFF", 0.00034);
