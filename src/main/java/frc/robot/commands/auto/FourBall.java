@@ -4,12 +4,18 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.DeployIntake;
+import frc.robot.Constants;
+import frc.robot.commands.FinishShot;
+import frc.robot.commands.IntakeExtendToLimit;
+import frc.robot.commands.IntakeSetRollers;
+import frc.robot.commands.LoadSnek;
 import frc.robot.commands.RamsetA;
-import frc.robot.commands.ShootEverything;
+import frc.robot.commands.SetShooterRPM;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeFourBar;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -22,14 +28,15 @@ import java.util.List;
 public class FourBall extends SequentialCommandGroup {
   private static Rotation2d cargoDangleOfApproach = Rotation2d.fromDegrees(180);
   private static Pose2d cargoDPose =
-      new Pose2d(FieldConstants.cargoD.getTranslation(), cargoDangleOfApproach);
+      new Pose2d(FieldConstants.cargoD.getTranslation(), cargoDangleOfApproach)
+          .transformBy(Util.Geometry.transformFromTranslation(0, -Units.inchesToMeters(13)));
 
   private static Trajectory leg1 =
       RamsetA.makeTrajectory(
           0.0,
           List.of(FieldConstants.StartingPoints.tarmacD, FieldConstants.cargoE),
           0.0,
-          Units.feetToMeters(5),
+          Units.feetToMeters(8),
           false);
 
   private static Trajectory leg2 =
@@ -43,7 +50,12 @@ public class FourBall extends SequentialCommandGroup {
   private static Trajectory leg3 =
       RamsetA.makeTrajectory(
           0,
-          List.of(FieldConstants.StartingPoints.fenderB, cargoDPose, FieldConstants.cargoG),
+          List.of(
+              FieldConstants.StartingPoints.fenderB,
+              cargoDPose,
+              FieldConstants.cargoG.transformBy(
+                  Util.Geometry.transformFromTranslation(
+                      -Units.inchesToMeters(3), -Units.inchesToMeters(3)))),
           0,
           false);
 
@@ -53,9 +65,15 @@ public class FourBall extends SequentialCommandGroup {
           List.of(
               FieldConstants.cargoG,
               FieldConstants.StartingPoints.fenderB.transformBy(
-                  Util.Geometry.transformFromTranslation(0, Units.feetToMeters(0)))),
+                  Util.Geometry.transformFromTranslation(
+                      -Units.inchesToMeters(13),
+                      -Units.inchesToMeters(10)))), // 8-13 is probably acceptable
           0,
           true);
+
+  public static Command scoreAllBalls(SnekSystem snekSystem, ShootSubsystem shootSubsystem) {
+    return new FinishShot(snekSystem, shootSubsystem);
+  }
 
   public FourBall(
       DriveSubsystem driveSubsystem,
@@ -63,30 +81,60 @@ public class FourBall extends SequentialCommandGroup {
       IntakeFourBar fourBar,
       ShootSubsystem shootSubsystem,
       SnekSystem snekSystem) {
+
+    Command driveToFirstBallAndPickUp =
+        new ParallelDeadlineGroup(
+            RamsetA.RamseteSchmoove(leg1, driveSubsystem),
+            new IntakeExtendToLimit(fourBar, Constants.IntakeConstants.intakeExtensionSpeed),
+            new IntakeSetRollers(intakeSubsystem, Constants.IntakeConstants.typicalRollerRPM),
+            new LoadSnek(snekSystem));
+
+    Command driveToHubFromFirstBall =
+        new ParallelRaceGroup(
+            new ParallelCommandGroup(
+                new SetShooterRPM(
+                    shootSubsystem, Constants.ShooterConstants.typicalShotSpeed.get(), true),
+                RamsetA.RamseteSchmoove(leg2, driveSubsystem)),
+            new LoadSnek(snekSystem));
+
+    Command driveThroughThirdBallToFourth =
+        new ParallelDeadlineGroup(
+            RamsetA.RamseteSchmoove(leg3, driveSubsystem),
+            new LoadSnek(snekSystem),
+            new SetShooterRPM(
+                shootSubsystem, Constants.ShooterConstants.typicalShotSpeed.get(), true));
+
+    Command driveToHubAgain =
+        new ParallelRaceGroup(
+            new ParallelCommandGroup(
+                new SetShooterRPM(
+                    shootSubsystem, Constants.ShooterConstants.typicalShotSpeed.get(), true),
+                RamsetA.RamseteSchmoove(leg4, driveSubsystem)),
+            new LoadSnek(snekSystem));
+
     addCommands(
-        sequence(
-            new ParallelRaceGroup(
-                new RunCommand(
-                    () -> {
-                      snekSystem.loadSnek();
-                    },
-                    snekSystem),
-                sequence(
-                    new DeployIntake(intakeSubsystem, fourBar),
-                    RamsetA.RamseteSchmoove(leg1, driveSubsystem),
-                    RamsetA.RamseteSchmoove(leg2, driveSubsystem))),
-            new ShootEverything(snekSystem, shootSubsystem),
-            new ParallelRaceGroup(
-                new RunCommand(
-                    () -> {
-                      shootSubsystem.setTargetRPM(0);
-                      snekSystem.loadSnek();
-                    },
-                    snekSystem,
-                    shootSubsystem),
-                sequence(
-                    RamsetA.RamseteSchmoove(leg3, driveSubsystem),
-                    RamsetA.RamseteSchmoove(leg4, driveSubsystem)))),
-        new ShootEverything(snekSystem, shootSubsystem));
+        driveToFirstBallAndPickUp,
+        driveToHubFromFirstBall,
+        scoreAllBalls(snekSystem, shootSubsystem),
+        driveThroughThirdBallToFourth,
+        driveToHubAgain,
+        scoreAllBalls(snekSystem, shootSubsystem));
+
+    // addCommands(
+    // new ParallelCommandGroup(
+    // new IntakeExtendToLimit(fourBar, 0.25, 15).perpetually(),
+    // sequence(
+    // new ParallelDeadlineGroup(
+    // sequence(
+    // RamsetA.RamseteSchmoove(leg1, driveSubsystem),
+    // RamsetA.RamseteSchmoove(leg2, driveSubsystem)),
+    // new LoadSnek(snekSystem))),
+    // new ShootEverything(snekSystem, shootSubsystem),
+    // new ParallelRaceGroup(
+    // new LoadSnek(snekSystem),
+    // sequence(
+    // RamsetA.RamseteSchmoove(leg3, driveSubsystem),
+    // RamsetA.RamseteSchmoove(leg4, driveSubsystem))),
+    // new ShootEverything(snekSystem, shootSubsystem)));
   }
 }

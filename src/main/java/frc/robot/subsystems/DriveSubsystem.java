@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.DriveConstants;
 
 public class DriveSubsystem extends SubsystemBase {
   private CANSparkMax left1 =
@@ -48,8 +49,8 @@ public class DriveSubsystem extends SubsystemBase {
     left1.setInverted(true);
     right1.setInverted(false);
 
-    left1.setSmartCurrentLimit(65);
-    right1.setSmartCurrentLimit(65);
+    left1.setSmartCurrentLimit(DriveConstants.currentLimit);
+    right1.setSmartCurrentLimit(DriveConstants.currentLimit);
 
     setAllCoast();
 
@@ -60,9 +61,9 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void setHalfBrakeHalfCoast() {
-    left1.setIdleMode(IdleMode.kCoast);
+    left1.setIdleMode(IdleMode.kBrake);
     left2.setIdleMode(IdleMode.kCoast);
-    right1.setIdleMode(IdleMode.kCoast);
+    right1.setIdleMode(IdleMode.kBrake);
     right2.setIdleMode(IdleMode.kCoast);
   }
 

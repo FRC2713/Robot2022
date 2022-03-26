@@ -2,30 +2,32 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.auto;
+package frc.robot.commands;
 
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants.SnekConstants;
+import frc.robot.subsystems.ShootSubsystem;
 import frc.robot.subsystems.SnekSystem;
 
-public class AutoEmptySnek extends CommandBase {
+public class FinishShot extends CommandBase {
   /** Creates a new AutoEmptySnek. */
-  Debouncer completelyEmpty = new Debouncer(0.5);
+  Debouncer completelyEmpty = new Debouncer(SnekConstants.debouncerDuration);
 
   SnekSystem snekSystem;
+  ShootSubsystem shootSubsystem;
 
-  public AutoEmptySnek(SnekSystem snekSystem) {
-    // Use addRequirements() here to declare subsystem dependencies.
+  public FinishShot(SnekSystem snekSystem, ShootSubsystem shootSubsystem) {
     this.snekSystem = snekSystem;
-    addRequirements(snekSystem);
+    this.shootSubsystem = shootSubsystem;
+    addRequirements(snekSystem, shootSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
-    snekSystem.setUpperSnekSpeed(1.0);
     snekSystem.setLowerSnekSpeed(1.0);
+    snekSystem.setUpperSnekSpeed(1.0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -35,9 +37,9 @@ public class AutoEmptySnek extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-
-    snekSystem.setUpperSnekSpeed(0);
-    snekSystem.setLowerSnekSpeed(0);
+    snekSystem.setLowerSnekSpeed(0.0);
+    snekSystem.setUpperSnekSpeed(0.0);
+    shootSubsystem.setTargetRPM(0);
   }
 
   // Returns true when the command should end.

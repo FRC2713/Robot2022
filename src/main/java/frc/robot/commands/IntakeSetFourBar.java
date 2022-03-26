@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IntakeFourBar;
+import frc.robot.util.Util;
 
 public class IntakeSetFourBar extends CommandBase {
 
@@ -26,6 +27,6 @@ public class IntakeSetFourBar extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return true;
+    return Util.isWithinAcceptableError(this.intake.getEncoderPosition(), this.position, 0.01);
   }
 }

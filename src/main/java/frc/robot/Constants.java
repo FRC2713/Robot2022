@@ -31,9 +31,12 @@ public final class Constants {
 
     public static final int flywheelLeftPort = 5;
     public static final int flywheelRightPort = 6;
+    public static final int flywheelTopLeft = 14;
+    public static final int flywheelTopRight = 15;
 
     public static final int intakeMotorRollers = 7;
     public static final int intakeMotorFourBar = 8;
+    public static final int intakeMotorFourBar2 = 13;
 
     public static final int lowerSnek = 9;
     public static final int upperSnek = 10;
@@ -58,6 +61,8 @@ public final class Constants {
     public static final double distPerPulse =
         (1.0 / gearRatio) * Units.inchesToMeters(wheelDiameter) * Math.PI;
 
+    public static final int currentLimit = 65;
+
     private static final double bumperlessRobotLength = Units.inchesToMeters(26);
     private static final double bumperlessRobotWidth = Units.inchesToMeters(24);
     private static final double bumperThickness = Units.inchesToMeters(3);
@@ -69,7 +74,7 @@ public final class Constants {
   public static final class IntakeConstants {
     public static final double fourBarRatio = 1.0 / 60.0 * (40.0 / 51.0);
     public static final TunableNumber kP = new TunableNumber("Intake/kP", 0.0);
-    public static final TunableNumber kF = new TunableNumber("Intake/kF", 0.005);
+    public static final TunableNumber kF = new TunableNumber("Intake/kF", 0.002);
     public static final TunableNumber fourBarCurrentLimit =
         new TunableNumber("Intake/4 Bar Current Limit", 10);
     public static final TunableNumber smartMotionMaxVelocity =
@@ -78,20 +83,27 @@ public final class Constants {
         new TunableNumber("Intake/Smart Motion Max Acceleration", 1000);
     public static final TunableNumber smartMotionAllowableError =
         new TunableNumber("Intake/Smart Motion Allowable Error", 0.0001);
-    public static final float extensionPoint = 0.02f;
+    public static final float extensionPoint = 0.135f;
 
     public static final int rollerCurrentLimit = 20;
     public static final double typicalRollerRPM = 2200;
+    public static final double spitRollerRPM = 0; // 1100
     public static final double rollerRatio = 12.0 / 60.0;
     public static final double maxRollerRpm = 11000 * rollerRatio;
+
+    public static final double intakeExtensionCurrentLimit = 10;
+    public static final double intakeExtensionSpeed = 0.25;
+    public static final double intakeRetractionSpeed = -0.25;
+    public static final double intakeHighCurrentMinimumTime = 0.25;
   }
 
   public static final class ShooterConstants {
-    public static final double gearRatio = 21.0 / 38.0;
+    public static final double PrimaryGearRatio = 1.0;
+    public static final double TopGearRatio = 12.0 / 33.0;
     public static final int currentLimit = 40;
     public static final TunableNumber kP = new TunableNumber("Shooter/kP", 0.00015);
     public static final TunableNumber kFF = new TunableNumber("Shooter/kFF", 0.00034);
-    public static final TunableNumber typicalShotSpeed = new TunableNumber("Shooter/Speed", 2400);
+    public static final TunableNumber typicalShotSpeed = new TunableNumber("Shooter/Speed", 2200);
     public static final boolean waitUntilAtSpeed = true;
     public static final TunableNumber rampRate = new TunableNumber("Shooter/Ramp Rate", 0.05);
   }
@@ -99,7 +111,13 @@ public final class Constants {
   public static final class SnekConstants {
     public static final int currentLimit = 20;
     public static final double snekSpeed = 0.4;
-    public static final double upperSnekSpeed = 0.4;
+    public static final double upperSnekSpeed = 0.3;
+
+    public static final double upperReversePower = -0.4;
+    public static final double lowerReversePower = -0.1;
+    public static final double reverseDuration = 0.25;
+
+    public static final double debouncerDuration = 0.75;
   }
 
   public static final class AutoConstants {
@@ -116,7 +134,7 @@ public final class Constants {
     public static final DifferentialDriveKinematics kinematics =
         new DifferentialDriveKinematics(trackWidth);
 
-    public static final double maxCentripetalAcceleration = 100;
+    public static final double maxCentripetalAcceleration = 2.54;
 
     // Ramsete constants; generally the same on all robots
     public static final double RamseteZeta = 0.7;

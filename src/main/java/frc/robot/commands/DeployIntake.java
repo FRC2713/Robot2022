@@ -6,11 +6,12 @@ import frc.robot.subsystems.IntakeFourBar;
 import frc.robot.subsystems.IntakeSubsystem;
 
 public class DeployIntake extends ParallelCommandGroup {
-  // j
-
   public DeployIntake(IntakeSubsystem intakeSubsystem, IntakeFourBar intakeFourBar) {
     addCommands(
-        new IntakeSetFourBar(intakeFourBar, Constants.IntakeConstants.extensionPoint),
+        new IntakeExtendToLimit(
+            intakeFourBar,
+            Constants.IntakeConstants.intakeExtensionSpeed,
+            Constants.IntakeConstants.intakeExtensionCurrentLimit),
         new IntakeSetRollers(intakeSubsystem, Constants.IntakeConstants.typicalRollerRPM));
   }
 }

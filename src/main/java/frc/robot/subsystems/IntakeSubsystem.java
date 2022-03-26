@@ -27,6 +27,7 @@ public class IntakeSubsystem extends SubsystemBase {
     rollers.setSmartCurrentLimit(Constants.IntakeConstants.rollerCurrentLimit);
     rollers.setIdleMode(IdleMode.kCoast);
     rollers.getEncoder().setVelocityConversionFactor(Constants.IntakeConstants.rollerRatio / 60);
+    rollers.setOpenLoopRampRate(0.05);
   }
 
   public void setRollerRPM(double rpm) {

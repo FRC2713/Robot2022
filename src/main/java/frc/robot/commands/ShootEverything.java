@@ -4,11 +4,7 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.Constants;
-import frc.robot.commands.auto.AutoEmptySnek;
 import frc.robot.subsystems.ShootSubsystem;
 import frc.robot.subsystems.SnekSystem;
 
@@ -26,18 +22,7 @@ public class ShootEverything extends SequentialCommandGroup {
         // },
         // snekSystem)
         // .withTimeout(0.25),
-        new ParallelCommandGroup(
-            new RunCommand(
-                    () -> {
-                      snekSystem.setLowerSnekSpeed(0);
-                      snekSystem.setUpperSnekSpeed(0);
-                    },
-                    snekSystem)
-                .withInterrupt(() -> shootSubsystem.closeEnough()),
-            new SetShooterRPM(
-                shootSubsystem,
-                Constants.ShooterConstants.typicalShotSpeed.get(),
-                Constants.ShooterConstants.waitUntilAtSpeed)),
-        new AutoEmptySnek(snekSystem));
+        new PrepShot(shootSubsystem, snekSystem, false),
+        new FinishShot(snekSystem, shootSubsystem));
   }
 }
