@@ -101,10 +101,22 @@ public final class Constants {
     public static final double PrimaryGearRatio = 1.0;
     public static final double TopGearRatio = 12.0 / 33.0;
     public static final int currentLimit = 40;
-    public static final TunableNumber kP = new TunableNumber("Shooter/kP", 0.00015);
-    public static final TunableNumber kFF = new TunableNumber("Shooter/kFF", 0.00034);
-    public static final TunableNumber typicalShotSpeed = new TunableNumber("Shooter/Speed", 2200);
+    public static final TunableNumber PrimarykP = new TunableNumber("Shooter/kP", 0.00015);
+    public static final TunableNumber PrimarykFF = new TunableNumber("Shooter/kFF", 0.00034);
+    public static final TunableNumber TopkP = new TunableNumber("Shooter/kP", 0.00015);
+    public static final TunableNumber TopkFF = new TunableNumber("Shooter/kFF", 0.00034);
+
+    public static final TunableNumber primaryLowShotSpeed =
+        new TunableNumber("Primary Shooter/Speed", 2200);
+    public static final TunableNumber topLowShotSpeed =
+        new TunableNumber("Top Shooter/Speed", 2200);
+    public static final TunableNumber primaryHighShotSpeed =
+        new TunableNumber("Primary Shooter/Speed", 2200);
+    public static final TunableNumber topHighShotSpeed =
+        new TunableNumber("Top Shooter/Speed", 2200);
+
     public static final boolean waitUntilAtSpeed = true;
+
     public static final TunableNumber rampRate = new TunableNumber("Shooter/Ramp Rate", 0.05);
   }
 

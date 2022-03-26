@@ -6,12 +6,14 @@ import frc.robot.subsystems.ShootSubsystem;
 public class SetShooterRPM extends CommandBase {
 
   ShootSubsystem shootSubsystem;
-  double RPM;
+  double primaryRPM;
+  double topRPM;
   boolean waitTillAtSpeed;
 
-  public SetShooterRPM(ShootSubsystem shooter, double speedRPM, boolean waitToHitSpeed) {
+  public SetShooterRPM(ShootSubsystem shooter, double pRPM, double tRPM, boolean waitToHitSpeed) {
     shootSubsystem = shooter;
-    RPM = speedRPM;
+    primaryRPM = pRPM;
+    topRPM = tRPM;
     waitTillAtSpeed = waitToHitSpeed;
 
     addRequirements(shootSubsystem);
@@ -19,11 +21,14 @@ public class SetShooterRPM extends CommandBase {
 
   @Override
   public void execute() {
-    shootSubsystem.setTargetRPM(RPM);
+    shootSubsystem.setPrimaryRPM(primaryRPM);
+    shootSubsystem.setTopRPM(topRPM);
   }
 
   @Override
   public boolean isFinished() {
-    return waitTillAtSpeed ? shootSubsystem.closeEnough() : true;
+    return waitTillAtSpeed
+        ? shootSubsystem.primaryCloseEnough() && shootSubsystem.topCloseEnough()
+        : true;
   }
 }

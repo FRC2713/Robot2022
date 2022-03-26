@@ -17,21 +17,23 @@ public class PrepShot extends SequentialCommandGroup {
     if (shouldRollback) {
       addCommands(
           // new SetSnekSpeed(
-          //         snekSystem,
-          //         Constants.SnekConstants.upperReversePower,
-          //         Constants.SnekConstants.lowerReversePower)
-          //     .perpetually()
-          //     .withTimeout(Constants.SnekConstants.reverseDuration),
+          // snekSystem,
+          // Constants.SnekConstants.upperReversePower,
+          // Constants.SnekConstants.lowerReversePower)
+          // .perpetually()
+          // .withTimeout(Constants.SnekConstants.reverseDuration),
           new ParallelCommandGroup(
               new SetSnekSpeed(
                       snekSystem,
                       Constants.SnekConstants.upperReversePower,
                       Constants.SnekConstants.lowerReversePower)
                   .perpetually()
-                  .withInterrupt(shootSubsystem::closeEnough),
+                  .withInterrupt(
+                      () -> shootSubsystem.primaryCloseEnough() && shootSubsystem.topCloseEnough()),
               new SetShooterRPM(
                   shootSubsystem,
-                  Constants.ShooterConstants.typicalShotSpeed.get(),
+                  Constants.ShooterConstants.primaryLowShotSpeed.get(),
+                  Constants.ShooterConstants.topLowShotSpeed.get(),
                   Constants.ShooterConstants.waitUntilAtSpeed)));
     } else {
       addCommands(
@@ -39,7 +41,8 @@ public class PrepShot extends SequentialCommandGroup {
           // shootSubsystem.closeEnough()),
           new SetShooterRPM(
               shootSubsystem,
-              Constants.ShooterConstants.typicalShotSpeed.get(),
+              Constants.ShooterConstants.primaryLowShotSpeed.get(),
+              Constants.ShooterConstants.topLowShotSpeed.get(),
               Constants.ShooterConstants.waitUntilAtSpeed));
     }
   }

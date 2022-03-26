@@ -101,7 +101,8 @@ public class RobotContainer {
                 new SetSnekSpeed(snekSystem, 1.0, 1.0).perpetually()))
         .whenInactive(
             new ParallelCommandGroup(
-                new SetSnekSpeed(snekSystem, 0, 0), new SetShooterRPM(shootSubsystem, 0, false)));
+                new SetSnekSpeed(snekSystem, Constants.zero, Constants.zero),
+                new SetShooterRPM(shootSubsystem, Constants.zero, Constants.zero, false)));
 
     new Trigger(() -> (operator.getBackButton() && operator.getStartButton()))
         .whenActive(
