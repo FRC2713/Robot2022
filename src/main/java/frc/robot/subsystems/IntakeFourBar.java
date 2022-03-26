@@ -27,7 +27,7 @@ public class IntakeFourBar extends SubsystemBase {
     fourBar2.restoreFactoryDefaults();
     fourBar.restoreFactoryDefaults();
 
-    fourBar.setInverted(true);
+    fourBar.setInverted(false);
     fourBar2.follow(fourBar, true);
 
     fourBar.setSmartCurrentLimit((int) Constants.IntakeConstants.fourBarCurrentLimit.get());
@@ -143,24 +143,24 @@ public class IntakeFourBar extends SubsystemBase {
     SmartDashboard.putNumber("Intake/Filtered Current", currentAmperage);
 
     if (Constants.tuningMode) {
-      fourBar.setSmartCurrentLimit((int) Constants.IntakeConstants.fourBarCurrentLimit.get());
-      fourBar.setIdleMode(CANSparkMax.IdleMode.kBrake);
-      fourBar
-          .getPIDController()
-          .setSmartMotionMaxVelocity(Constants.IntakeConstants.smartMotionMaxVelocity.get(), 0);
-      fourBar
-          .getPIDController()
-          .setSmartMotionMaxAccel(Constants.IntakeConstants.smartMotionMaxAcceleration.get(), 0);
-      fourBar.getPIDController().setSmartMotionMinOutputVelocity(0, 0);
-      fourBar
-          .getPIDController()
-          .setSmartMotionAllowedClosedLoopError(
-              Constants.IntakeConstants.smartMotionAllowableError.get(), 0);
-      fourBar.getPIDController().setP(Constants.IntakeConstants.kP.get());
-      fourBar.getPIDController().setFF(Constants.IntakeConstants.kF.get());
-      fourBar
-          .getPIDController()
-          .setReference(tuningSetpoint.get(), CANSparkMax.ControlType.kSmartMotion);
+      // fourBar.setSmartCurrentLimit((int) Constants.IntakeConstants.fourBarCurrentLimit.get());
+      // fourBar.setIdleMode(CANSparkMax.IdleMode.kBrake);
+      // fourBar
+      //     .getPIDController()
+      //     .setSmartMotionMaxVelocity(Constants.IntakeConstants.smartMotionMaxVelocity.get(), 0);
+      // fourBar
+      //     .getPIDController()
+      //     .setSmartMotionMaxAccel(Constants.IntakeConstants.smartMotionMaxAcceleration.get(), 0);
+      // fourBar.getPIDController().setSmartMotionMinOutputVelocity(0, 0);
+      // fourBar
+      //     .getPIDController()
+      //     .setSmartMotionAllowedClosedLoopError(
+      //         Constants.IntakeConstants.smartMotionAllowableError.get(), 0);
+      // fourBar.getPIDController().setP(Constants.IntakeConstants.kP.get());
+      // fourBar.getPIDController().setFF(Constants.IntakeConstants.kF.get());
+      // fourBar
+      //     .getPIDController()
+      //     .setReference(tuningSetpoint.get(), CANSparkMax.ControlType.kSmartMotion);
     }
   }
 }

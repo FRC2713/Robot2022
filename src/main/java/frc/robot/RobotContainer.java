@@ -8,7 +8,6 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -97,12 +96,25 @@ public class RobotContainer {
     new JoystickButton(driver, XboxController.Button.kLeftBumper.value)
         .whileActiveOnce(
             new SequentialCommandGroup(
-                new PrepShot(shootSubsystem, snekSystem, true),
+                //     new PrepShot(shootSubsystem, snekSystem, true),
                 new SetSnekSpeed(snekSystem, 1.0, 1.0).perpetually()))
         .whenInactive(
-            new ParallelCommandGroup(
-                new SetSnekSpeed(snekSystem, Constants.zero, Constants.zero),
-                new SetShooterRPM(shootSubsystem, Constants.zero, Constants.zero, false)));
+            // new ParallelCommandGroup(
+            new SetSnekSpeed(snekSystem, Constants.zero, Constants.zero)
+            // new SetShooterRPM(shootSubsystem, Constants.zero, Constants.zero, false)));
+            );
+
+    // new JoystickButton(driver, XboxController.Button.kLeftBumper.value)
+    //     .whileHeld(
+    //         new ParallelCommandGroup(
+    //             new SetSnekSpeed(snekSystem, 1.0, 1.0),
+    //             new IntakeExtendToLimit(
+    //                 fourBar, Constants.IntakeConstants.intakeExtensionSpeed / 2),
+    //             new IntakeSetRollers(robotIntake, Constants.IntakeConstants.typicalRollerRPM)))
+    //     .whenInactive(
+    //         new ParallelCommandGroup(
+    //             new SetSnekSpeed(snekSystem, 0, 0),
+    //             new IntakeSetRollers(robotIntake, Constants.zero)));
 
     new Trigger(() -> (operator.getBackButton() && operator.getStartButton()))
         .whenActive(

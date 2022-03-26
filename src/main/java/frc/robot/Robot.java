@@ -23,8 +23,9 @@ import frc.robot.commands.auto.TwoBallSecondary;
  */
 public class Robot extends TimedRobot {
 
-  private SendableChooser<Command> autoSelect = new SendableChooser<>();
   private RobotContainer m_robotContainer = new RobotContainer();
+
+  private SendableChooser<Command> autoSelect = new SendableChooser<>();
 
   private Command fourBallAuto =
       new FourBall(

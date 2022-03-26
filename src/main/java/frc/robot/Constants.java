@@ -38,10 +38,10 @@ public final class Constants {
     public static final int intakeMotorFourBar = 6;
     public static final int intakeMotorFourBar2 = 8;
 
-    public static final int lowerSnek = 59;
+    public static final int lowerSnek = 11;
     public static final int upperSnek = 9;
 
-    public static final int climberMotorRight = 11;
+    public static final int climberMotorRight = 59;
     public static final int climberMotorLeft = 12;
 
     // DIO
@@ -101,19 +101,17 @@ public final class Constants {
     public static final double PrimaryGearRatio = 1.0;
     public static final double TopGearRatio = 12.0 / 33.0;
     public static final int currentLimit = 40;
-    public static final TunableNumber PrimarykP = new TunableNumber("Shooter/kP", 0.00015);
-    public static final TunableNumber PrimarykFF = new TunableNumber("Shooter/kFF", 0.00034);
-    public static final TunableNumber TopkP = new TunableNumber("Shooter/kP", 0.00015);
-    public static final TunableNumber TopkFF = new TunableNumber("Shooter/kFF", 0.00034);
+    public static final TunableNumber PrimarykP = new TunableNumber("Shooter/kP", 0.0);
+    public static final TunableNumber PrimarykFF = new TunableNumber("Shooter/kFF", 0.00018);
+    public static final TunableNumber TopkP = new TunableNumber("TopShooter/kP", 0.0);
+    public static final TunableNumber TopkFF = new TunableNumber("TopShooter/kFF", 0.00025);
 
     public static final TunableNumber primaryLowShotSpeed =
-        new TunableNumber("Primary Shooter/Speed", 2200);
-    public static final TunableNumber topLowShotSpeed =
-        new TunableNumber("Top Shooter/Speed", 2200);
+        new TunableNumber("Primary Shooter/Speed", 0);
+    public static final TunableNumber topLowShotSpeed = new TunableNumber("Top Shooter/Speed", 0);
     public static final TunableNumber primaryHighShotSpeed =
-        new TunableNumber("Primary Shooter/Speed", 2200);
-    public static final TunableNumber topHighShotSpeed =
-        new TunableNumber("Top Shooter/Speed", 2200);
+        new TunableNumber("Primary Shooter/Speed", 2500);
+    public static final TunableNumber topHighShotSpeed = new TunableNumber("Top Shooter/Speed", 2800);
 
     public static final boolean waitUntilAtSpeed = true;
 
