@@ -16,14 +16,19 @@ public class PrepShot extends SequentialCommandGroup {
   public PrepShot(ShootSubsystem shootSubsystem, SnekSystem snekSystem, boolean shouldRollback) {
     if (shouldRollback) {
       addCommands(
-          new SetSnekSpeed(
-                  snekSystem,
-                  Constants.SnekConstants.upperReversePower,
-                  Constants.SnekConstants.lowerReversePower)
-              .perpetually()
-              .withTimeout(Constants.SnekConstants.reverseDuration),
+          // new SetSnekSpeed(
+          //         snekSystem,
+          //         Constants.SnekConstants.upperReversePower,
+          //         Constants.SnekConstants.lowerReversePower)
+          //     .perpetually()
+          //     .withTimeout(Constants.SnekConstants.reverseDuration),
           new ParallelCommandGroup(
-              new SetSnekSpeed(snekSystem, 0, 0).withInterrupt(shootSubsystem::closeEnough),
+              new SetSnekSpeed(
+                      snekSystem,
+                      Constants.SnekConstants.upperReversePower,
+                      Constants.SnekConstants.lowerReversePower)
+                  .perpetually()
+                  .withInterrupt(shootSubsystem::closeEnough),
               new SetShooterRPM(
                   shootSubsystem,
                   Constants.ShooterConstants.typicalShotSpeed.get(),

@@ -1,6 +1,7 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
@@ -28,6 +29,17 @@ public class TwoBallSecondary extends SequentialCommandGroup {
       RamsetA.makeTrajectory(
           0, List.of(FieldConstants.StartingPoints.fenderA, FieldConstants.cargoB), 0, false);
 
+  private static Trajectory leg2 =
+      RamsetA.makeTrajectory(
+          0,
+          List.of(
+              FieldConstants.cargoB,
+              FieldConstants.StartingPoints.fenderA.transformBy(
+                  Util.Geometry.transformFromTranslation(
+                      Units.inchesToMeters(0), -Units.inchesToMeters(13)))),
+          0,
+          true);
+
   public TwoBallSecondary(
       DriveSubsystem driveSubsystem,
       IntakeSubsystem intakeSubsystem,
@@ -47,7 +59,7 @@ public class TwoBallSecondary extends SequentialCommandGroup {
             new ParallelCommandGroup(
                 new SetShooterRPM(
                     shootSubsystem, Constants.ShooterConstants.typicalShotSpeed.get(), true),
-                RamsetA.RamseteSchmoove(Util.invertTrajectory(leg1), driveSubsystem)),
+                RamsetA.RamseteSchmoove(leg2, driveSubsystem)),
             new LoadSnek(snekSystem));
     addCommands(
         driveToFirstBallAndPickUp,
