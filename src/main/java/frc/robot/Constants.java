@@ -30,16 +30,16 @@ public final class Constants {
     public static final int backRightMotorPort = 4;
 
     public static final int flywheelLeftPort = 5;
-    public static final int flywheelRightPort = 6;
-    public static final int flywheelTopLeft = 14;
-    public static final int flywheelTopRight = 15;
+    public static final int flywheelRightPort = 10;
+    public static final int flywheelTopLeft = 13;
+    public static final int flywheelTopRight = 55;
 
     public static final int intakeMotorRollers = 7;
-    public static final int intakeMotorFourBar = 8;
-    public static final int intakeMotorFourBar2 = 13;
+    public static final int intakeMotorFourBar = 6;
+    public static final int intakeMotorFourBar2 = 8;
 
-    public static final int lowerSnek = 9;
-    public static final int upperSnek = 10;
+    public static final int lowerSnek = 59;
+    public static final int upperSnek = 9;
 
     public static final int climberMotorRight = 11;
     public static final int climberMotorLeft = 12;
