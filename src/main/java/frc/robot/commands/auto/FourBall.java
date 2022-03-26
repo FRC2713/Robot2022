@@ -85,7 +85,10 @@ public class FourBall extends SequentialCommandGroup {
         new ParallelRaceGroup(
             new ParallelCommandGroup(
                 new SetShooterRPM(
-                    shootSubsystem, Constants.ShooterConstants.typicalShotSpeed.get(), true),
+                    shootSubsystem,
+                    Constants.ShooterConstants.primaryLowShotSpeed.get(),
+                    Constants.ShooterConstants.topLowShotSpeed.get(),
+                    true),
                 RamsetA.RamseteSchmoove(leg2, driveSubsystem)),
             new LoadSnek(snekSystem));
 
@@ -94,13 +97,19 @@ public class FourBall extends SequentialCommandGroup {
             RamsetA.RamseteSchmoove(leg3, driveSubsystem),
             new LoadSnek(snekSystem),
             new SetShooterRPM(
-                shootSubsystem, Constants.ShooterConstants.typicalShotSpeed.get(), true));
+                shootSubsystem,
+                Constants.ShooterConstants.primaryLowShotSpeed.get(),
+                Constants.ShooterConstants.topLowShotSpeed.get(),
+                true));
 
     Command driveToHubAgain =
         new ParallelRaceGroup(
             new ParallelCommandGroup(
                 new SetShooterRPM(
-                    shootSubsystem, Constants.ShooterConstants.typicalShotSpeed.get(), true),
+                    shootSubsystem,
+                    Constants.ShooterConstants.primaryLowShotSpeed.get(),
+                    Constants.ShooterConstants.topLowShotSpeed.get(),
+                    true),
                 RamsetA.RamseteSchmoove(leg4, driveSubsystem)),
             new LoadSnek(snekSystem));
 

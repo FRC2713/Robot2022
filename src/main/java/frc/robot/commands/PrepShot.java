@@ -23,10 +23,11 @@ public class PrepShot extends SequentialCommandGroup {
               .perpetually()
               .withTimeout(Constants.SnekConstants.reverseDuration),
           new ParallelCommandGroup(
-              new SetSnekSpeed(snekSystem, 0, 0).withInterrupt(shootSubsystem::closeEnough),
+              new SetSnekSpeed(snekSystem, 0, 0).withInterrupt(shootSubsystem::primaryCloseEnough),
               new SetShooterRPM(
                   shootSubsystem,
-                  Constants.ShooterConstants.typicalShotSpeed.get(),
+                  Constants.ShooterConstants.primaryLowShotSpeed.get(),
+                  Constants.ShooterConstants.topLowShotSpeed.get(),
                   Constants.ShooterConstants.waitUntilAtSpeed)));
     } else {
       addCommands(
@@ -34,7 +35,8 @@ public class PrepShot extends SequentialCommandGroup {
           // shootSubsystem.closeEnough()),
           new SetShooterRPM(
               shootSubsystem,
-              Constants.ShooterConstants.typicalShotSpeed.get(),
+              Constants.ShooterConstants.primaryLowShotSpeed.get(),
+              Constants.ShooterConstants.topLowShotSpeed.get(),
               Constants.ShooterConstants.waitUntilAtSpeed));
     }
   }
