@@ -40,7 +40,7 @@ public class ShootSubsystem extends SubsystemBase {
 
     fly1.setInverted(true);
     fly2.follow(fly1, true);
-    top1.setInverted(false);
+    top1.setInverted(true);
     top2.follow(top1, true);
 
     fly1.getEncoder().setVelocityConversionFactor(Constants.ShooterConstants.PrimaryGearRatio);
@@ -104,6 +104,12 @@ public class ShootSubsystem extends SubsystemBase {
 
       top1.getPIDController().setP(Constants.ShooterConstants.TopkP.get());
       top1.getPIDController().setFF(Constants.ShooterConstants.TopkFF.get());
+
+      fly1.getPIDController()
+          .setReference(
+              Constants.ShooterConstants.primaryHighShotSpeed.get(), ControlType.kVelocity);
+      top1.getPIDController()
+          .setReference(Constants.ShooterConstants.topHighShotSpeed.get(), ControlType.kVelocity);
     }
     if (flywheelMode == FlywheelControl.BANG_BANG) {
       // fly1.set(bangbang.calculate(fly1.getEncoder().getVelocity()));
@@ -111,6 +117,8 @@ public class ShootSubsystem extends SubsystemBase {
       // enjoy the funny shooter because it doesn't need code :)
     }
     SmartDashboard.putNumber("ShooterRPM", fly1.getEncoder().getVelocity());
+    SmartDashboard.putNumber("TopShooterRPM", top1.getEncoder().getVelocity());
     SmartDashboard.putNumber("Shooter error", fly1.getEncoder().getVelocity() - primarySetpoint);
+    SmartDashboard.putNumber("Top error", top1.getEncoder().getVelocity() - topSetpoint);
   }
 }

@@ -16,8 +16,6 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ClimberSetHeight;
 import frc.robot.commands.IntakeExtendToLimit;
 import frc.robot.commands.IntakeSetRollers;
-import frc.robot.commands.PrepShot;
-import frc.robot.commands.SetShooterRPM;
 import frc.robot.commands.SetSnekSpeed;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -149,12 +147,25 @@ public class RobotContainer {
     new JoystickButton(driver, XboxController.Button.kLeftBumper.value)
         .whileActiveOnce(
             new SequentialCommandGroup(
-                new PrepShot(shootSubsystem, snekSystem, true),
+                //     new PrepShot(shootSubsystem, snekSystem, true),
                 new SetSnekSpeed(snekSystem, 1.0, 1.0).perpetually()))
         .whenInactive(
-            new ParallelCommandGroup(
-                new SetSnekSpeed(snekSystem, Constants.zero, Constants.zero),
-                new SetShooterRPM(shootSubsystem, Constants.zero, Constants.zero, false)));
+            // new ParallelCommandGroup(
+            new SetSnekSpeed(snekSystem, Constants.zero, Constants.zero)
+            // new SetShooterRPM(shootSubsystem, Constants.zero, Constants.zero, false)));
+            );
+
+    // new JoystickButton(driver, XboxController.Button.kLeftBumper.value)
+    //     .whileHeld(
+    //         new ParallelCommandGroup(
+    //             new SetSnekSpeed(snekSystem, 1.0, 1.0),
+    //             new IntakeExtendToLimit(
+    //                 fourBar, Constants.IntakeConstants.intakeExtensionSpeed / 2),
+    //             new IntakeSetRollers(robotIntake, Constants.IntakeConstants.typicalRollerRPM)))
+    //     .whenInactive(
+    //         new ParallelCommandGroup(
+    //             new SetSnekSpeed(snekSystem, 0, 0),
+    //             new IntakeSetRollers(robotIntake, Constants.zero)));
 
     // new JoystickButton(driver, XboxController.Button.kB.value)
     // .whenPressed(
