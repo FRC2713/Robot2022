@@ -82,13 +82,13 @@ public class LimelightSubsystem extends SubsystemBase {
     return getValue("getpipe");
   }
 
-//   /**
-//    * @return Results of a 3D position solution, 6 numbers: Translation (x,y,y)
-//    *     Rotation(pitch,yaw,roll)
-//    */
-//   public Double[] getCamtran() {
-//     return getEntry("camtran").getDoubleArray(new Double[] {});
-//   }
+   /**
+   * @return Results of a 3D position solution, 6 numbers: Translation (x,y,y)
+   *     Rotation(pitch,yaw,roll)
+   */
+  public Double[] getCamtran() {
+    return getEntry("camtran").getDoubleArray(new Double[] {});
+  }
 
   public enum LedMode {
     PIPELINE(0),
@@ -149,48 +149,48 @@ public class LimelightSubsystem extends SubsystemBase {
   //calculate distance
   return (goalHeightInches - limelightHeightInches)/Math.tan(angleToGoalRadians);
   }
-//   public enum CamMode {
-//     VISION_CAM(0),
-//     DRIVER_CAM(1),
-//     UNKNOWN(-1);
-//     public double value;
+  public enum CamMode {
+    VISION_CAM(0),
+    DRIVER_CAM(1),
+    UNKNOWN(-1);
+    public double value;
 
-//     CamMode(double value) {
-//       this.value = value;
-//     }
-//   }
+    CamMode(double value) {
+      this.value = value;
+    }
+  }
 
-//   /** @return The current LED mode set on the Limelight */
-//   public CamMode getCamMode() {
-//     double mode = getValue("camMode");
-//     if (mode == 0) {
-//       return CamMode.VISION_CAM;
-//     } else if (mode == 1) {
-//       return CamMode.DRIVER_CAM;
-//     } else {
-//       System.out.println("[Limelight] UNKNOWN CAMERA MODE -- " + mode);
-//       return CamMode.UNKNOWN;
-//     }
-//   }
+   /** @return The current LED mode set on the Limelight */
+   public CamMode getCamMode() {
+     double mode = getValue("camMode");
+     if (mode == 0) {
+       return CamMode.VISION_CAM;
+     } else if (mode == 1) {
+       return CamMode.DRIVER_CAM;
+     } else {
+       System.out.println("[Limelight] UNKNOWN CAMERA MODE -- " + mode);
+       return CamMode.UNKNOWN;
+     }
+   }
 
-//   /** @param mode The LED Mode to set on the Limelight */
-//   public void setCamMode(CamMode mode) {
-//     if (mode != CamMode.UNKNOWN) {
-//       setValue("camMode", mode.value);
-//     }
-//   }
+   /** @param mode The LED Mode to set on the Limelight */
+   public void setCamMode(CamMode mode) {
+     if (mode != CamMode.UNKNOWN) {
+       setValue("camMode", mode.value);
+     }
+   }
 
   public enum Pipeline {
     PIPELINE0(0),
     PIPELINE1(1),
-    // PIPELINE2(2),
-    // PIPELINE3(3),
-    // PIPELINE4(4),
-    // PIPELINE5(5),
-    // PIPELINE6(6),
-    // PIPELINE7(7),
-    // PIPELINE8(8),
-    // PIPELINE9(9),
+    PIPELINE2(2),
+    PIPELINE3(3),
+    PIPELINE4(4),
+    PIPELINE5(5),
+    PIPELINE6(6),
+    PIPELINE7(7),
+    PIPELINE8(8),
+    PIPELINE9(9),
     UNKNOWN(-1);
 
     public double value;
@@ -206,22 +206,22 @@ public class LimelightSubsystem extends SubsystemBase {
       return Pipeline.PIPELINE0;
     } else if (mode == 1) {
       return Pipeline.PIPELINE1;
-    // } else if (mode == 2) {
-    //   return Pipeline.PIPELINE2;
-    // } else if (mode == 3) {
-    //   return Pipeline.PIPELINE3;
-    // } else if (mode == 4) {
-    //   return Pipeline.PIPELINE4;
-    // } else if (mode == 5) {
-    //   return Pipeline.PIPELINE5;
-    // } else if (mode == 6) {
-    //   return Pipeline.PIPELINE6;
-    // } else if (mode == 7) {
-    //   return Pipeline.PIPELINE7;
-    // } else if (mode == 8) {
-    //   return Pipeline.PIPELINE8;
-    // } else if (mode == 9) {
-    //   return Pipeline.PIPELINE9;
+    } else if (mode == 2) {
+      return Pipeline.PIPELINE2;
+    } else if (mode == 3) {
+      return Pipeline.PIPELINE3;
+    } else if (mode == 4) {
+      return Pipeline.PIPELINE4;
+    } else if (mode == 5) {
+      return Pipeline.PIPELINE5;
+    } else if (mode == 6) {
+      return Pipeline.PIPELINE6;
+    } else if (mode == 7) {
+      return Pipeline.PIPELINE7;
+    } else if (mode == 8) {
+      return Pipeline.PIPELINE8;
+    } else if (mode == 9) {
+      return Pipeline.PIPELINE9;
     } else {
       System.out.println("[Limelight] UNKNOWN Pipeline -- " + mode);
       return Pipeline.UNKNOWN;
@@ -235,42 +235,42 @@ public class LimelightSubsystem extends SubsystemBase {
     }
   }
 
-//   public enum StreamMode {
-//     STANDARD(0),
-//     PIP_MAIN(1),
-//     PIP_SECONDARY(2),
-//     UNKNOWN(-1);
+  public enum StreamMode {
+    STANDARD(0),
+    PIP_MAIN(1),
+    PIP_SECONDARY(2),
+    UNKNOWN(-1);
 
-//     public double value;
+    public double value;
 
-//     StreamMode(double value) {
-//       this.value = value;
-//     }
-//   }
+    StreamMode(double value) {
+      this.value = value;
+    }
+  }
 
-//   /** @return The current LED mode set on the Limelight */
-//   public StreamMode getCurrentStreamMode() {
-//     double mode = getValue("stream");
-//     if (mode == 0) {
-//       return StreamMode.STANDARD; // Side-by-side streams if a webcam is attached to Limelight
-//     } else if (mode == 1) {
-//       return StreamMode
-//           .PIP_MAIN; // The secondary camera stream is placed in the lower-right corner of the
-//       // primary camera stream
-//     } else if (mode == 2) {
-//       return StreamMode.PIP_SECONDARY;
-//     } else {
-//       System.out.println("[Limelight] UNKNOWN StreamMode -- " + mode);
-//       return StreamMode.UNKNOWN;
-//     }
-//   }
+  /** @return The current LED mode set on the Limelight */
+  public StreamMode getCurrentStreamMode() {
+    double mode = getValue("stream");
+    if (mode == 0) {
+      return StreamMode.STANDARD; // Side-by-side streams if a webcam is attached to Limelight
+    } else if (mode == 1) {
+      return StreamMode
+          .PIP_MAIN; // The secondary camera stream is placed in the lower-right corner of the
+      // primary camera stream
+    } else if (mode == 2) {
+      return StreamMode.PIP_SECONDARY;
+    } else {
+      System.out.println("[Limelight] UNKNOWN StreamMode -- " + mode);
+      return StreamMode.UNKNOWN;
+    }
+  }
 
-//   /** @param mode The LED Mode to set on the Limelight */
-//   public void setStreamMode(StreamMode mode) {
-//     if (mode != StreamMode.UNKNOWN) {
-//       setValue("stream", mode.value);
-//     }
-//   }
+  /** @param mode The LED Mode to set on the Limelight */
+  public void setStreamMode(StreamMode mode) {
+    if (mode != StreamMode.UNKNOWN) {
+      setValue("stream", mode.value);
+    }
+  }
 
   public enum SnapshotMode {
     OFF(0),
