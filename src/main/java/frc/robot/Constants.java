@@ -38,10 +38,10 @@ public final class Constants {
     public static final int intakeMotorFourBar = 6;
     public static final int intakeMotorFourBar2 = 8;
 
-    public static final int lowerSnek = 11;
+    public static final int lowerSnek = 50;
     public static final int upperSnek = 9;
 
-    public static final int climberMotorRight = 59;
+    public static final int climberMotorRight = 11;
     public static final int climberMotorLeft = 12;
 
     // DIO
@@ -98,6 +98,12 @@ public final class Constants {
   }
 
   public static final class ShooterConstants {
+
+    public enum GoalType {
+      LOW,
+      HIGH;
+    }
+
     public static final double PrimaryGearRatio = 1.0;
     public static final double TopGearRatio = 12.0 / 33.0;
     public static final int currentLimit = 40;
@@ -107,8 +113,9 @@ public final class Constants {
     public static final TunableNumber TopkFF = new TunableNumber("TopShooter/kFF", 0.00025);
 
     public static final TunableNumber primaryLowShotSpeed =
-        new TunableNumber("Primary Shooter/Speed", 0);
-    public static final TunableNumber topLowShotSpeed = new TunableNumber("Top Shooter/Speed", 0);
+        new TunableNumber("Primary Shooter/Speed", 1000);
+    public static final TunableNumber topLowShotSpeed =
+        new TunableNumber("Top Shooter/Speed", 1000);
     public static final TunableNumber primaryHighShotSpeed =
         new TunableNumber("Primary Shooter/Speed", 2500);
     public static final TunableNumber topHighShotSpeed =
