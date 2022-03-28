@@ -10,10 +10,11 @@ import frc.robot.Constants;
 import frc.robot.subsystems.ShootSubsystem;
 import frc.robot.subsystems.SnekSystem;
 
-public class PrepShot extends SequentialCommandGroup {
+public class PrepShotHigh extends SequentialCommandGroup {
 
   /** Creates a new PrepShot. */
-  public PrepShot(ShootSubsystem shootSubsystem, SnekSystem snekSystem, boolean shouldRollback) {
+  public PrepShotHigh(
+      ShootSubsystem shootSubsystem, SnekSystem snekSystem, boolean shouldRollback) {
     if (shouldRollback) {
       addCommands(
           // new SetSnekSpeed(
@@ -23,20 +24,25 @@ public class PrepShot extends SequentialCommandGroup {
           // .perpetually()
           // .withTimeout(Constants.SnekConstants.reverseDuration),
           new ParallelCommandGroup(
-              new SetSnekSpeed(snekSystem, 0, 0).withInterrupt(shootSubsystem::primaryCloseEnough),
+              new SetSnekSpeed(snekSystem, 0, 0)
+                  .withInterrupt(
+                      () ->
+                          (shootSubsystem.primaryCloseEnough() && shootSubsystem.topCloseEnough())),
               new SetShooterRPM(
                   shootSubsystem,
-                  Constants.ShooterConstants.primaryLowShotSpeed.get(),
-                  Constants.ShooterConstants.topLowShotSpeed.get(),
+                  Constants.ShooterConstants.primaryHighShotSpeed.get(),
+                  Constants.ShooterConstants.topHighShotSpeed.get(),
                   Constants.ShooterConstants.waitUntilAtSpeed)));
     } else {
       addCommands(
-          // new SetSnekSpeed(snekSystem, 0, 0).withInterrupt(() ->
-          // shootSubsystem.closeEnough()),
+          // new SetSnekSpeed(snekSystem, 0, 0)
+          //     .withInterrupt(
+          //         () -> (shootSubsystem.primaryCloseEnough() &&
+          // shootSubsystem.topCloseEnough())),
           new SetShooterRPM(
               shootSubsystem,
-              Constants.ShooterConstants.primaryLowShotSpeed.get(),
-              Constants.ShooterConstants.topLowShotSpeed.get(),
+              Constants.ShooterConstants.primaryHighShotSpeed.get(),
+              Constants.ShooterConstants.topHighShotSpeed.get(),
               Constants.ShooterConstants.waitUntilAtSpeed));
     }
   }

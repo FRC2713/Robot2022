@@ -18,7 +18,7 @@ import frc.robot.util.TunableNumber;
  */
 public final class Constants {
 
-  public static final boolean tuningMode = false;
+  public static final boolean tuningMode = true;
   public static final int zero = 0; // in case you need a zero :)
 
   public static final class RobotMap {
@@ -111,7 +111,8 @@ public final class Constants {
     public static final TunableNumber topLowShotSpeed = new TunableNumber("Top Shooter/Speed", 0);
     public static final TunableNumber primaryHighShotSpeed =
         new TunableNumber("Primary Shooter/Speed", 2500);
-    public static final TunableNumber topHighShotSpeed = new TunableNumber("Top Shooter/Speed", 2800);
+    public static final TunableNumber topHighShotSpeed =
+        new TunableNumber("Top Shooter/Speed", 2800);
 
     public static final boolean waitUntilAtSpeed = true;
 
@@ -175,11 +176,11 @@ public final class Constants {
 
     public static final double speed = 1.0;
 
-    public static final double lowHeight = 80;
-    public static final double midHeight = 200;
+    public static final double lowHeight = 80 / 3;
+    public static final double midHeight = 200 / 3;
 
-    public static final float minimumHeight = 40.0f;
-    public static final float maximumHeight = 200.0f;
+    public static final float minimumHeight = 40.0f / 3;
+    public static final float maximumHeight = 200.0f / 3;
     public static final TunableNumber acceptableError =
         new TunableNumber("Climber/Acceptable Error", 1);
 
