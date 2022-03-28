@@ -77,10 +77,14 @@ public class FieldConstants {
           .transformBy(Util.Geometry.transformFromTranslation(tarmacInnerDiameter / 2.0, 0.0));
   private static final Pose2d fenderA =
       new Pose2d(hubCenter, fenderARotation)
-          .transformBy(Util.Geometry.transformFromTranslation(hubSquareLength / 2.0, 0.0));
+          .transformBy(
+              Util.Geometry.transformFromTranslation(
+                  hubSquareLength / 2.0 + Units.inchesToMeters(0.0), 0.0));
   private static final Pose2d fenderB =
       new Pose2d(hubCenter, fenderBRotation)
-          .transformBy(Util.Geometry.transformFromTranslation(hubSquareLength / 2.0, 0.0));
+          .transformBy(
+              Util.Geometry.transformFromTranslation(
+                  hubSquareLength / 2.0 + Units.inchesToMeters(0.0), 0.0));
 
   // Cargo points
   public static final double cornerToCargoY = Units.inchesToMeters(15.56);
@@ -96,10 +100,10 @@ public class FieldConstants {
       referenceB.transformBy(
           Util.Geometry.transformFromTranslation(referenceToCargoX, referenceToCargoY));
   public static final Pose2d cargoD =
-      referenceC
-          .transformBy(
-              Util.Geometry.transformFromTranslation(referenceToCargoX, -referenceToCargoY))
-          .transformBy(Util.Geometry.transformFromTranslation(0, Units.inchesToMeters(6))); // 0, 6
+      referenceC.transformBy(
+          Util.Geometry.transformFromTranslation(referenceToCargoX, -referenceToCargoY));
+  //   .transformBy(
+  //       Util.Geometry.transformFromTranslation(0, Units.inchesToMeters(13))); // 0, 6, 13
   public static final Pose2d cargoE =
       Util.Geometry.offsetDrivetrainFromPose(
           referenceD.transformBy(

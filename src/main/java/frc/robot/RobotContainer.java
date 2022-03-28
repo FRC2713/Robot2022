@@ -8,15 +8,12 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.ClimberSetHeight;
-import frc.robot.commands.IntakeExtendToLimit;
-import frc.robot.commands.IntakeSetRollers;
-import frc.robot.commands.SetSnekSpeed;
+import frc.robot.commands.*;
+import frc.robot.commands.groups.*;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeFourBar;
@@ -64,16 +61,6 @@ public class RobotContainer {
             },
             climber));
 
-    // fourBar.setDefaultCommand(
-    // new RunCommand(
-    // () -> {
-    // if (fourBar.getOperatorControlled()) {
-    // fourBar.operateFourBar(operator.getLeftX());
-    // }
-    // },
-    // fourBar));
-
-    // snekSystem.setDefaultCommand(new LoadSnek(snekSystem));
     snekSystem.setDefaultCommand(
         new RunCommand(
             () -> {
@@ -96,20 +83,6 @@ public class RobotContainer {
               }
             },
             strip));
-
-    // fourBar.setDefaultCommand(
-    // new RunCommand(
-    // () -> {
-    // fourBar.setFourBarMotor(controller.getRightX());
-    // },
-    // fourBar));
-
-    // snekSystem.setDefaultCommand(
-    // new RunCommand(
-    // () -> {
-    // snekSystem.loadSnek();
-    // },
-    // snekSystem));
   }
 
   /**
@@ -119,31 +92,7 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    // new JoystickButton(operator, XboxController.Button.kA.value)
-    // // .whileActiveContinuous(new ForceSnek(snekSystem));
-    // .whenActive(
-    // new InstantCommand(
-    // () -> {
-    // snekSystem.setLowerSnekSpeed(0.5);
-    // snekSystem.setUpperSnekSpeed(0.5);
-    // },
-    // snekSystem))
-    // .whenInactive(
-    // new InstantCommand(
-    // () -> {
-    // snekSystem.setLowerSnekSpeed(0);
-    // snekSystem.setUpperSnekSpeed(0);
-    // },
-    // snekSystem));
 
-    // snekSystem.setDefaultCommand(
-    // new RunCommand(
-    // () -> {
-    // snekSystem.setLowerSnekSpeed(operator.getLeftTriggerAxis());
-    // snekSystem.setUpperSnekSpeed(operator.getRightTriggerAxis());
-    // },
-    // snekSystem));
-    // SAMMY DONT FORGET TO CHANGE THIS BACK
     new JoystickButton(driver, XboxController.Button.kLeftBumper.value)
         .whileActiveOnce(
             new SequentialCommandGroup(
@@ -167,12 +116,6 @@ public class RobotContainer {
     //             new SetSnekSpeed(snekSystem, 0, 0),
     //             new IntakeSetRollers(robotIntake, Constants.zero)));
 
-    // new JoystickButton(driver, XboxController.Button.kB.value)
-    // .whenPressed(
-    // () -> {
-    // shootSubsystem.setTargetRPM(Constants.zero);
-    // });
-
     new Trigger(() -> (operator.getBackButton() && operator.getStartButton()))
         .whenActive(
             new InstantCommand(
@@ -182,42 +125,8 @@ public class RobotContainer {
                 fourBar));
 
     new JoystickButton(driver, XboxController.Button.kY.value)
-        .whileActiveOnce(
-            new ParallelCommandGroup(
-                new IntakeSetRollers(robotIntake, Constants.IntakeConstants.typicalRollerRPM),
-                new IntakeExtendToLimit(fourBar, Constants.IntakeConstants.intakeExtensionSpeed)))
-        .whenInactive(
-            new ParallelCommandGroup(
-                new IntakeSetRollers(robotIntake, Constants.zero),
-                new IntakeExtendToLimit(fourBar, Constants.IntakeConstants.intakeRetractionSpeed)));
-
-    // climbSubsystem code - should use X, with manual input from the vertical axis
-    // of the second
-    // stick
-    // new JoystickButton(operator, XboxController.Button.kA.value)
-    //     .whileHeld(
-    //         new InstantCommand(
-    //             () -> {
-    //               snekSystem.setLowerSnekSpeed(1);
-    //               snekSystem.setUpperSnekSpeed(1);
-    //             },
-    //             snekSystem))
-    //     .whenReleased(
-    //         new InstantCommand(
-    //             () -> {
-    //               snekSystem.setLowerSnekSpeed(0);
-    //               snekSystem.setUpperSnekSpeed(0);
-    //             },
-    //             snekSystem));
-
-    // new JoystickButton(operator, XboxController.Button.kB.value)
-    //     .whileHeld(
-    //         new InstantCommand(
-    //             () -> {
-    //               snekSystem.setLowerSnekSpeed(-1);
-    //               snekSystem.setUpperSnekSpeed(-1);
-    //             },
-    //             snekSystem));
+        .whileActiveOnce(new IntakePreventThreeBallActive(robotIntake, snekSystem, fourBar))
+        .whenInactive(new IntakePreventThreeBallInactive(robotIntake, snekSystem, fourBar));
 
     new JoystickButton(operator, XboxController.Button.kX.value)
         .whenPressed(new ClimberSetHeight(climber, Constants.ClimberConstants.lowHeight));
@@ -227,21 +136,5 @@ public class RobotContainer {
 
     new JoystickButton(operator, XboxController.Button.kY.value)
         .whenPressed(new ClimberSetHeight(climber, Constants.ClimberConstants.midHeight));
-
-    // new JoystickButton(controller, XboxController.Button.kY.value)
-    // .whenActive(new IntakeSetRollers(robotIntake,
-    // Constants.IntakeConstants.speed))
-    // .whenInactive(new IntakeSetRollers(robotIntake, Constants.zero));
-
-    // new JoystickButton(controller, XboxController.Button.kB.value)
-    // .whileActiveOnce(new IntakeSetFourBar(fourBar,
-    // Constants.IntakeConstants.extensionPoint))
-    // .whenInactive(new IntakeSetFourBar(fourBar, 0));
-
-    // new JoystickButton(controller, XboxController.Button.kA.value)
-    // .whileActiveOnce(
-    // new IntakeSetRollers(robotIntake,
-    // Constants.IntakeConstants.typicalRollerRPM))
-    // .whenInactive(new IntakeSetRollers(robotIntake, 0));
   }
 }

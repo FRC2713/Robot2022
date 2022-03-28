@@ -87,6 +87,7 @@ public final class Constants {
 
     public static final int rollerCurrentLimit = 20;
     public static final double typicalRollerRPM = 2200;
+    public static final double spitRollerRPM = 0; // 1100
     public static final double rollerRatio = 12.0 / 60.0;
     public static final double maxRollerRpm = 11000 * rollerRatio;
 

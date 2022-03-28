@@ -51,15 +51,9 @@ public class Robot extends TimedRobot {
       new SimpleScore(
           RobotContainer.driveSubsystem, RobotContainer.shootSubsystem, RobotContainer.snekSystem);
 
-  private Command m_autonomousCommand =
-      new FourBall(
-              RobotContainer.driveSubsystem,
-              RobotContainer.robotIntake,
-              RobotContainer.fourBar,
-              RobotContainer.shootSubsystem,
-              RobotContainer.snekSystem)
-          .andThen(
-              () -> RobotContainer.driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
+  private Command defaultCommand = twoBallAuto;
+  private Command m_autonomousCommand = defaultCommand;
+
   // new SimpleScore(
   //     RobotContainer.driveSubsystem, RobotContainer.shootSubsystem, RobotContainer.snekSystem);
 
@@ -70,11 +64,13 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     CameraServer.startAutomaticCapture();
-    autoSelect.setDefaultOption("4 ball (default)", fourBallAuto);
+
+    autoSelect.setDefaultOption("Last deployed command", defaultCommand);
     autoSelect.addOption("4 ball", fourBallAuto);
     autoSelect.addOption("2 ball", twoBallAuto);
     autoSelect.addOption("simple score", simpleScore);
-    SmartDashboard.putData(autoSelect);
+
+    SmartDashboard.putData("Auto Selector", autoSelect);
   }
 
   /**
@@ -104,8 +100,10 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
 
-    // m_autonomousCommand = autoSelect.getSelected();
-    m_autonomousCommand = fourBallAuto;
+    m_autonomousCommand = autoSelect.getSelected();
+    if (m_autonomousCommand == null) {
+      m_autonomousCommand = defaultCommand;
+    }
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {

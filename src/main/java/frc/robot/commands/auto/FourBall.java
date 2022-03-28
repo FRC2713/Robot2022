@@ -28,7 +28,8 @@ import java.util.List;
 public class FourBall extends SequentialCommandGroup {
   private static Rotation2d cargoDangleOfApproach = Rotation2d.fromDegrees(180);
   private static Pose2d cargoDPose =
-      new Pose2d(FieldConstants.cargoD.getTranslation(), cargoDangleOfApproach);
+      new Pose2d(FieldConstants.cargoD.getTranslation(), cargoDangleOfApproach)
+          .transformBy(Util.Geometry.transformFromTranslation(0, -Units.inchesToMeters(13)));
 
   private static Trajectory leg1 =
       RamsetA.makeTrajectory(
@@ -49,7 +50,12 @@ public class FourBall extends SequentialCommandGroup {
   private static Trajectory leg3 =
       RamsetA.makeTrajectory(
           0,
-          List.of(FieldConstants.StartingPoints.fenderB, cargoDPose, FieldConstants.cargoG),
+          List.of(
+              FieldConstants.StartingPoints.fenderB,
+              cargoDPose,
+              FieldConstants.cargoG.transformBy(
+                  Util.Geometry.transformFromTranslation(
+                      -Units.inchesToMeters(3), -Units.inchesToMeters(3)))),
           0,
           false);
 
@@ -59,7 +65,9 @@ public class FourBall extends SequentialCommandGroup {
           List.of(
               FieldConstants.cargoG,
               FieldConstants.StartingPoints.fenderB.transformBy(
-                  Util.Geometry.transformFromTranslation(0, Units.feetToMeters(0)))),
+                  Util.Geometry.transformFromTranslation(
+                      -Units.inchesToMeters(13),
+                      -Units.inchesToMeters(10)))), // 8-13 is probably acceptable
           0,
           true);
 
