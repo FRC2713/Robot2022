@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.auto.FourBall;
 import frc.robot.commands.auto.SimpleScore;
+import frc.robot.commands.auto.ThreeBallSecondary;
 import frc.robot.commands.auto.TwoBallSecondary;
 
 /**
@@ -38,7 +39,7 @@ public class Robot extends TimedRobot {
           .andThen(
               () -> RobotContainer.driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
 
-              private Command fourBallHighAuto =
+  private Command fourBallHighAuto =
       new FourBall(
               RobotContainer.driveSubsystem,
               RobotContainer.robotIntake,
@@ -49,28 +50,28 @@ public class Robot extends TimedRobot {
           .andThen(
               () -> RobotContainer.driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
 
-              private Command threeBallLowAuto =
-              new TwoBallSecondary(
-                      RobotContainer.driveSubsystem,
-                      RobotContainer.robotIntake,
-                      RobotContainer.fourBar,
-                      RobotContainer.shootSubsystem,
-                      RobotContainer.snekSystem,
-                      Constants.ShooterConstants.GoalType.LOW)
-                  .andThen(
-                      () -> RobotContainer.driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
+  private Command threeBallLowAuto =
+      new ThreeBallSecondary(
+              RobotContainer.driveSubsystem,
+              RobotContainer.robotIntake,
+              RobotContainer.fourBar,
+              RobotContainer.shootSubsystem,
+              RobotContainer.snekSystem,
+              Constants.ShooterConstants.GoalType.LOW)
+          .andThen(
+              () -> RobotContainer.driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
 
-                      private Command threeBallHighAuto =
-                      new TwoBallSecondary(
-                              RobotContainer.driveSubsystem,
-                              RobotContainer.robotIntake,
-                              RobotContainer.fourBar,
-                              RobotContainer.shootSubsystem,
-                              RobotContainer.snekSystem,
-                              Constants.ShooterConstants.GoalType.HIGH)
-                          .andThen(
-                              () -> RobotContainer.driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
-                
+  private Command threeBallHighAuto =
+      new ThreeBallSecondary(
+              RobotContainer.driveSubsystem,
+              RobotContainer.robotIntake,
+              RobotContainer.fourBar,
+              RobotContainer.shootSubsystem,
+              RobotContainer.snekSystem,
+              Constants.ShooterConstants.GoalType.HIGH)
+          .andThen(
+              () -> RobotContainer.driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
+
   private Command twoBallHighAuto =
       new TwoBallSecondary(
               RobotContainer.driveSubsystem,
@@ -82,25 +83,22 @@ public class Robot extends TimedRobot {
           .andThen(
               () -> RobotContainer.driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
 
-              private Command twoBallLowAuto =
-              new TwoBallSecondary(
-                      RobotContainer.driveSubsystem,
-                      RobotContainer.robotIntake,
-                      RobotContainer.fourBar,
-                      RobotContainer.shootSubsystem,
-                      RobotContainer.snekSystem,
-                      Constants.ShooterConstants.GoalType.LOW)
-                  .andThen(
-                      () -> RobotContainer.driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
-        
+  private Command twoBallLowAuto =
+      new TwoBallSecondary(
+              RobotContainer.driveSubsystem,
+              RobotContainer.robotIntake,
+              RobotContainer.fourBar,
+              RobotContainer.shootSubsystem,
+              RobotContainer.snekSystem,
+              Constants.ShooterConstants.GoalType.LOW)
+          .andThen(
+              () -> RobotContainer.driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
+
   private Command simpleScore =
       new SimpleScore(
           RobotContainer.driveSubsystem, RobotContainer.shootSubsystem, RobotContainer.snekSystem);
 
   private Command m_autonomousCommand;
-
-  // new SimpleScore(
-  //     RobotContainer.driveSubsystem, RobotContainer.shootSubsystem, RobotContainer.snekSystem);
 
   /**
    * This function is run when the robot is first started up and should be used for any
