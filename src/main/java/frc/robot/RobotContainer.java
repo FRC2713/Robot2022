@@ -13,8 +13,13 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.*;
-import frc.robot.commands.groups.*;
+import frc.robot.commands.ClimberSetHeight;
+import frc.robot.commands.PrepShotHigh;
+import frc.robot.commands.PrepShotLow;
+import frc.robot.commands.SetShooterRPM;
+import frc.robot.commands.SetSnekSpeed;
+import frc.robot.commands.groups.IntakePreventThreeBallActive;
+import frc.robot.commands.groups.IntakePreventThreeBallInactive;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeFourBar;
@@ -108,11 +113,15 @@ public class RobotContainer {
         .whileActiveOnce(
             new SequentialCommandGroup(
                 new PrepShotHigh(shootSubsystem, snekSystem, true),
-                new SetSnekSpeed(snekSystem, 1.0, 1.0).perpetually()))
+                new SetSnekSpeed(snekSystem, 0.8, 0.8).perpetually()))
         .whenInactive(
             new ParallelCommandGroup(
                 new SetSnekSpeed(snekSystem, Constants.zero, Constants.zero),
                 new SetShooterRPM(shootSubsystem, Constants.zero, Constants.zero, false)));
+
+    // new JoystickButton(driver, XboxController.Button.kLeftBumper.value)
+    //     .whileActiveContinuous(new SetSnekSpeed(snekSystem, 0.75, 0.75))
+    //     .whenInactive(new SetSnekSpeed(snekSystem, 0, 0));
 
     // new JoystickButton(driver, XboxController.Button.kLeftBumper.value)
     //     .whileHeld(

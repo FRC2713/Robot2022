@@ -85,11 +85,13 @@ public class ShootSubsystem extends SubsystemBase {
   }
 
   public boolean primaryCloseEnough() {
-    return Util.isWithinAcceptableError(fly1.getEncoder().getVelocity(), primarySetpoint, 100);
+    return primarySetpoint > 0
+        && Util.isWithinAcceptableError(fly1.getEncoder().getVelocity(), primarySetpoint, 100);
   }
 
   public boolean topCloseEnough() {
-    return Util.isWithinAcceptableError(top1.getEncoder().getVelocity(), topSetpoint, 100);
+    return topSetpoint > 0
+        && Util.isWithinAcceptableError(top1.getEncoder().getVelocity(), topSetpoint, 100);
   }
 
   public void stopFlywheel() { // SCRAM
