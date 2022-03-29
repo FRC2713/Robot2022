@@ -33,7 +33,19 @@ public class Robot extends TimedRobot {
               RobotContainer.robotIntake,
               RobotContainer.fourBar,
               RobotContainer.shootSubsystem,
-              RobotContainer.snekSystem)
+              RobotContainer.snekSystem,
+              Constants.ShooterConstants.GoalType.LOW)
+          .andThen(
+              () -> RobotContainer.driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
+
+  private Command threeBallAuto =
+      new TwoBallSecondary(
+              RobotContainer.driveSubsystem,
+              RobotContainer.robotIntake,
+              RobotContainer.fourBar,
+              RobotContainer.shootSubsystem,
+              RobotContainer.snekSystem,
+              Constants.ShooterConstants.GoalType.LOW)
           .andThen(
               () -> RobotContainer.driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
 
@@ -43,7 +55,8 @@ public class Robot extends TimedRobot {
               RobotContainer.robotIntake,
               RobotContainer.fourBar,
               RobotContainer.shootSubsystem,
-              RobotContainer.snekSystem)
+              RobotContainer.snekSystem,
+              Constants.ShooterConstants.GoalType.LOW)
           .andThen(
               () -> RobotContainer.driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
 
@@ -66,9 +79,11 @@ public class Robot extends TimedRobot {
     CameraServer.startAutomaticCapture();
 
     autoSelect.setDefaultOption("Last deployed command", defaultCommand);
-    autoSelect.addOption("4 ball", fourBallAuto);
-    autoSelect.addOption("2 ball", twoBallAuto);
-    autoSelect.addOption("simple score", simpleScore);
+    autoSelect.addOption("4 ball Primary", fourBallAuto);
+    autoSelect.addOption("2 ball Secondary", twoBallAuto);
+    autoSelect.addOption("3 ball Secondary", threeBallAuto);
+
+    autoSelect.addOption("Simple Score", simpleScore);
 
     SmartDashboard.putData("Auto Selector", autoSelect);
   }

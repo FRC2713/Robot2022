@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
+import frc.robot.Constants.ShooterConstants.GoalType;
 import frc.robot.commands.FinishShot;
 import frc.robot.commands.IntakeExtendToLimit;
 import frc.robot.commands.IntakeSetRollers;
@@ -20,10 +21,14 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShootSubsystem;
 import frc.robot.subsystems.SnekSystem;
 import frc.robot.util.FieldConstants;
+import frc.robot.util.TunableNumber;
 import frc.robot.util.Util;
 import java.util.List;
 
 public class TwoBallSecondary extends SequentialCommandGroup {
+
+  private static TunableNumber topShotSpeed;
+  private static TunableNumber primaryShotSpeed;
 
   private static Trajectory leg1 =
       RamsetA.makeTrajectory(
@@ -45,7 +50,16 @@ public class TwoBallSecondary extends SequentialCommandGroup {
       IntakeSubsystem intakeSubsystem,
       IntakeFourBar intakeFourBar,
       ShootSubsystem shootSubsystem,
-      SnekSystem snekSystem) {
+      SnekSystem snekSystem,
+      GoalType goalType) {
+
+    if (goalType == GoalType.LOW) {
+      topShotSpeed = Constants.ShooterConstants.topLowShotSpeed;
+      primaryShotSpeed = Constants.ShooterConstants.primaryLowShotSpeed;
+    } else {
+      topShotSpeed = Constants.ShooterConstants.topHighShotSpeed;
+      primaryShotSpeed = Constants.ShooterConstants.primaryHighShotSpeed;
+    }
 
     Command driveToFirstBallAndPickUp =
         new ParallelDeadlineGroup(
@@ -57,11 +71,7 @@ public class TwoBallSecondary extends SequentialCommandGroup {
     Command driveToHubFromFirstBall =
         new ParallelRaceGroup(
             new ParallelCommandGroup(
-                new SetShooterRPM(
-                    shootSubsystem,
-                    Constants.ShooterConstants.primaryLowShotSpeed.get(),
-                    Constants.ShooterConstants.topLowShotSpeed.get(),
-                    true),
+                new SetShooterRPM(shootSubsystem, primaryShotSpeed.get(), topShotSpeed.get(), true),
                 RamsetA.RamseteSchmoove(leg2, driveSubsystem)),
             new LoadSnek(snekSystem));
     addCommands(
