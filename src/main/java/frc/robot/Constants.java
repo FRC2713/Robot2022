@@ -183,11 +183,11 @@ public final class Constants {
 
     public static final double speed = 1.0;
 
-    public static final double lowHeight = 80 / 3;
-    public static final double midHeight = 200 / 3;
+    public static final double lowHeight = 80.0 / 60.0 * 36.0;
+    public static final double midHeight = 200.0 / 60.0 * 36.0;
 
-    public static final float minimumHeight = 40.0f / 3;
-    public static final float maximumHeight = 200.0f / 3;
+    public static final float minimumHeight = 40.0f / 60.0f * 36.0f;
+    public static final float maximumHeight = 200.0f / 60.0f * 36.0f;
     public static final TunableNumber acceptableError =
         new TunableNumber("Climber/Acceptable Error", 1);
 
