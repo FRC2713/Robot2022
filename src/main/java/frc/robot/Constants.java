@@ -99,6 +99,8 @@ public final class Constants {
 
   public static final class ShooterConstants {
     public static final double twoBallSpeedOffset = 125;
+    public static final double primaryRadius = 3;
+    public static final double topRadius = 1.5;
 
     public enum GoalType {
       LOW,
@@ -124,6 +126,9 @@ public final class Constants {
         new TunableNumber("Primary Shooter/Speed", 2900);
     public static final TunableNumber topHighShotSpeed =
         new TunableNumber("Top Shooter/Speed", 3200);
+
+        public static final int pRPMtoMPSConstant = (int) (primaryRadius * 2 * 3.14 * 60); //290;
+        public static final int tRPMtoMPSConstant = 580;
 
     public static final boolean waitUntilAtSpeed = true;
 
