@@ -4,9 +4,11 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.ShootSubsystem;
 import frc.robot.subsystems.SnekSystem;
 
@@ -27,11 +29,22 @@ public class PrepShotLow extends SequentialCommandGroup {
                   .withInterrupt(
                       () ->
                           (shootSubsystem.primaryCloseEnough() && shootSubsystem.topCloseEnough())),
-              new SetShooterRPM(
-                  shootSubsystem,
-                  Constants.ShooterConstants.primaryLowShotSpeed.get(),
-                  Constants.ShooterConstants.topLowShotSpeed.get(),
-                  Constants.ShooterConstants.waitUntilAtSpeed)));
+              new ConditionalCommand(
+                  // we have both sensors tripped
+                  new SetShooterRPM(
+                      shootSubsystem,
+                      Constants.ShooterConstants.primaryLowShotSpeed.get(),
+                      Constants.ShooterConstants.topLowShotSpeed.get(),
+                      Constants.ShooterConstants.waitUntilAtSpeed),
+                  // either 1 or 0 sensors are tripped
+                  new SetShooterRPM(
+                      shootSubsystem,
+                      Constants.ShooterConstants.primaryLowShotSpeed.get()
+                          + ShooterConstants.twoBallSpeedOffset,
+                      Constants.ShooterConstants.topLowShotSpeed.get()
+                          + ShooterConstants.twoBallSpeedOffset,
+                      Constants.ShooterConstants.waitUntilAtSpeed),
+                  () -> (snekSystem.getUpperLimit() && snekSystem.getLowerLimit()))));
     } else {
       addCommands(
           // new SetSnekSpeed(snekSystem, 0, 0)

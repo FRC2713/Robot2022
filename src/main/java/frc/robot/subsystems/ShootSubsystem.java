@@ -56,8 +56,10 @@ public class ShootSubsystem extends SubsystemBase {
 
     fly1.getPIDController().setP(Constants.ShooterConstants.PrimarykP.get());
     fly1.getPIDController().setFF(Constants.ShooterConstants.PrimarykFF.get());
+    fly1.getPIDController().setD(Constants.ShooterConstants.PrimarykD.get());
     top1.getPIDController().setP(Constants.ShooterConstants.TopkP.get());
     top1.getPIDController().setFF(Constants.ShooterConstants.TopkFF.get());
+    top1.getPIDController().setD(Constants.ShooterConstants.TopkD.get());
 
     fly1.setOpenLoopRampRate(Constants.ShooterConstants.rampRate.get());
     top1.setOpenLoopRampRate(Constants.ShooterConstants.rampRate.get());

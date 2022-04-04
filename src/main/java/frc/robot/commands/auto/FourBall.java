@@ -60,7 +60,7 @@ public class FourBall extends SequentialCommandGroup {
               cargoDPose,
               FieldConstants.cargoG.transformBy(
                   Util.Geometry.transformFromTranslation(
-                      -Units.inchesToMeters(3), -Units.inchesToMeters(3)))),
+                      -Units.inchesToMeters(18), -Units.inchesToMeters(15)))),
           0,
           false);
 
@@ -71,7 +71,7 @@ public class FourBall extends SequentialCommandGroup {
               FieldConstants.cargoG,
               FieldConstants.StartingPoints.fenderB.transformBy(
                   Util.Geometry.transformFromTranslation(
-                      -Units.inchesToMeters(13),
+                      -Units.inchesToMeters(22),
                       -Units.inchesToMeters(10)))), // 8-13 is probably acceptable
           0,
           true);

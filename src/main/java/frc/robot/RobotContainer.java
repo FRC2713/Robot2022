@@ -9,11 +9,14 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.SnekConstants;
 import frc.robot.commands.ClimberSetHeight;
+import frc.robot.commands.FeedWithDelay;
 import frc.robot.commands.PrepShotHigh;
 import frc.robot.commands.PrepShotLow;
 import frc.robot.commands.SetShooterRPM;
@@ -79,7 +82,7 @@ public class RobotContainer {
             () -> {
               if (Constants.ClimberConstants.midHeight + 2 >= climber.getLeftHeight()
                   && climber.getLeftHeight() >= Constants.ClimberConstants.midHeight - 2) {
-                strip.setColor(Pattern.Lime);
+                strip.setColor(Pattern.Green);
               } else if (snekSystem.getUpperLimit() && snekSystem.getLowerLimit()) {
                 strip.setColor(Pattern.White);
               } else if (snekSystem.getUpperLimit() || snekSystem.getLowerLimit()) {
@@ -111,9 +114,19 @@ public class RobotContainer {
 
     new JoystickButton(driver, XboxController.Button.kRightBumper.value)
         .whileActiveOnce(
-            new SequentialCommandGroup(
-                new PrepShotHigh(shootSubsystem, snekSystem, true),
-                new SetSnekSpeed(snekSystem, 0.8, 0.8).perpetually()))
+            new ParallelRaceGroup(
+                new RunCommand(
+                    () -> {
+                      driveSubsystem.GTADrive(0.2, 0, 0);
+                    },
+                    driveSubsystem),
+                new SequentialCommandGroup(
+                    new PrepShotHigh(shootSubsystem, snekSystem, true),
+                    new FeedWithDelay(snekSystem, SnekConstants.secondHighShotDelay)
+                    // new FeedWithSmartDelay(
+                    //     snekSystem, shootSubsystem, SnekConstants.secondHighShotDelay + 3)
+                    // new SetSnekSpeed(snekSystem, 0.6, 0.6).perpetually()
+                    )))
         .whenInactive(
             new ParallelCommandGroup(
                 new SetSnekSpeed(snekSystem, Constants.zero, Constants.zero),

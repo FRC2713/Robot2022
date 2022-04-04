@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.filter.Debouncer;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.Constants.SnekConstants;
@@ -15,25 +16,32 @@ public class FinishShot extends CommandBase {
   /** Creates a new AutoEmptySnek. */
   Debouncer completelyEmpty = new Debouncer(SnekConstants.debouncerDuration);
 
+  Timer timer;
+
   SnekSystem snekSystem;
   ShootSubsystem shootSubsystem;
 
   public FinishShot(SnekSystem snekSystem, ShootSubsystem shootSubsystem) {
     this.snekSystem = snekSystem;
     this.shootSubsystem = shootSubsystem;
+    timer = new Timer();
     addRequirements(snekSystem, shootSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    snekSystem.setLowerSnekSpeed(1.0);
     snekSystem.setUpperSnekSpeed(1.0);
+    timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    if (timer.get() > (SnekConstants.secondHighShotDelay + 0.2)) {
+      snekSystem.setLowerSnekSpeed(1.0);
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override

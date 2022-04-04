@@ -98,6 +98,7 @@ public final class Constants {
   }
 
   public static final class ShooterConstants {
+    public static final double twoBallSpeedOffset = 125;
 
     public enum GoalType {
       LOW,
@@ -107,19 +108,22 @@ public final class Constants {
     public static final double PrimaryGearRatio = 1.0;
     public static final double TopGearRatio = 12.0 / 33.0;
     public static final int currentLimit = 40;
-    public static final TunableNumber PrimarykP = new TunableNumber("Shooter/kP", 0.0005);
+    public static final TunableNumber PrimarykP = new TunableNumber("Shooter/kP", 0.00020);
     public static final TunableNumber PrimarykFF = new TunableNumber("Shooter/kFF", 0.00018);
+    public static final TunableNumber PrimarykD = new TunableNumber("Shooter/kD", 0.00006);
+
     public static final TunableNumber TopkP = new TunableNumber("TopShooter/kP", 0.0003);
     public static final TunableNumber TopkFF = new TunableNumber("TopShooter/kFF", 0.00026);
+    public static final TunableNumber TopkD = new TunableNumber("TopShooter/kD", 0.00003);
 
     public static final TunableNumber primaryLowShotSpeed =
-        new TunableNumber("Primary Shooter/Speed", 1700);
+        new TunableNumber("Primary Shooter/Speed", 1600);
     public static final TunableNumber topLowShotSpeed =
-        new TunableNumber("Top Shooter/Speed", 1700);
+        new TunableNumber("Top Shooter/Speed", 1600);
     public static final TunableNumber primaryHighShotSpeed =
-        new TunableNumber("Primary Shooter/Speed", 2800);
+        new TunableNumber("Primary Shooter/Speed", 2900);
     public static final TunableNumber topHighShotSpeed =
-        new TunableNumber("Top Shooter/Speed", 2900);
+        new TunableNumber("Top Shooter/Speed", 3200);
 
     public static final boolean waitUntilAtSpeed = true;
 
@@ -136,6 +140,7 @@ public final class Constants {
     public static final double reverseDuration = 0.25;
 
     public static final double debouncerDuration = 0.75;
+    public static final double secondHighShotDelay = 0.75;
   }
 
   public static final class AutoConstants {

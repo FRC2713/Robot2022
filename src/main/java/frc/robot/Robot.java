@@ -35,7 +35,7 @@ public class Robot extends TimedRobot {
               RobotContainer.fourBar,
               RobotContainer.shootSubsystem,
               RobotContainer.snekSystem,
-              Constants.ShooterConstants.GoalType.HIGH)
+              Constants.ShooterConstants.GoalType.LOW)
           .andThen(
               () -> RobotContainer.driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
 
