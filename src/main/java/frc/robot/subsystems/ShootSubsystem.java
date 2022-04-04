@@ -8,6 +8,7 @@ import edu.wpi.first.math.controller.BangBangController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.util.InterpolatingTreeMap;
 import frc.robot.util.Util;
 
 public class ShootSubsystem extends SubsystemBase {
@@ -26,6 +27,14 @@ public class ShootSubsystem extends SubsystemBase {
   public FlywheelControl flywheelMode = FlywheelControl.PID;
   private double primarySetpoint = 0;
   private double topSetpoint = 0;
+
+  private InterpolatingTreeMap<Double, Double> shooterSpeedMap = new InterpolatingTreeMap<>()
+  {
+    {
+      //distance, speed
+      put(1.0, 1.0);
+    }
+  };
 
   public enum FlywheelControl {
     BANG_BANG,
@@ -68,6 +77,9 @@ public class ShootSubsystem extends SubsystemBase {
     top1.getPIDController().setOutputRange(0, 1);
   }
 
+  public void shootAtDistance(double distance){
+    setPrimaryRPM(shooterSpeedMap.get(distance));
+  }
   public void setPrimaryRPM(double targetRPM) {
     // stuff :)
     primarySetpoint = targetRPM;
