@@ -77,6 +77,7 @@ public class ShootSubsystem extends SubsystemBase {
 
   public void setTopRPM(double targetRPM) {
     topSetpoint = targetRPM;
+    SmartDashboard.putNumber("TopSetpoint", targetRPM);
     if (flywheelMode == FlywheelControl.PID) {
       top1.getPIDController().setReference(targetRPM, ControlType.kVelocity);
     }

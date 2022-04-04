@@ -20,6 +20,7 @@ import frc.robot.commands.FeedWithDelay;
 import frc.robot.commands.PrepShotHigh;
 import frc.robot.commands.PrepShotLow;
 import frc.robot.commands.SetShooterRPM;
+import frc.robot.commands.SetShooterSpin;
 import frc.robot.commands.SetSnekSpeed;
 import frc.robot.commands.groups.IntakePreventThreeBallActive;
 import frc.robot.commands.groups.IntakePreventThreeBallInactive;
@@ -107,6 +108,21 @@ public class RobotContainer {
             new SequentialCommandGroup(
                 new PrepShotLow(shootSubsystem, snekSystem, true),
                 new SetSnekSpeed(snekSystem, 1.0, 1.0).perpetually()))
+        .whenInactive(
+            new ParallelCommandGroup(
+                new SetSnekSpeed(snekSystem, Constants.zero, Constants.zero),
+                new SetShooterRPM(shootSubsystem, Constants.zero, Constants.zero, false)));
+
+    new JoystickButton(driver, XboxController.Button.kX.value)
+        .whileActiveOnce(
+            new SequentialCommandGroup(
+                // new PrepShotHigh(shootSubsystem, snekSystem, true),
+                new SetShooterSpin(shootSubsystem, 8 /* m/s */, 0 /* spin */, true),
+                new FeedWithDelay(snekSystem, SnekConstants.secondHighShotDelay)
+                // new FeedWithSmartDelay(
+                //     snekSystem, shootSubsystem, SnekConstants.secondHighShotDelay + 3)
+                // new SetSnekSpeed(snekSystem, 0.6, 0.6).perpetually()
+                ))
         .whenInactive(
             new ParallelCommandGroup(
                 new SetSnekSpeed(snekSystem, Constants.zero, Constants.zero),

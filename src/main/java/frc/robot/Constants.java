@@ -127,8 +127,8 @@ public final class Constants {
     public static final TunableNumber topHighShotSpeed =
         new TunableNumber("Top Shooter/Speed", 3200);
 
-        public static final double pRPMtoMPSConstant = (primaryRadius * 2 * 3.14/ 60); //290;
-        public static final double tRPMtoMPSConstant = (topRadius * 2 * 3.14/60);
+    public static final double pRPMtoMPSConstant = (primaryRadius * 2 * 3.14 / 60); // 290;
+    public static final double tRPMtoMPSConstant = (topRadius * 2 * 3.14 / 60);
 
     public static final boolean waitUntilAtSpeed = true;
 

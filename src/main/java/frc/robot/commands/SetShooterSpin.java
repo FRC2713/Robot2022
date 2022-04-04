@@ -19,7 +19,7 @@ public class SetShooterSpin extends CommandBase {
     primaryVelocity = (vel / Constants.ShooterConstants.pRPMtoMPSConstant);
     topVelocity = (vel / Constants.ShooterConstants.tRPMtoMPSConstant);
     waitTillAtSpeed = waitToHitSpeed;
-    percentSpin = spin/2;
+    percentSpin = spin / 2;
 
     addRequirements(shootSubsystem);
   }
