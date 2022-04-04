@@ -5,7 +5,6 @@
 package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.util.net.PortForwarder;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -14,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.auto.FourBall;
 import frc.robot.commands.auto.SimpleScore;
+import frc.robot.commands.auto.ThreeBallSecondary;
 import frc.robot.commands.auto.TwoBallSecondary;
 
 /**
@@ -24,26 +24,73 @@ import frc.robot.commands.auto.TwoBallSecondary;
  */
 public class Robot extends TimedRobot {
 
-  private SendableChooser<Command> autoSelect = new SendableChooser<>();
   private RobotContainer m_robotContainer = new RobotContainer();
 
-  private Command fourBallAuto =
+  private SendableChooser<Command> autoSelect = new SendableChooser<>();
+
+  private Command fourBallLowAuto =
       new FourBall(
               RobotContainer.driveSubsystem,
               RobotContainer.robotIntake,
               RobotContainer.fourBar,
               RobotContainer.shootSubsystem,
-              RobotContainer.snekSystem)
+              RobotContainer.snekSystem,
+              Constants.ShooterConstants.GoalType.LOW)
           .andThen(
               () -> RobotContainer.driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
 
-  private Command twoBallAuto =
+  private Command fourBallHighAuto =
+      new FourBall(
+              RobotContainer.driveSubsystem,
+              RobotContainer.robotIntake,
+              RobotContainer.fourBar,
+              RobotContainer.shootSubsystem,
+              RobotContainer.snekSystem,
+              Constants.ShooterConstants.GoalType.HIGH)
+          .andThen(
+              () -> RobotContainer.driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
+
+  private Command threeBallLowAuto =
+      new ThreeBallSecondary(
+              RobotContainer.driveSubsystem,
+              RobotContainer.robotIntake,
+              RobotContainer.fourBar,
+              RobotContainer.shootSubsystem,
+              RobotContainer.snekSystem,
+              Constants.ShooterConstants.GoalType.LOW)
+          .andThen(
+              () -> RobotContainer.driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
+
+  private Command threeBallHighAuto =
+      new ThreeBallSecondary(
+              RobotContainer.driveSubsystem,
+              RobotContainer.robotIntake,
+              RobotContainer.fourBar,
+              RobotContainer.shootSubsystem,
+              RobotContainer.snekSystem,
+              Constants.ShooterConstants.GoalType.HIGH)
+          .andThen(
+              () -> RobotContainer.driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
+
+  private Command twoBallHighAuto =
       new TwoBallSecondary(
               RobotContainer.driveSubsystem,
               RobotContainer.robotIntake,
               RobotContainer.fourBar,
               RobotContainer.shootSubsystem,
-              RobotContainer.snekSystem)
+              RobotContainer.snekSystem,
+              Constants.ShooterConstants.GoalType.HIGH)
+          .andThen(
+              () -> RobotContainer.driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
+
+  private Command twoBallLowAuto =
+      new TwoBallSecondary(
+              RobotContainer.driveSubsystem,
+              RobotContainer.robotIntake,
+              RobotContainer.fourBar,
+              RobotContainer.shootSubsystem,
+              RobotContainer.snekSystem,
+              Constants.ShooterConstants.GoalType.LOW)
           .andThen(
               () -> RobotContainer.driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
 
@@ -51,18 +98,7 @@ public class Robot extends TimedRobot {
       new SimpleScore(
           RobotContainer.driveSubsystem, RobotContainer.shootSubsystem, RobotContainer.snekSystem);
 
-  private Command m_autonomousCommand =
-      new FourBall(
-              // new FourBall(
-              RobotContainer.driveSubsystem,
-              RobotContainer.robotIntake,
-              RobotContainer.fourBar,
-              RobotContainer.shootSubsystem,
-              RobotContainer.snekSystem)
-          .andThen(
-              () -> RobotContainer.driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
-  // new SimpleScore(
-  //     RobotContainer.driveSubsystem, RobotContainer.shootSubsystem, RobotContainer.snekSystem);
+  private Command m_autonomousCommand;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -71,18 +107,17 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     CameraServer.startAutomaticCapture();
-    autoSelect.setDefaultOption("4 ball (default)", fourBallAuto);
-    autoSelect.addOption("4 ball", fourBallAuto);
-    autoSelect.addOption("2 ball", twoBallAuto);
-    autoSelect.addOption("simple score", simpleScore);
-    SmartDashboard.putData(autoSelect);
 
-    PortForwarder.add(5800, "limelight.local", 5800);
-    PortForwarder.add(5801, "limelight.local", 5801);
-    PortForwarder.add(5802, "limelight.local", 5802);
-    PortForwarder.add(5803, "limelight.local", 5803);
-    PortForwarder.add(5804, "limelight.local", 5804);
-    PortForwarder.add(5805, "limelight.local", 5805);
+    autoSelect.addOption("High 4 Ball Primary", fourBallHighAuto);
+    autoSelect.addOption("Low 4 Ball Primary", fourBallLowAuto);
+    autoSelect.addOption("High 2 Ball Secondary", twoBallHighAuto);
+    autoSelect.addOption("Low 2 Ball Secondary", twoBallLowAuto);
+    autoSelect.addOption("High 3 Ball Secondary", threeBallHighAuto);
+    autoSelect.addOption("Low 3 Ball Secondary", threeBallLowAuto);
+
+    autoSelect.addOption("Simple Score", simpleScore);
+
+    SmartDashboard.putData("Auto Selector", autoSelect);
   }
 
   /**
@@ -112,8 +147,10 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
 
-    // m_autonomousCommand = autoSelect.getSelected();
-    m_autonomousCommand = fourBallAuto;
+    m_autonomousCommand = autoSelect.getSelected();
+    if (m_autonomousCommand == null) {
+      m_autonomousCommand = fourBallLowAuto;
+    }
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {

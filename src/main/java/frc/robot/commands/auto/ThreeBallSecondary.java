@@ -1,5 +1,7 @@
 package frc.robot.commands.auto;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -25,7 +27,10 @@ import frc.robot.util.TunableNumber;
 import frc.robot.util.Util;
 import java.util.List;
 
-public class TwoBallSecondary extends SequentialCommandGroup {
+public class ThreeBallSecondary extends SequentialCommandGroup {
+  private static Rotation2d cargoDangleOfApproach = Rotation2d.fromDegrees(270);
+  private static Pose2d cargoDPose =
+      new Pose2d(FieldConstants.cargoD.getTranslation(), cargoDangleOfApproach);
 
   private static TunableNumber topShotSpeed;
   private static TunableNumber primaryShotSpeed;
@@ -45,7 +50,15 @@ public class TwoBallSecondary extends SequentialCommandGroup {
           0,
           true);
 
-  public TwoBallSecondary(
+  private static Trajectory leg3 =
+      RamsetA.makeTrajectory(
+          0, List.of(FieldConstants.StartingPoints.fenderA, cargoDPose), 0, false);
+
+  private static Trajectory leg4 =
+      RamsetA.makeTrajectory(
+          0, List.of(cargoDPose, FieldConstants.StartingPoints.fenderA), 0, true);
+
+  public ThreeBallSecondary(
       DriveSubsystem driveSubsystem,
       IntakeSubsystem intakeSubsystem,
       IntakeFourBar intakeFourBar,
@@ -74,9 +87,27 @@ public class TwoBallSecondary extends SequentialCommandGroup {
                 new SetShooterRPM(shootSubsystem, primaryShotSpeed.get(), topShotSpeed.get(), true),
                 RamsetA.RamseteSchmoove(leg2, driveSubsystem)),
             new LoadSnek(snekSystem));
+
+    Command driveToThirdBallAndPickUp =
+        new ParallelDeadlineGroup(
+            RamsetA.RamseteSchmoove(leg3, driveSubsystem),
+            new IntakeExtendToLimit(intakeFourBar, 0.25, 15),
+            new IntakeSetRollers(intakeSubsystem, Constants.IntakeConstants.typicalRollerRPM),
+            new LoadSnek(snekSystem));
+
+    Command driveToHubFromThirdBall =
+        new ParallelRaceGroup(
+            new ParallelCommandGroup(
+                new SetShooterRPM(shootSubsystem, primaryShotSpeed.get(), topShotSpeed.get(), true),
+                RamsetA.RamseteSchmoove(leg4, driveSubsystem)),
+            new LoadSnek(snekSystem));
+
     addCommands(
         driveToFirstBallAndPickUp,
         driveToHubFromFirstBall,
+        new FinishShot(snekSystem, shootSubsystem),
+        driveToThirdBallAndPickUp,
+        driveToHubFromThirdBall,
         new FinishShot(snekSystem, shootSubsystem));
   }
 }

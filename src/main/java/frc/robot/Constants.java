@@ -30,22 +30,24 @@ public final class Constants {
     public static final int backRightMotorPort = 4;
 
     public static final int flywheelLeftPort = 5;
-    public static final int flywheelRightPort = 6;
+    public static final int flywheelRightPort = 10;
+    public static final int flywheelTopLeft = 13;
+    public static final int flywheelTopRight = 55;
 
     public static final int intakeMotorRollers = 7;
-    public static final int intakeMotorFourBar = 8;
-    public static final int intakeMotorFourBar2 = 13;
+    public static final int intakeMotorFourBar = 6;
+    public static final int intakeMotorFourBar2 = 8;
 
-    public static final int lowerSnek = 9;
-    public static final int upperSnek = 10;
+    public static final int lowerSnek = 50;
+    public static final int upperSnek = 9;
 
     public static final int climberMotorRight = 11;
     public static final int climberMotorLeft = 12;
 
     // DIO
 
-    public static final int snekLowerSwitch = 1;
-    public static final int snekUpperSwitch = 3;
+    public static final int snekLowerSwitch = 3;
+    public static final int snekUpperSwitch = 1;
 
     // PWM
 
@@ -85,6 +87,7 @@ public final class Constants {
 
     public static final int rollerCurrentLimit = 20;
     public static final double typicalRollerRPM = 2200;
+    public static final double spitRollerRPM = 0; // 1100
     public static final double rollerRatio = 12.0 / 60.0;
     public static final double maxRollerRpm = 11000 * rollerRatio;
 
@@ -95,12 +98,35 @@ public final class Constants {
   }
 
   public static final class ShooterConstants {
-    public static final double gearRatio = 21.0 / 38.0;
+    public static final double twoBallSpeedOffset = 125;
+
+    public enum GoalType {
+      LOW,
+      HIGH;
+    }
+
+    public static final double PrimaryGearRatio = 1.0;
+    public static final double TopGearRatio = 12.0 / 33.0;
     public static final int currentLimit = 40;
-    public static final TunableNumber kP = new TunableNumber("Shooter/kP", 0.00015);
-    public static final TunableNumber kFF = new TunableNumber("Shooter/kFF", 0.00034);
-    public static final TunableNumber typicalShotSpeed = new TunableNumber("Shooter/Speed", 2200);
+    public static final TunableNumber PrimarykP = new TunableNumber("Shooter/kP", 0.00020);
+    public static final TunableNumber PrimarykFF = new TunableNumber("Shooter/kFF", 0.00018);
+    public static final TunableNumber PrimarykD = new TunableNumber("Shooter/kD", 0.00006);
+
+    public static final TunableNumber TopkP = new TunableNumber("TopShooter/kP", 0.0003);
+    public static final TunableNumber TopkFF = new TunableNumber("TopShooter/kFF", 0.00026);
+    public static final TunableNumber TopkD = new TunableNumber("TopShooter/kD", 0.00003);
+
+    public static final TunableNumber primaryLowShotSpeed =
+        new TunableNumber("Primary Shooter/Speed", 1600);
+    public static final TunableNumber topLowShotSpeed =
+        new TunableNumber("Top Shooter/Speed", 1600);
+    public static final TunableNumber primaryHighShotSpeed =
+        new TunableNumber("Primary Shooter/Speed", 2900);
+    public static final TunableNumber topHighShotSpeed =
+        new TunableNumber("Top Shooter/Speed", 3200);
+
     public static final boolean waitUntilAtSpeed = true;
+
     public static final TunableNumber rampRate = new TunableNumber("Shooter/Ramp Rate", 0.05);
   }
 
@@ -114,6 +140,7 @@ public final class Constants {
     public static final double reverseDuration = 0.25;
 
     public static final double debouncerDuration = 0.75;
+    public static final double secondHighShotDelay = 0.75;
   }
 
   public static final class AutoConstants {
@@ -161,11 +188,11 @@ public final class Constants {
 
     public static final double speed = 1.0;
 
-    public static final double lowHeight = 80;
-    public static final double midHeight = 200;
+    public static final double lowHeight = 80.0 / 60.0 * 36.0;
+    public static final double midHeight = 200.0 / 60.0 * 36.0;
 
-    public static final float minimumHeight = 40.0f;
-    public static final float maximumHeight = 200.0f;
+    public static final float minimumHeight = 40.0f / 60.0f * 36.0f;
+    public static final float maximumHeight = 200.0f / 60.0f * 36.0f;
     public static final TunableNumber acceptableError =
         new TunableNumber("Climber/Acceptable Error", 1);
 

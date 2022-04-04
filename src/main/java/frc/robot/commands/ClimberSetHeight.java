@@ -25,7 +25,7 @@ public class ClimberSetHeight extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
-    m_climber.setTelescopeSpeed(0);
+    // m_climber.setTelescopeSpeed(0);
   }
 
   @Override
