@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LimelightSubsystem extends SubsystemBase {
   private double limelightHeightInches;
+
   private NetworkTable getTable() {
     return NetworkTableInstance.getDefault().getTable("limelight");
   }
@@ -82,7 +83,7 @@ public class LimelightSubsystem extends SubsystemBase {
     return getValue("getpipe");
   }
 
-   /**
+  /**
    * @return Results of a 3D position solution, 6 numbers: Translation (x,y,y)
    *     Rotation(pitch,yaw,roll)
    */
@@ -127,28 +128,27 @@ public class LimelightSubsystem extends SubsystemBase {
     }
   }
 
-  public double getDistanceFromGoal(){
-    NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-  NetworkTableEntry ty = table.getEntry("ty");
-  double targetOffsetAngle_Vertical = ty.getDouble(0.0);
+  public double getDistanceFromGoal() {
+    double targetOffsetAngle_Vertical = getVerticalOffset();
 
-  // how many degrees back is your limelight rotated from perfectly vertical?
-  //CHECK
-  double limelightMountAngleDegrees = 25.0;
+    // how many degrees back is your limelight rotated from perfectly vertical?
+    // CHECK
+    double limelightMountAngleDegrees = 25.0;
 
-  // distance from the center of the Limelight lens to the floor
-  //CHANGE how high up it is
-  double limelightLensHeightInches = 20.0;
+    // distance from the center of the Limelight lens to the floor
+    // CHANGE how high up it is
+    double limelightLensHeightInches = 20.0;
 
-  // distance from the target to the floor
-  double goalHeightInches = 104.0;
+    // distance from the target to the floor
+    double goalHeightInches = 104.0;
 
-  double angleToGoalDegrees = limelightMountAngleDegrees + targetOffsetAngle_Vertical;
-  double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0);
+    double angleToGoalDegrees = limelightMountAngleDegrees + targetOffsetAngle_Vertical;
+    double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0);
 
-  //calculate distance
-  return (goalHeightInches - limelightHeightInches)/Math.tan(angleToGoalRadians);
+    // calculate distance
+    return (goalHeightInches - limelightHeightInches) / Math.tan(angleToGoalRadians);
   }
+
   public enum CamMode {
     VISION_CAM(0),
     DRIVER_CAM(1),
@@ -160,25 +160,25 @@ public class LimelightSubsystem extends SubsystemBase {
     }
   }
 
-   /** @return The current LED mode set on the Limelight */
-   public CamMode getCamMode() {
-     double mode = getValue("camMode");
-     if (mode == 0) {
-       return CamMode.VISION_CAM;
-     } else if (mode == 1) {
-       return CamMode.DRIVER_CAM;
-     } else {
-       System.out.println("[Limelight] UNKNOWN CAMERA MODE -- " + mode);
-       return CamMode.UNKNOWN;
-     }
-   }
+  /** @return The current LED mode set on the Limelight */
+  public CamMode getCamMode() {
+    double mode = getValue("camMode");
+    if (mode == 0) {
+      return CamMode.VISION_CAM;
+    } else if (mode == 1) {
+      return CamMode.DRIVER_CAM;
+    } else {
+      System.out.println("[Limelight] UNKNOWN CAMERA MODE -- " + mode);
+      return CamMode.UNKNOWN;
+    }
+  }
 
-   /** @param mode The LED Mode to set on the Limelight */
-   public void setCamMode(CamMode mode) {
-     if (mode != CamMode.UNKNOWN) {
-       setValue("camMode", mode.value);
-     }
-   }
+  /** @param mode The LED Mode to set on the Limelight */
+  public void setCamMode(CamMode mode) {
+    if (mode != CamMode.UNKNOWN) {
+      setValue("camMode", mode.value);
+    }
+  }
 
   public enum Pipeline {
     PIPELINE0(0),
@@ -304,6 +304,5 @@ public class LimelightSubsystem extends SubsystemBase {
     }
   }
 
-  public void periodic() {
-  }
+  public void periodic() {}
 }
