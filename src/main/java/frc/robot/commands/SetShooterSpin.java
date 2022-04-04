@@ -7,8 +7,8 @@ import frc.robot.subsystems.ShootSubsystem;
 public class SetShooterSpin extends CommandBase {
 
   ShootSubsystem shootSubsystem;
-  int primaryVelocity;
-  int topVelocity;
+  double primaryVelocity;
+  double topVelocity;
   double percentSpin;
   double velocityOffset;
   boolean waitTillAtSpeed;
@@ -16,10 +16,10 @@ public class SetShooterSpin extends CommandBase {
 
   public SetShooterSpin(ShootSubsystem shooter, double vel, double spin, boolean waitToHitSpeed) {
     shootSubsystem = shooter;
-    primaryVelocity = (int) (vel * Constants.ShooterConstants.pRPMtoMPSConstant);
-    topVelocity = (int) (vel * Constants.ShooterConstants.tRPMtoMPSConstant);
+    primaryVelocity = (vel / Constants.ShooterConstants.pRPMtoMPSConstant);
+    topVelocity = (vel / Constants.ShooterConstants.tRPMtoMPSConstant);
     waitTillAtSpeed = waitToHitSpeed;
-    percentSpin = spin;
+    percentSpin = spin/2;
 
     addRequirements(shootSubsystem);
   }
