@@ -9,12 +9,20 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.*;
-import frc.robot.commands.groups.*;
+import frc.robot.Constants.SnekConstants;
+import frc.robot.commands.ClimberSetHeight;
+import frc.robot.commands.FeedWithDelay;
+import frc.robot.commands.PrepShotHigh;
+import frc.robot.commands.PrepShotLow;
+import frc.robot.commands.SetShooterRPM;
+import frc.robot.commands.SetSnekSpeed;
+import frc.robot.commands.groups.IntakePreventThreeBallActive;
+import frc.robot.commands.groups.IntakePreventThreeBallInactive;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeFourBar;
@@ -74,7 +82,7 @@ public class RobotContainer {
             () -> {
               if (Constants.ClimberConstants.midHeight + 2 >= climber.getLeftHeight()
                   && climber.getLeftHeight() >= Constants.ClimberConstants.midHeight - 2) {
-                strip.setColor(Pattern.Lime);
+                strip.setColor(Pattern.Green);
               } else if (snekSystem.getUpperLimit() && snekSystem.getLowerLimit()) {
                 strip.setColor(Pattern.White);
               } else if (snekSystem.getUpperLimit() || snekSystem.getLowerLimit()) {
@@ -97,11 +105,48 @@ public class RobotContainer {
     new JoystickButton(driver, XboxController.Button.kLeftBumper.value)
         .whileActiveOnce(
             new SequentialCommandGroup(
-                new PrepShot(shootSubsystem, snekSystem, true),
+                new PrepShotLow(shootSubsystem, snekSystem, true),
                 new SetSnekSpeed(snekSystem, 1.0, 1.0).perpetually()))
         .whenInactive(
             new ParallelCommandGroup(
-                new SetSnekSpeed(snekSystem, 0, 0), new SetShooterRPM(shootSubsystem, 0, false)));
+                new SetSnekSpeed(snekSystem, Constants.zero, Constants.zero),
+                new SetShooterRPM(shootSubsystem, Constants.zero, Constants.zero, false)));
+
+    new JoystickButton(driver, XboxController.Button.kRightBumper.value)
+        .whileActiveOnce(
+            new ParallelRaceGroup(
+                new RunCommand(
+                    () -> {
+                      driveSubsystem.GTADrive(0.2, 0, 0);
+                    },
+                    driveSubsystem),
+                new SequentialCommandGroup(
+                    new PrepShotHigh(shootSubsystem, snekSystem, true),
+                    new FeedWithDelay(snekSystem, SnekConstants.secondHighShotDelay)
+                    // new FeedWithSmartDelay(
+                    //     snekSystem, shootSubsystem, SnekConstants.secondHighShotDelay + 3)
+                    // new SetSnekSpeed(snekSystem, 0.6, 0.6).perpetually()
+                    )))
+        .whenInactive(
+            new ParallelCommandGroup(
+                new SetSnekSpeed(snekSystem, Constants.zero, Constants.zero),
+                new SetShooterRPM(shootSubsystem, Constants.zero, Constants.zero, false)));
+
+    // new JoystickButton(driver, XboxController.Button.kLeftBumper.value)
+    //     .whileActiveContinuous(new SetSnekSpeed(snekSystem, 0.75, 0.75))
+    //     .whenInactive(new SetSnekSpeed(snekSystem, 0, 0));
+
+    // new JoystickButton(driver, XboxController.Button.kLeftBumper.value)
+    //     .whileHeld(
+    //         new ParallelCommandGroup(
+    //             new SetSnekSpeed(snekSystem, 1.0, 1.0),
+    //             new IntakeExtendToLimit(
+    //                 fourBar, Constants.IntakeConstants.intakeExtensionSpeed / 2),
+    //             new IntakeSetRollers(robotIntake, Constants.IntakeConstants.typicalRollerRPM)))
+    //     .whenInactive(
+    //         new ParallelCommandGroup(
+    //             new SetSnekSpeed(snekSystem, 0, 0),
+    //             new IntakeSetRollers(robotIntake, Constants.zero)));
 
     new Trigger(() -> (operator.getBackButton() && operator.getStartButton()))
         .whenActive(

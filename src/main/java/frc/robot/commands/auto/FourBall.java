@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
+import frc.robot.Constants.ShooterConstants.GoalType;
 import frc.robot.commands.FinishShot;
 import frc.robot.commands.IntakeExtendToLimit;
 import frc.robot.commands.IntakeSetRollers;
@@ -22,6 +23,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShootSubsystem;
 import frc.robot.subsystems.SnekSystem;
 import frc.robot.util.FieldConstants;
+import frc.robot.util.TunableNumber;
 import frc.robot.util.Util;
 import java.util.List;
 
@@ -30,6 +32,9 @@ public class FourBall extends SequentialCommandGroup {
   private static Pose2d cargoDPose =
       new Pose2d(FieldConstants.cargoD.getTranslation(), cargoDangleOfApproach)
           .transformBy(Util.Geometry.transformFromTranslation(0, -Units.inchesToMeters(13)));
+
+  private static TunableNumber topShotSpeed;
+  private static TunableNumber primaryShotSpeed;
 
   private static Trajectory leg1 =
       RamsetA.makeTrajectory(
@@ -55,7 +60,7 @@ public class FourBall extends SequentialCommandGroup {
               cargoDPose,
               FieldConstants.cargoG.transformBy(
                   Util.Geometry.transformFromTranslation(
-                      -Units.inchesToMeters(3), -Units.inchesToMeters(3)))),
+                      -Units.inchesToMeters(18), -Units.inchesToMeters(15)))),
           0,
           false);
 
@@ -66,7 +71,7 @@ public class FourBall extends SequentialCommandGroup {
               FieldConstants.cargoG,
               FieldConstants.StartingPoints.fenderB.transformBy(
                   Util.Geometry.transformFromTranslation(
-                      -Units.inchesToMeters(13),
+                      -Units.inchesToMeters(22),
                       -Units.inchesToMeters(10)))), // 8-13 is probably acceptable
           0,
           true);
@@ -80,7 +85,16 @@ public class FourBall extends SequentialCommandGroup {
       IntakeSubsystem intakeSubsystem,
       IntakeFourBar fourBar,
       ShootSubsystem shootSubsystem,
-      SnekSystem snekSystem) {
+      SnekSystem snekSystem,
+      GoalType goalType) {
+
+    if (goalType == GoalType.LOW) {
+      topShotSpeed = Constants.ShooterConstants.topLowShotSpeed;
+      primaryShotSpeed = Constants.ShooterConstants.primaryLowShotSpeed;
+    } else {
+      topShotSpeed = Constants.ShooterConstants.topHighShotSpeed;
+      primaryShotSpeed = Constants.ShooterConstants.primaryHighShotSpeed;
+    }
 
     Command driveToFirstBallAndPickUp =
         new ParallelDeadlineGroup(
@@ -92,8 +106,7 @@ public class FourBall extends SequentialCommandGroup {
     Command driveToHubFromFirstBall =
         new ParallelRaceGroup(
             new ParallelCommandGroup(
-                new SetShooterRPM(
-                    shootSubsystem, Constants.ShooterConstants.typicalShotSpeed.get(), true),
+                new SetShooterRPM(shootSubsystem, primaryShotSpeed.get(), topShotSpeed.get(), true),
                 RamsetA.RamseteSchmoove(leg2, driveSubsystem)),
             new LoadSnek(snekSystem));
 
@@ -101,14 +114,12 @@ public class FourBall extends SequentialCommandGroup {
         new ParallelDeadlineGroup(
             RamsetA.RamseteSchmoove(leg3, driveSubsystem),
             new LoadSnek(snekSystem),
-            new SetShooterRPM(
-                shootSubsystem, Constants.ShooterConstants.typicalShotSpeed.get(), true));
+            new SetShooterRPM(shootSubsystem, primaryShotSpeed.get(), topShotSpeed.get(), true));
 
     Command driveToHubAgain =
         new ParallelRaceGroup(
             new ParallelCommandGroup(
-                new SetShooterRPM(
-                    shootSubsystem, Constants.ShooterConstants.typicalShotSpeed.get(), true),
+                new SetShooterRPM(shootSubsystem, primaryShotSpeed.get(), topShotSpeed.get(), true),
                 RamsetA.RamseteSchmoove(leg4, driveSubsystem)),
             new LoadSnek(snekSystem));
 
