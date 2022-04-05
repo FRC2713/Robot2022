@@ -7,6 +7,8 @@ package frc.robot;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -24,6 +26,9 @@ import frc.robot.commands.auto.TwoBallSecondary;
  */
 public class Robot extends TimedRobot {
 
+  private Field2d field = new Field2d();
+  private FieldObject2d reference_pose = field.getObject("reference");
+
   private RobotContainer m_robotContainer = new RobotContainer();
 
   private SendableChooser<Command> autoSelect = new SendableChooser<>();
@@ -35,7 +40,8 @@ public class Robot extends TimedRobot {
               RobotContainer.fourBar,
               RobotContainer.shootSubsystem,
               RobotContainer.snekSystem,
-              Constants.ShooterConstants.GoalType.LOW)
+              Constants.ShooterConstants.GoalType.LOW,
+              reference_pose)
           .andThen(
               () -> RobotContainer.driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
 
@@ -46,7 +52,8 @@ public class Robot extends TimedRobot {
               RobotContainer.fourBar,
               RobotContainer.shootSubsystem,
               RobotContainer.snekSystem,
-              Constants.ShooterConstants.GoalType.HIGH)
+              Constants.ShooterConstants.GoalType.HIGH,
+              reference_pose)
           .andThen(
               () -> RobotContainer.driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
 
@@ -118,6 +125,8 @@ public class Robot extends TimedRobot {
     autoSelect.addOption("Simple Score", simpleScore);
 
     SmartDashboard.putData("Auto Selector", autoSelect);
+
+    SmartDashboard.putData("field", field);
   }
 
   /**
@@ -134,6 +143,8 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+
+    field.setRobotPose(RobotContainer.driveSubsystem.getPose());
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
