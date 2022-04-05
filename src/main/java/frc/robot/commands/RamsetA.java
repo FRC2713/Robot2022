@@ -87,6 +87,14 @@ public class RamsetA extends SequentialCommandGroup {
 
   public static Command RamseteSchmoove(
       Trajectory autoTrajectory, DriveSubsystem driveSubsystem, FieldObject2d pose_logger) {
+    return RamseteSchmoove(autoTrajectory, driveSubsystem, pose_logger, false);
+  }
+
+  public static Command RamseteSchmoove(
+      Trajectory autoTrajectory,
+      DriveSubsystem driveSubsystem,
+      FieldObject2d pose_logger,
+      boolean resetOdometry) {
     RamseteCommand ramsete =
         new RamseteWithLoggingCommand(
             autoTrajectory,
@@ -108,7 +116,10 @@ public class RamsetA extends SequentialCommandGroup {
     return new SequentialCommandGroup(
         new InstantCommand(
             () -> {
-              driveSubsystem.resetOdometry(autoTrajectory.getInitialPose());
+              if (resetOdometry) {
+
+                driveSubsystem.resetOdometry(autoTrajectory.getInitialPose());
+              }
             }),
         ramsete,
         new InstantCommand(

@@ -54,6 +54,12 @@ public class DriveSubsystem extends SubsystemBase {
 
     setAllCoast();
 
+    // left1.getEncoder().setPositionConversionFactor(Math.PI * 2 / DriveConstants.gearRatio);
+    // right1.getEncoder().setPositionConversionFactor(Math.PI * 2 / DriveConstants.gearRatio);
+
+    // left1.getEncoder().setPosition(0);
+    // right1.getEncoder().setPosition(0);
+
     left1.getEncoder().setPositionConversionFactor(Constants.DriveConstants.distPerPulse);
     right1.getEncoder().setPositionConversionFactor(Constants.DriveConstants.distPerPulse);
     left1.getEncoder().setVelocityConversionFactor(Constants.DriveConstants.distPerPulse / 60);
@@ -139,7 +145,11 @@ public class DriveSubsystem extends SubsystemBase {
 
     SmartDashboard.putNumber("Odo X", roboOdometry.getPoseMeters().getX());
     SmartDashboard.putNumber("Odo Y", roboOdometry.getPoseMeters().getY());
+
     SmartDashboard.putNumber("Odo H", roboOdometry.getPoseMeters().getRotation().getDegrees());
+
+    SmartDashboard.putNumber("AAA LEFT", left1.get());
+    SmartDashboard.putNumber("AAA RIGHT", right1.get());
   }
 
   public void GTADrive(double leftTrigger, double rightTrigger, double turn) {

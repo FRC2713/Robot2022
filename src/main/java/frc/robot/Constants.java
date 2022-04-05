@@ -56,7 +56,7 @@ public final class Constants {
 
   public static final class DriveConstants {
     public static final double kJoystickTurnDeadzone = 0.04;
-    public static final double wheelDiameter = 5;
+    public static final double wheelDiameter = 5.064509185753536;
     public static final double gearRatio = 60.0 / 11.0 * 28.0 / 20; // 60.0 / 10.0;
     public static final double distPerPulse =
         (1.0 / gearRatio) * Units.inchesToMeters(wheelDiameter) * Math.PI;
@@ -153,7 +153,7 @@ public final class Constants {
     public static final double kPDriveVel = 5.7664; // 2.9805; // 3.95;
 
     // more kinematics stuff
-    public static final double trackWidth = Units.inchesToMeters(22);
+    public static final double trackWidth = 0.79323;
     public static final DifferentialDriveKinematics kinematics =
         new DifferentialDriveKinematics(trackWidth);
 
@@ -164,8 +164,8 @@ public final class Constants {
     public static final double RamseteB = 2;
 
     // Max speeds
-    public static final double maxSpeed = Units.feetToMeters(10);
-    public static final double maxAccel = Units.feetToMeters(10);
+    public static final double maxSpeed = Units.feetToMeters(12);
+    public static final double maxAccel = Units.feetToMeters(1);
     public static final double maxVoltageApplied = 10;
   }
 

@@ -65,6 +65,8 @@ public class RamseteWithLoggingCommand extends RamseteCommand {
     super.initialize();
     m_timer.reset();
     m_timer.start();
+
+    m_poseLogger.setTrajectory(m_trajectory);
   }
 
   @Override
