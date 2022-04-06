@@ -150,7 +150,32 @@ public final class Constants {
     public static final double kvVoltSecondsPerMeter = 2.511; // 2.5108; // 2.4361;
     public static final double kaVoltSecondsSquaredPerMeter = 0.34892; // 0.34944; // 0.25946;
 
-    public static final double kPDriveVel = 5.7664; // 2.9805; // 3.95;
+    public static final double kPDriveVel = 2.7096; // 5.7664; // 2.9805; // 3.95;
+
+    public static final class LeftSide {
+      public static final double kS = 0.12603;
+      public static final double kV = 2.5454;
+      public static final double kA = 0.1836;
+      public static final double kP = 2.2523;
+    }
+
+    public static final class RightSide {
+      public static final double kS = 0.13178;
+      public static final double kV = 2.4815;
+      public static final double kA = 0.19303;
+      public static final double kP = 2.3219;
+    }
+
+    public static final class BothSides {
+      public static final double kS =
+          ((LeftSide.kS + RightSide.kS) / 2) / (DriveConstants.wheelDiameter / 2);
+      public static final double kV =
+          ((LeftSide.kV + RightSide.kV) / 2) / (DriveConstants.wheelDiameter / 2);
+      public static final double kA =
+          ((LeftSide.kA + RightSide.kA) / 2) / (DriveConstants.wheelDiameter / 2);
+      // public static final double kP = ((LeftSide.kS + RightSide.kS) / 2 ) /
+      // (DriveConstants.wheelDiameter / 2);
+    }
 
     // more kinematics stuff
     public static final double trackWidth = 0.79323;

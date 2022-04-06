@@ -114,7 +114,7 @@ public class FourBall extends SequentialCommandGroup {
 
     Command driveThroughThirdBallToFourth =
         new ParallelDeadlineGroup(
-            RamsetA.RamseteSchmoove(leg3, driveSubsystem, pose_logger),
+            RamsetA.RamseteSchmoove(leg3, driveSubsystem, pose_logger, true),
             new LoadSnek(snekSystem),
             new SetShooterRPM(shootSubsystem, primaryShotSpeed.get(), topShotSpeed.get(), true));
 
@@ -126,13 +126,13 @@ public class FourBall extends SequentialCommandGroup {
             new LoadSnek(snekSystem));
 
     addCommands(
-        driveToFirstBallAndPickUp,
-        driveToHubFromFirstBall,
-        scoreAllBalls(snekSystem, shootSubsystem),
-        driveThroughThirdBallToFourth,
-        driveToHubAgain,
-        scoreAllBalls(snekSystem, shootSubsystem));
-
+        // driveToFirstBallAndPickUp,
+        // driveToHubFromFirstBall,
+        // scoreAllBalls(snekSystem, shootSubsystem),
+        driveThroughThirdBallToFourth
+        // driveToHubAgain,
+        // scoreAllBalls(snekSystem, shootSubsystem));
+        );
     // addCommands(
     // new ParallelCommandGroup(
     // new IntakeExtendToLimit(fourBar, 0.25, 15).perpetually(),
