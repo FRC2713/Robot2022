@@ -102,6 +102,12 @@ public final class Constants {
     public static final double primaryRadius = Units.inchesToMeters(1.5);
     public static final double topRadius = Units.inchesToMeters(.75);
 
+    //MAKE THESE
+    public static final double pks = 0; 
+    public static final double pkv = 0; 
+    public static final double tks = 0; 
+    public static final double tkv = 0; 
+
     public enum GoalType {
       LOW,
       HIGH;
@@ -111,11 +117,11 @@ public final class Constants {
     public static final double TopGearRatio = 12.0 / 33.0;
     public static final int currentLimit = 40;
     public static final TunableNumber PrimarykP = new TunableNumber("Shooter/kP", 0.00020);
-    public static final TunableNumber PrimarykFF = new TunableNumber("Shooter/kFF", 0.00018);
+    public static final TunableNumber PrimarykFF = new TunableNumber("Shooter/kFF", 0.0); //0.00018);
     public static final TunableNumber PrimarykD = new TunableNumber("Shooter/kD", 0.00006);
 
     public static final TunableNumber TopkP = new TunableNumber("TopShooter/kP", 0.0003);
-    public static final TunableNumber TopkFF = new TunableNumber("TopShooter/kFF", 0.00026);
+    public static final TunableNumber TopkFF = new TunableNumber("TopShooter/kFF", 0.0); //0.00026);
     public static final TunableNumber TopkD = new TunableNumber("TopShooter/kD", 0.00003);
 
     public static final TunableNumber primaryLowShotSpeed =
