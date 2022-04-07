@@ -131,11 +131,6 @@ public class RobotContainer {
     new JoystickButton(driver, XboxController.Button.kRightBumper.value)
         .whileActiveOnce(
             new ParallelRaceGroup(
-                new RunCommand(
-                    () -> {
-                      driveSubsystem.GTADrive(0.2, 0, 0);
-                    },
-                    driveSubsystem),
                 new SequentialCommandGroup(
                     new PrepShotHigh(shootSubsystem, snekSystem, true),
                     new FeedWithDelay(snekSystem, SnekConstants.secondHighShotDelay)
