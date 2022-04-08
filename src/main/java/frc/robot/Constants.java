@@ -212,9 +212,11 @@ public final class Constants {
     //   public static final TunableNumber midRungHeight =
     //       new TunableNumber("Climber/Mid Rung Height", 170);
   }
-  public static final class LimelightConstants
-  {
-    public static final TunableNumber rotationKP = new TunableNumber("Limelight/kp", 1.0); //1.0 change
-    public static final TunableNumber rotationalTolerance = new TunableNumber("Limelight/Tolerance", 1.0);
+
+  public static final class LimelightConstants {
+    public static final TunableNumber rotationKP =
+        new TunableNumber("Limelight/kp", 1.0); // 1.0 change
+    public static final TunableNumber rotationalTolerance =
+        new TunableNumber("Limelight/Tolerance", 1.0);
   }
 }
