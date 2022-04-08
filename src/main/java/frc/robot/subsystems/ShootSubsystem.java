@@ -3,9 +3,8 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.SparkMaxPIDController.ArbFFUnits;
 import com.revrobotics.CANSparkMaxLowLevel;
-
+import com.revrobotics.SparkMaxPIDController.ArbFFUnits;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -26,8 +25,10 @@ public class ShootSubsystem extends SubsystemBase {
           Constants.RobotMap.flywheelTopRight, CANSparkMaxLowLevel.MotorType.kBrushless);
   private double primarySetpoint = 0;
   private double topSetpoint = 0;
-  private SimpleMotorFeedforward primaryFF = new SimpleMotorFeedforward(Constants.ShooterConstants.pks, Constants.ShooterConstants.pkv);
-  private SimpleMotorFeedforward topFF = new SimpleMotorFeedforward(Constants.ShooterConstants.tks, Constants.ShooterConstants.tkv);
+  private SimpleMotorFeedforward primaryFF =
+      new SimpleMotorFeedforward(Constants.ShooterConstants.pks, Constants.ShooterConstants.pkv);
+  private SimpleMotorFeedforward topFF =
+      new SimpleMotorFeedforward(Constants.ShooterConstants.tks, Constants.ShooterConstants.tkv);
 
   public ShootSubsystem() {
     fly1.restoreFactoryDefaults();
@@ -70,15 +71,22 @@ public class ShootSubsystem extends SubsystemBase {
     primarySetpoint = targetRPM;
     SmartDashboard.putNumber("ShooterSetpoint", targetRPM);
     // fly1.getPIDController().setReference(targetRPM, ControlType.kVelocity);
-    fly1.getPIDController().setReference(targetRPM, ControlType.kVelocity, 0, primaryFF.calculate(targetRPM), ArbFFUnits.kVoltage);
+    fly1.getPIDController()
+        .setReference(
+            targetRPM,
+            ControlType.kVelocity,
+            0,
+            primaryFF.calculate(targetRPM),
+            ArbFFUnits.kVoltage);
   }
 
   public void setTopRPM(double targetRPM) {
     topSetpoint = targetRPM;
     SmartDashboard.putNumber("TopSetpoint", targetRPM);
     // top1.getPIDController().setReference(targetRPM, ControlType.kVelocity);
-    top1.getPIDController().setReference(targetRPM, ControlType.kVelocity, 0, topFF.calculate(targetRPM), ArbFFUnits.kVoltage);
-
+    top1.getPIDController()
+        .setReference(
+            targetRPM, ControlType.kVelocity, 0, topFF.calculate(targetRPM), ArbFFUnits.kVoltage);
   }
 
   public boolean primaryCloseEnough() {

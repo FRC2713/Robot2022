@@ -24,7 +24,7 @@ import frc.robot.commands.auto.TwoBallSecondary;
  */
 public class Robot extends TimedRobot {
 
-  private RobotContainer m_robotContainer = new RobotContainer(); //DO NOT DELETE THIS
+  private RobotContainer m_robotContainer = new RobotContainer(); // DO NOT DELETE THIS
 
   private SendableChooser<Command> autoSelect = new SendableChooser<>();
 
