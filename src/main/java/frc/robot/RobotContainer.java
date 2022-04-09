@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.SnekConstants;
+import frc.robot.commands.AlignToGoal;
 import frc.robot.commands.ClimberSetHeight;
 import frc.robot.commands.FeedWithDelay;
 import frc.robot.commands.PrepShotHigh;
@@ -27,6 +28,7 @@ import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeFourBar;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShootSubsystem;
 import frc.robot.subsystems.SnekSystem;
 import frc.robot.subsystems.StripSubsystem;
@@ -47,6 +49,7 @@ public class RobotContainer {
   public static final SnekSystem snekSystem = new SnekSystem();
   public static final StripSubsystem strip = new StripSubsystem();
   private final ClimberSubsystem climber = new ClimberSubsystem();
+  public static final LimelightSubsystem limelight = new LimelightSubsystem();
 
   public static final XboxController driver = new XboxController(Constants.zero);
   public static final XboxController operator = new XboxController(1);
@@ -62,6 +65,15 @@ public class RobotContainer {
                   driver.getLeftTriggerAxis(), driver.getRightTriggerAxis(), driver.getLeftX());
             },
             driveSubsystem));
+
+    // driveSubsystem.setDefaultCommand(
+    //     new RunCommand(
+    //         () -> {
+    //           driveSubsystem.tankDriveVolts(
+    //               -LimelightConstants.kTurnInPlaceStaticVolts.get(),
+    //               LimelightConstants.kTurnInPlaceStaticVolts.get());
+    //         },
+    //         driveSubsystem));
 
     climber.setDefaultCommand(
         new RunCommand(
@@ -92,6 +104,17 @@ public class RobotContainer {
               }
             },
             strip));
+
+    // shootSubsystem.setDefaultCommand(new RunCommand(() -> {
+    //   if (snekSystem.getLowerLimit() || snekSystem.getUpperLimit()) {
+    //     if (limelight.hasValidTargets()) {
+    //       shootSubsystem.shootAtDistance(limelight.getHorizontalOffset());
+    //     } else {
+    //       shootSubsystem.setPrimaryRPM(ShooterConstants.primaryLowShotSpeed.get());
+    //       shootSubsystem.setTopRPM(ShooterConstants.topLowShotSpeed.get());
+    //     }
+    //   }
+    // }, shootSubsystem));
   }
 
   /**
@@ -112,16 +135,35 @@ public class RobotContainer {
                 new SetSnekSpeed(snekSystem, Constants.zero, Constants.zero),
                 new SetShooterRPM(shootSubsystem, Constants.zero, Constants.zero, false)));
 
+    // new JoystickButton(driver, XboxController.Button.kX.value)
+    //     .whileActiveOnce(
+    //         new SequentialCommandGroup(
+    //             // new PrepShotHigh(shootSubsystem, snekSystem, true),
+    //             new SetShooterSpin(shootSubsystem, 8 /* m/s */, 0 /* spin */, true),
+    //             new FeedWithDelay(snekSystem, SnekConstants.secondHighShotDelay)
+    //             // new FeedWithSmartDelay(
+    //             //     snekSystem, shootSubsystem, SnekConstants.secondHighShotDelay + 3)
+    //             // new SetSnekSpeed(snekSystem, 0.6, 0.6).perpetually()
+    //             ))
+    //     .whenInactive(
+    //         new ParallelCommandGroup(
+    //             new SetSnekSpeed(snekSystem, Constants.zero, Constants.zero),
+    //             new SetShooterRPM(shootSubsystem, Constants.zero, Constants.zero, false)));
+
+    // new JoystickButton(driver, XboxController.Button.kX.value)
+    //     .whenHeld(new AlignToGoal(driveSubsystem, limelight));
+
+    new JoystickButton(driver, XboxController.Button.kX.value)
+        .whileActiveContinuous(new SetSnekSpeed(snekSystem, 1.0, 1.0))
+        .whenInactive(new SetSnekSpeed(snekSystem, Constants.zero, Constants.zero));
+
     new JoystickButton(driver, XboxController.Button.kRightBumper.value)
         .whileActiveOnce(
             new ParallelRaceGroup(
-                new RunCommand(
-                    () -> {
-                      driveSubsystem.GTADrive(0.2, 0, 0);
-                    },
-                    driveSubsystem),
                 new SequentialCommandGroup(
-                    new PrepShotHigh(shootSubsystem, snekSystem, true),
+                    new ParallelCommandGroup(
+                        new PrepShotHigh(shootSubsystem, snekSystem, limelight, true),
+                        new AlignToGoal(driveSubsystem, limelight, strip)),
                     new FeedWithDelay(snekSystem, SnekConstants.secondHighShotDelay)
                     // new FeedWithSmartDelay(
                     //     snekSystem, shootSubsystem, SnekConstants.secondHighShotDelay + 3)

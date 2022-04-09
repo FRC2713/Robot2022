@@ -99,6 +99,14 @@ public final class Constants {
 
   public static final class ShooterConstants {
     public static final double twoBallSpeedOffset = 125;
+    public static final double primaryRadius = Units.inchesToMeters(1.5);
+    public static final double topRadius = Units.inchesToMeters(.75);
+
+    // MAKE THESE
+    public static final double pks = 0.18554 / 60.0;
+    public static final double pkv = 0.12648 / 60.0;
+    public static final double tks = 0.22372 / 60.0;
+    public static final double tkv = 0.17596 / 60.0;
 
     public enum GoalType {
       LOW,
@@ -107,23 +115,33 @@ public final class Constants {
 
     public static final double PrimaryGearRatio = 1.0;
     public static final double TopGearRatio = 12.0 / 33.0;
-    public static final int currentLimit = 40;
-    public static final TunableNumber PrimarykP = new TunableNumber("Shooter/kP", 0.00020);
-    public static final TunableNumber PrimarykFF = new TunableNumber("Shooter/kFF", 0.00018);
-    public static final TunableNumber PrimarykD = new TunableNumber("Shooter/kD", 0.00006);
+    public static final int currentLimit = 55;
+    public static final int topCurrentLimit = 35;
+    public static final TunableNumber PrimarykP =
+        new TunableNumber("Shooter/kP", 0.00000087061 / 60);
+    public static final TunableNumber PrimarykFF =
+        new TunableNumber("Shooter/kFF", 0.0); // 0.00018);
+    public static final TunableNumber PrimarykD = new TunableNumber("Shooter/kD", 0.000);
 
-    public static final TunableNumber TopkP = new TunableNumber("TopShooter/kP", 0.0003);
-    public static final TunableNumber TopkFF = new TunableNumber("TopShooter/kFF", 0.00026);
-    public static final TunableNumber TopkD = new TunableNumber("TopShooter/kD", 0.00003);
+    // 2.0319E-08
+    // 0.000000020319
+    public static final TunableNumber TopkP =
+        new TunableNumber("TopShooter/kP", 0.000000020319); // 0.0003);
+    public static final TunableNumber TopkFF =
+        new TunableNumber("TopShooter/kFF", 0.0); // 0.00026);
+    public static final TunableNumber TopkD = new TunableNumber("TopShooter/kD", 0.0); // 0.00003);
 
     public static final TunableNumber primaryLowShotSpeed =
         new TunableNumber("Primary Shooter/Speed", 1600);
     public static final TunableNumber topLowShotSpeed =
         new TunableNumber("Top Shooter/Speed", 1600);
     public static final TunableNumber primaryHighShotSpeed =
-        new TunableNumber("Primary Shooter/Speed", 2900);
+        new TunableNumber("Primary Shooter/Speed", 2200);
     public static final TunableNumber topHighShotSpeed =
-        new TunableNumber("Top Shooter/Speed", 3200);
+        new TunableNumber("Top Shooter/Speed", 3600);
+
+    public static final double pRPMtoMPSConstant = (primaryRadius * 2 * 3.14 / 60); // 290;
+    public static final double tRPMtoMPSConstant = (topRadius * 2 * 3.14 / 60);
 
     public static final boolean waitUntilAtSpeed = true;
 
@@ -137,10 +155,10 @@ public final class Constants {
 
     public static final double upperReversePower = -0.4;
     public static final double lowerReversePower = -0.1;
-    public static final double reverseDuration = 0.25;
+    public static final double reverseDuration = 0.1;
 
     public static final double debouncerDuration = 0.75;
-    public static final double secondHighShotDelay = 0.75;
+    public static final double secondHighShotDelay = 0.25;
   }
 
   public static final class AutoConstants {
@@ -164,8 +182,8 @@ public final class Constants {
     public static final double RamseteB = 2;
 
     // Max speeds
-    public static final double maxSpeed = Units.feetToMeters(10);
-    public static final double maxAccel = Units.feetToMeters(10);
+    public static final double maxSpeed = Units.feetToMeters(5);
+    public static final double maxAccel = Units.feetToMeters(2);
     public static final double maxVoltageApplied = 10;
   }
 
@@ -198,5 +216,14 @@ public final class Constants {
 
     //   public static final TunableNumber midRungHeight =
     //       new TunableNumber("Climber/Mid Rung Height", 170);
+  }
+
+  public static final class LimelightConstants {
+    public static final TunableNumber rotationKP =
+        new TunableNumber("Limelight/kp", .0125); // 1.0 change
+    public static final TunableNumber rotationalTolerance =
+        new TunableNumber("Limelight/Tolerance", 1.5);
+    public static final TunableNumber kTurnInPlaceStaticVolts =
+        new TunableNumber("Limelight/RotatekS", 0.75);
   }
 }
