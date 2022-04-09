@@ -9,7 +9,9 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.util.InterpolatingTreeMap;
+import frc.robot.util.TunableNumber;
 import frc.robot.util.Util;
 
 public class ShootSubsystem extends SubsystemBase {
@@ -31,11 +33,20 @@ public class ShootSubsystem extends SubsystemBase {
   private SimpleMotorFeedforward topFF =
       new SimpleMotorFeedforward(Constants.ShooterConstants.tks, Constants.ShooterConstants.tkv);
 
+  private TunableNumber surfaceSpeed = new TunableNumber("Shooter/SurfaceSpeed", 0);
+
   private InterpolatingTreeMap<Double, Double> shooterSpeedMap =
       new InterpolatingTreeMap<>() {
         {
           // distance, speed
-          put(1.0, 1.0);
+          put(8.6, 7.0);
+          put(5.8, 7.0);
+          put(-2.0, 7.75);
+          put(-6.5, 8.25);
+          put(-10.2, 9.0);
+          put(-17.4, 11.0);
+          put(-20.6, 13.0);
+          put(-24.3, 14.0);
         }
       };
 
@@ -64,7 +75,7 @@ public class ShootSubsystem extends SubsystemBase {
     top2.setIdleMode(IdleMode.kCoast);
 
     fly1.setSmartCurrentLimit(Constants.ShooterConstants.currentLimit);
-    top1.setSmartCurrentLimit(Constants.ShooterConstants.currentLimit);
+    top1.setSmartCurrentLimit(Constants.ShooterConstants.topCurrentLimit);
 
     fly1.getPIDController().setP(Constants.ShooterConstants.PrimarykP.get());
     fly1.getPIDController().setFF(Constants.ShooterConstants.PrimarykFF.get());
@@ -81,7 +92,18 @@ public class ShootSubsystem extends SubsystemBase {
   }
 
   public void shootAtDistance(double distance) {
-    setPrimaryRPM(shooterSpeedMap.get(distance));
+    double surfaceSpeed = shooterSpeedMap.get(distance);
+    SmartDashboard.putNumber("Interpolated Surface Speed", surfaceSpeed);
+    setPrimarySurfaceSpeed(surfaceSpeed);
+    setTopSurfaceSpeed(surfaceSpeed);
+  }
+
+  public void setPrimarySurfaceSpeed(double surfaceSpeed) {
+    setPrimaryRPM(surfaceSpeed / Constants.ShooterConstants.pRPMtoMPSConstant);
+  }
+
+  public void setTopSurfaceSpeed(double surfaceSpeed) {
+    setTopRPM(surfaceSpeed / Constants.ShooterConstants.tRPMtoMPSConstant);
   }
 
   public void setPrimaryRPM(double targetRPM) {
@@ -99,6 +121,8 @@ public class ShootSubsystem extends SubsystemBase {
   }
 
   public void setTopRPM(double targetRPM) {
+    targetRPM = Math.min(targetRPM, 11000 * ShooterConstants.TopGearRatio * 0.9);
+
     topSetpoint = targetRPM;
     SmartDashboard.putNumber("TopSetpoint", targetRPM);
     // top1.getPIDController().setReference(targetRPM, ControlType.kVelocity);
@@ -130,15 +154,22 @@ public class ShootSubsystem extends SubsystemBase {
       top1.getPIDController().setP(Constants.ShooterConstants.TopkP.get());
       top1.getPIDController().setFF(Constants.ShooterConstants.TopkFF.get());
 
-      fly1.getPIDController()
-          .setReference(
-              Constants.ShooterConstants.primaryHighShotSpeed.get(), ControlType.kVelocity);
-      top1.getPIDController()
-          .setReference(Constants.ShooterConstants.topHighShotSpeed.get(), ControlType.kVelocity);
+      double surfaceSpeedDbl = surfaceSpeed.get();
+      double primaryVelocity = surfaceSpeedDbl / Constants.ShooterConstants.pRPMtoMPSConstant;
+      double topVelocity = surfaceSpeedDbl / Constants.ShooterConstants.tRPMtoMPSConstant;
+
+      if (topVelocity > 11000 * ShooterConstants.TopGearRatio) {
+        topVelocity = 11000 * ShooterConstants.TopGearRatio;
+      }
+
+      setPrimaryRPM(primaryVelocity);
+      setTopRPM(topVelocity);
     }
     SmartDashboard.putNumber("ShooterRPM", fly1.getEncoder().getVelocity());
     SmartDashboard.putNumber("TopShooterRPM", top1.getEncoder().getVelocity());
     SmartDashboard.putNumber("Shooter error", fly1.getEncoder().getVelocity() - primarySetpoint);
     SmartDashboard.putNumber("Top error", top1.getEncoder().getVelocity() - topSetpoint);
+    SmartDashboard.putBoolean("TopAtSpeed", topCloseEnough());
+    SmartDashboard.putBoolean("PrimAtSpeed", primaryCloseEnough());
   }
 }

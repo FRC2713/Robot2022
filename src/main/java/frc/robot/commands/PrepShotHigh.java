@@ -7,6 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
+import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShootSubsystem;
 import frc.robot.subsystems.SnekSystem;
 
@@ -14,25 +15,26 @@ public class PrepShotHigh extends SequentialCommandGroup {
 
   /** Creates a new PrepShot. */
   public PrepShotHigh(
-      ShootSubsystem shootSubsystem, SnekSystem snekSystem, boolean shouldRollback) {
+      ShootSubsystem shootSubsystem,
+      SnekSystem snekSystem,
+      LimelightSubsystem limelightSubsystem,
+      boolean shouldRollback) {
     if (shouldRollback) {
       addCommands(
-          // new SetSnekSpeed(
-          // snekSystem,
-          // Constants.SnekConstants.upperReversePower,
-          // Constants.SnekConstants.lowerReversePower)
-          // .perpetually()
-          // .withTimeout(Constants.SnekConstants.reverseDuration),
+          new SetSnekSpeed(snekSystem, Constants.SnekConstants.upperReversePower, 0)
+              .perpetually()
+              .withTimeout(Constants.SnekConstants.reverseDuration),
           new ParallelCommandGroup(
               new SetSnekSpeed(snekSystem, 0, 0)
                   .withInterrupt(
                       () ->
                           (shootSubsystem.primaryCloseEnough() && shootSubsystem.topCloseEnough())),
-              new SetShooterRPM(
-                  shootSubsystem,
-                  Constants.ShooterConstants.primaryHighShotSpeed.get(),
-                  Constants.ShooterConstants.topHighShotSpeed.get(),
-                  Constants.ShooterConstants.waitUntilAtSpeed)));
+              // new SetShooterRPM(
+              //     shootSubsystem,
+              //     Constants.ShooterConstants.primaryHighShotSpeed.get(),
+              //     Constants.ShooterConstants.topHighShotSpeed.get(),
+              //     Constants.ShooterConstants.waitUntilAtSpeed)));
+              new ShootWithLimelight(shootSubsystem, limelightSubsystem)));
     } else {
       addCommands(
           // new SetSnekSpeed(snekSystem, 0, 0)

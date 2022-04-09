@@ -7,7 +7,7 @@
       "userScale": "2",
       "width": "1604",
       "xpos": "0",
-      "ypos": "45"
+      "ypos": "23"
     }
   },
   "Window": {
@@ -19,11 +19,11 @@
     "###Generator": {
       "Collapsed": "0",
       "Pos": "8,22",
-      "Size": "606,408"
+      "Size": "535,302"
     },
     "###Logger": {
       "Collapsed": "0",
-      "Pos": "10,428",
+      "Pos": "6,344",
       "Size": "609,438"
     },
     "###Program Log": {
@@ -38,7 +38,7 @@
     },
     "Deploy Status": {
       "Collapsed": "0",
-      "Pos": "626,29",
+      "Pos": "627,29",
       "Size": "802,704"
     },
     "Diagnostic Plots": {

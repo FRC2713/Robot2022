@@ -105,8 +105,8 @@ public final class Constants {
     // MAKE THESE
     public static final double pks = 0.18554 / 60.0;
     public static final double pkv = 0.12648 / 60.0;
-    public static final double tks = 0;
-    public static final double tkv = 0;
+    public static final double tks = 0.22372 / 60.0;
+    public static final double tkv = 0.17596 / 60.0;
 
     public enum GoalType {
       LOW,
@@ -115,16 +115,21 @@ public final class Constants {
 
     public static final double PrimaryGearRatio = 1.0;
     public static final double TopGearRatio = 12.0 / 33.0;
-    public static final int currentLimit = 40;
-    public static final TunableNumber PrimarykP = new TunableNumber("Shooter/kP", 0.00000087061);
+    public static final int currentLimit = 55;
+    public static final int topCurrentLimit = 35;
+    public static final TunableNumber PrimarykP =
+        new TunableNumber("Shooter/kP", 0.00000087061 / 60);
     public static final TunableNumber PrimarykFF =
         new TunableNumber("Shooter/kFF", 0.0); // 0.00018);
-    public static final TunableNumber PrimarykD = new TunableNumber("Shooter/kD", 0.00006);
+    public static final TunableNumber PrimarykD = new TunableNumber("Shooter/kD", 0.000);
 
-    public static final TunableNumber TopkP = new TunableNumber("TopShooter/kP", 0.0003);
+    // 2.0319E-08
+    // 0.000000020319
+    public static final TunableNumber TopkP =
+        new TunableNumber("TopShooter/kP", 0.000000020319); // 0.0003);
     public static final TunableNumber TopkFF =
-        new TunableNumber("TopShooter/kFF", 0.00026); // 0.00026);
-    public static final TunableNumber TopkD = new TunableNumber("TopShooter/kD", 0.00003);
+        new TunableNumber("TopShooter/kFF", 0.0); // 0.00026);
+    public static final TunableNumber TopkD = new TunableNumber("TopShooter/kD", 0.0); // 0.00003);
 
     public static final TunableNumber primaryLowShotSpeed =
         new TunableNumber("Primary Shooter/Speed", 1600);
@@ -150,10 +155,10 @@ public final class Constants {
 
     public static final double upperReversePower = -0.4;
     public static final double lowerReversePower = -0.1;
-    public static final double reverseDuration = 0.25;
+    public static final double reverseDuration = 0.1;
 
     public static final double debouncerDuration = 0.75;
-    public static final double secondHighShotDelay = 0.75;
+    public static final double secondHighShotDelay = 0.25;
   }
 
   public static final class AutoConstants {
@@ -215,8 +220,10 @@ public final class Constants {
 
   public static final class LimelightConstants {
     public static final TunableNumber rotationKP =
-        new TunableNumber("Limelight/kp", .025); // 1.0 change
+        new TunableNumber("Limelight/kp", .0125); // 1.0 change
     public static final TunableNumber rotationalTolerance =
-        new TunableNumber("Limelight/Tolerance", 3.0);
+        new TunableNumber("Limelight/Tolerance", 1.5);
+    public static final TunableNumber kTurnInPlaceStaticVolts =
+        new TunableNumber("Limelight/RotatekS", 0.75);
   }
 }
