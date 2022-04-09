@@ -23,6 +23,7 @@ public class WaitForHumanPlayer extends WaitCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    super.initialize();
     driveSubsystem.tankDriveVolts(
         AutoConstants.crawlTowardsHumanPlayerVolts, AutoConstants.crawlTowardsHumanPlayerVolts);
   }
@@ -36,6 +37,7 @@ public class WaitForHumanPlayer extends WaitCommand {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    super.end(interrupted);
     driveSubsystem.tankDriveVolts(0, 0);
   }
 
