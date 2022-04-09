@@ -185,6 +185,10 @@ public final class Constants {
     public static final double maxSpeed = Units.feetToMeters(5);
     public static final double maxAccel = Units.feetToMeters(2);
     public static final double maxVoltageApplied = 10;
+
+    // five ball
+    public static final double waitForHumanPlayerDuration = 2.0;
+    public static final double crawlTowardsHumanPlayerVolts = 0.25;
   }
 
   public static final class ClimberConstants {
