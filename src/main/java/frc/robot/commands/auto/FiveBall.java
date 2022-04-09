@@ -1,9 +1,6 @@
 package frc.robot.commands.auto;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
@@ -32,29 +29,17 @@ import frc.robot.util.Util;
 import java.util.List;
 
 public class FiveBall extends SequentialCommandGroup {
-  private static Rotation2d cargoDangleOfApproach = Rotation2d.fromDegrees(180);
-  private static Pose2d cargoDPose =
-      new Pose2d(FieldConstants.cargoD.getTranslation(), cargoDangleOfApproach)
-          .transformBy(Util.Geometry.transformFromTranslation(0, -Units.inchesToMeters(0)));
 
   private static TunableNumber topShotSpeed;
   private static TunableNumber primaryShotSpeed;
 
   private static Trajectory leg1 =
       RamsetA.makeTrajectory(
-          0.0,
-          List.of(FieldConstants.StartingPoints.tarmacD, FieldConstants.cargoE),
-          0.0,
-          Units.feetToMeters(8),
-          false);
+          0.0, List.of(FieldConstants.StartingPoints.tarmacD, FieldConstants.cargoE), 0.0, false);
 
   private static Trajectory leg2 =
       RamsetA.makeTrajectory(
-          0.0,
-          List.of(FieldConstants.cargoE, FieldConstants.StartingPoints.tarmacD),
-          0.0,
-          Units.feetToMeters(5),
-          true);
+          0.0, List.of(FieldConstants.cargoE, FieldConstants.StartingPoints.tarmacD), 0.0, true);
 
   private static Trajectory leg3 =
       RamsetA.makeTrajectory(
@@ -66,6 +51,10 @@ public class FiveBall extends SequentialCommandGroup {
   private static Trajectory leg4 =
       RamsetA.makeTrajectory(
           0, List.of(FieldConstants.StartingPoints.fenderB, FieldConstants.cargoD), 0.0, false);
+
+  private static Trajectory leg34 =
+      RamsetA.makeTrajectory(
+          0, List.of(FieldConstants.StartingPoints.tarmacD, FieldConstants.cargoD), 0, false);
 
   private static Trajectory leg5 =
       RamsetA.makeTrajectory(0, List.of(FieldConstants.cargoD, FieldConstants.cargoG), 0, false);
@@ -116,6 +105,11 @@ public class FiveBall extends SequentialCommandGroup {
             new SequentialCommandGroup(
                 RamsetA.RamseteSchmoove(leg3, driveSubsystem),
                 RamsetA.RamseteSchmoove(leg4, driveSubsystem)),
+            new LoadSnek(snekSystem));
+
+    Command driveToThirdBall =
+        new ParallelDeadlineGroup(
+            new SequentialCommandGroup(RamsetA.RamseteSchmoove(leg34, driveSubsystem)),
             new LoadSnek(snekSystem),
             new SetShooterRPM(shootSubsystem, primaryShotSpeed.get(), topShotSpeed.get(), true));
 
@@ -126,9 +120,7 @@ public class FiveBall extends SequentialCommandGroup {
 
     Command driveBackToTarmac =
         new ParallelRaceGroup(
-            new SequentialCommandGroup(
-                new SetShooterRPM(shootSubsystem, primaryShotSpeed.get(), topShotSpeed.get(), true),
-                RamsetA.RamseteSchmoove(Util.invertTrajectory(leg5), driveSubsystem)),
+            RamsetA.RamseteSchmoove(Util.invertTrajectory(leg5), driveSubsystem),
             new LoadSnek(snekSystem));
 
     addCommands(
@@ -136,7 +128,8 @@ public class FiveBall extends SequentialCommandGroup {
         driveToTarmac,
         scoreAllBalls(
             snekSystem, shootSubsystem, driveSubsystem, limelightSubsystem, stripSubsystem),
-        driveToFenderThenThirdBall,
+        // driveToFenderThenThirdBall,
+        driveToThirdBall,
         scoreAllBalls(
             snekSystem, shootSubsystem, driveSubsystem, limelightSubsystem, stripSubsystem),
         driveToTerminal,
