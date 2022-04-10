@@ -6,14 +6,16 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.Constants.SnekConstants;
 import frc.robot.subsystems.IntakeFourBar;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.SnekSystem;
 
-public class PoopCargo extends CommandBase {
+public class PoopCargo extends SequentialCommandGroup {
   /** Creates a new AutoEmptySnek. */
   Debouncer completelyEmpty = new Debouncer(SnekConstants.debouncerDuration);
 
@@ -28,34 +30,27 @@ public class PoopCargo extends CommandBase {
     this.snekSystem = snekSystem;
     this.intakeSubsystem = intakeSubsystem;
     this.intakeFourBar = intakeFourBar;
-    addRequirements(snekSystem, intakeSubsystem);
-  }
-
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-    snekSystem.setUpperSnekSpeed(-1.0);
-    snekSystem.setLowerSnekSpeed(-1.0);
-    new IntakeExtendToLimit(intakeFourBar, Constants.IntakeConstants.intakeExtensionSpeed);
-    new IntakeSetRollers(intakeSubsystem, -Constants.IntakeConstants.typicalRollerRPM);
-  }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {}
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-    snekSystem.setLowerSnekSpeed(0.0);
-    snekSystem.setUpperSnekSpeed(0.0);
-    new IntakeExtendToLimit(intakeFourBar, -Constants.IntakeConstants.intakeExtensionSpeed);
-    new IntakeSetRollers(intakeSubsystem, Constants.zero);
-  }
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return completelyEmpty.calculate(!snekSystem.getLowerLimit() && !snekSystem.getUpperLimit());
+    addCommands(
+        new IntakeExtendToLimit(intakeFourBar, Constants.IntakeConstants.intakeExtensionSpeed),
+        new IntakeSetRollers(intakeSubsystem, -Constants.IntakeConstants.typicalRollerRPM),
+        new RunCommand(
+                () -> {
+                  snekSystem.setUpperSnekSpeed(-1.0);
+                  snekSystem.setLowerSnekSpeed(-1.0);
+                },
+                snekSystem)
+            .perpetually()
+            .withInterrupt(
+                () ->
+                    completelyEmpty.calculate(
+                        !snekSystem.getLowerLimit() && !snekSystem.getUpperLimit())),
+        new InstantCommand(
+            () -> {
+              snekSystem.setLowerSnekSpeed(0.0);
+              snekSystem.setUpperSnekSpeed(0.0);
+            },
+            snekSystem),
+        new IntakeExtendToLimit(intakeFourBar, -Constants.IntakeConstants.intakeExtensionSpeed),
+        new IntakeSetRollers(intakeSubsystem, Constants.zero));
   }
 }
