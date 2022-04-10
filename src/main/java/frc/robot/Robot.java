@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -15,6 +16,7 @@ import frc.robot.commands.auto.FourBall;
 import frc.robot.commands.auto.SimpleScore;
 import frc.robot.commands.auto.ThreeBallSecondary;
 import frc.robot.commands.auto.TwoBallSecondary;
+import frc.robot.subsystems.LimelightSubsystem.LedMode;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -94,6 +96,7 @@ public class Robot extends TimedRobot {
           .andThen(
               () -> RobotContainer.driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
 
+              
   private Command simpleScore =
       new SimpleScore(
           RobotContainer.driveSubsystem, RobotContainer.shootSubsystem, RobotContainer.snekSystem);
@@ -138,7 +141,13 @@ public class Robot extends TimedRobot {
 
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    if (DriverStation.isFMSAttached()) {
+      RobotContainer.limelight.setLedMode(LedMode.PIPELINE);
+    } else {
+      RobotContainer.limelight.setLedMode(LedMode.FORCE_OFF);
+    }
+  }
 
   @Override
   public void disabledPeriodic() {}
@@ -146,6 +155,7 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
+    RobotContainer.limelight.setLedMode(LedMode.PIPELINE);
 
     m_autonomousCommand = autoSelect.getSelected();
     if (m_autonomousCommand == null) {
@@ -164,6 +174,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    RobotContainer.limelight.setLedMode(LedMode.PIPELINE);
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove

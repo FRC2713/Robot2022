@@ -51,6 +51,9 @@ public class ShootSubsystem extends SubsystemBase {
     top1.setIdleMode(IdleMode.kCoast);
     top2.setIdleMode(IdleMode.kCoast);
 
+    fly1.enableVoltageCompensation(10);
+    top1.enableVoltageCompensation(10);
+
     fly1.setSmartCurrentLimit(Constants.ShooterConstants.currentLimit);
     top1.setSmartCurrentLimit(Constants.ShooterConstants.currentLimit);
 
