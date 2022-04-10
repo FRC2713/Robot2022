@@ -115,8 +115,8 @@ public final class Constants {
 
     public static final double PrimaryGearRatio = 1.0;
     public static final double TopGearRatio = 12.0 / 33.0;
-    public static final int currentLimit = 55;
-    public static final int topCurrentLimit = 35;
+    public static final int currentLimit = 85;
+    public static final int topCurrentLimit = 40;
     public static final TunableNumber PrimarykP =
         new TunableNumber("Shooter/kP", 0.00000087061 / 60);
     public static final TunableNumber PrimarykFF =
@@ -151,13 +151,13 @@ public final class Constants {
   public static final class SnekConstants {
     public static final int currentLimit = 20;
     public static final double snekSpeed = 0.4;
-    public static final double upperSnekSpeed = 0.3;
+    public static final double upperSnekSpeed = 0.2;
 
     public static final double upperReversePower = -0.4;
     public static final double lowerReversePower = -0.1;
     public static final double reverseDuration = 0.1;
 
-    public static final double debouncerDuration = 0.75;
+    public static final double debouncerDuration = 0.25;
     public static final double secondHighShotDelay = 0.25;
   }
 
@@ -175,20 +175,20 @@ public final class Constants {
     public static final DifferentialDriveKinematics kinematics =
         new DifferentialDriveKinematics(trackWidth);
 
-    public static final double maxCentripetalAcceleration = 2.54;
+    public static final double maxCentripetalAcceleration = 1.5;
 
     // Ramsete constants; generally the same on all robots
     public static final double RamseteZeta = 0.7;
     public static final double RamseteB = 2;
 
     // Max speeds
-    public static final double maxSpeed = Units.feetToMeters(5);
-    public static final double maxAccel = Units.feetToMeters(2);
+    public static final double maxSpeed = Units.feetToMeters(15);
+    public static final double maxAccel = Units.feetToMeters(5);
     public static final double maxVoltageApplied = 10;
 
     // five ball
-    public static final double waitForHumanPlayerDuration = 2.0;
-    public static final double crawlTowardsHumanPlayerVolts = 0.25;
+    public static final double waitForHumanPlayerDuration = 0.5;
+    public static final double crawlTowardsHumanPlayerVolts = 0.6;
   }
 
   public static final class ClimberConstants {

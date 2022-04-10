@@ -1,6 +1,9 @@
 package frc.robot.commands.auto;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
@@ -14,6 +17,7 @@ import frc.robot.commands.IntakeExtendToLimit;
 import frc.robot.commands.IntakeSetRollers;
 import frc.robot.commands.LoadSnek;
 import frc.robot.commands.RamsetA;
+import frc.robot.commands.SetShooterRPM;
 import frc.robot.commands.ShootWithLimelight;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeFourBar;
@@ -29,18 +33,48 @@ import java.util.List;
 public class FiveBall extends SequentialCommandGroup {
   private static Trajectory leg1 =
       RamsetA.makeTrajectory(
-          0.0, List.of(FieldConstants.StartingPoints.tarmacD, FieldConstants.cargoE), 0.0, false);
+          0.0,
+          List.of(
+              FieldConstants.StartingPoints.tarmacD,
+              FieldConstants.cargoE.transformBy(
+                  Util.Geometry.transformFromRotation(Rotation2d.fromDegrees(0)))),
+          0.0,
+          false);
+
+  public static Pose2d shotPoint =
+      FieldConstants.StartingPoints.tarmacD
+          .transformBy(
+              Util.Geometry.transformFromTranslation(
+                  Units.inchesToMeters(-30), Units.inchesToMeters(15)))
+          .transformBy(Util.Geometry.transformFromRotation(Rotation2d.fromDegrees(-45)));
 
   private static Trajectory leg2 =
-      RamsetA.makeTrajectory(
-          0.0, List.of(FieldConstants.cargoE, FieldConstants.StartingPoints.tarmacD), 0.0, true);
+      RamsetA.makeTrajectory(0.0, List.of(FieldConstants.cargoE, shotPoint), 0.0, true);
 
   private static Trajectory leg34 =
-      RamsetA.makeTrajectory(
-          0, List.of(FieldConstants.StartingPoints.tarmacD, FieldConstants.cargoD), 0, false);
+      RamsetA.makeTrajectory(0, List.of(shotPoint, FieldConstants.cargoD), 0, false);
 
   private static Trajectory leg5 =
-      RamsetA.makeTrajectory(0, List.of(FieldConstants.cargoD, FieldConstants.cargoG), 0, false);
+      RamsetA.makeTrajectory(
+          0,
+          List.of(
+              FieldConstants.cargoD,
+              FieldConstants.cargoG.transformBy(
+                  Util.Geometry.transformFromTranslation(0, Units.inchesToMeters(0)))),
+          0,
+          false);
+
+  private static Trajectory leg6 =
+      RamsetA.makeTrajectory(
+          0,
+          List.of(
+              FieldConstants.cargoG,
+              new Pose2d(
+                  Util.Geometry.interpolate(FieldConstants.cargoG, FieldConstants.cargoD, 0.7)
+                      .getTranslation(),
+                  FieldConstants.cargoG.getRotation())),
+          0,
+          true);
 
   public static Command scoreAllBalls(
       SnekSystem snekSystem,
@@ -49,7 +83,7 @@ public class FiveBall extends SequentialCommandGroup {
       LimelightSubsystem limelightSubsystem,
       StripSubsystem stripSubsystem) {
     return new SequentialCommandGroup(
-        new AlignToGoal(driveSubsystem, limelightSubsystem, stripSubsystem),
+        new AlignToGoal(driveSubsystem, limelightSubsystem, stripSubsystem).withTimeout(2),
         new ShootWithLimelight(shootSubsystem, limelightSubsystem),
         new FinishShot(snekSystem, shootSubsystem));
   }
@@ -66,6 +100,11 @@ public class FiveBall extends SequentialCommandGroup {
     Command driveToFirstBallAndPickUp =
         new ParallelDeadlineGroup(
             RamsetA.RamseteSchmoove(leg1, driveSubsystem, true),
+            new SetShooterRPM(
+                shootSubsystem,
+                Constants.ShooterConstants.primaryHighShotSpeed.get(),
+                Constants.ShooterConstants.topHighShotSpeed.get(),
+                true),
             new IntakeExtendToLimit(fourBar, Constants.IntakeConstants.intakeExtensionSpeed),
             new IntakeSetRollers(intakeSubsystem, Constants.IntakeConstants.typicalRollerRPM),
             new LoadSnek(snekSystem));
@@ -86,14 +125,13 @@ public class FiveBall extends SequentialCommandGroup {
 
     Command driveBackToTarmac =
         new ParallelRaceGroup(
-            RamsetA.RamseteSchmoove(Util.invertTrajectory(leg5), driveSubsystem),
-            new LoadSnek(snekSystem));
+            RamsetA.RamseteSchmoove(leg6, driveSubsystem), new LoadSnek(snekSystem));
 
     addCommands(
         driveToFirstBallAndPickUp,
-        driveToTarmac,
         scoreAllBalls(
             snekSystem, shootSubsystem, driveSubsystem, limelightSubsystem, stripSubsystem),
+        driveToTarmac,
         // driveToFenderThenThirdBall,
         driveToThirdBall,
         scoreAllBalls(

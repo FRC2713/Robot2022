@@ -3,9 +3,11 @@ package frc.robot.subsystems;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LimelightSubsystem extends SubsystemBase {
+  private boolean dashboardSignal = false;
   private double limelightHeightInches;
 
   private NetworkTable getTable() {
@@ -304,5 +306,7 @@ public class LimelightSubsystem extends SubsystemBase {
     }
   }
 
-  public void periodic() {}
+  public void periodic() {
+    SmartDashboard.putBoolean("Limelight State", hasValidTargets());
+  }
 }
