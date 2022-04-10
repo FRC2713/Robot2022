@@ -26,7 +26,7 @@ import frc.robot.subsystems.LimelightSubsystem.LedMode;
  */
 public class Robot extends TimedRobot {
 
-  private RobotContainer m_robotContainer = new RobotContainer();
+  private RobotContainer m_robotContainer = new RobotContainer(); // DO NOT DELETE THIS
 
   private SendableChooser<Command> autoSelect = new SendableChooser<>();
 

@@ -31,7 +31,7 @@ public class FourBall extends SequentialCommandGroup {
   private static Rotation2d cargoDangleOfApproach = Rotation2d.fromDegrees(180);
   private static Pose2d cargoDPose =
       new Pose2d(FieldConstants.cargoD.getTranslation(), cargoDangleOfApproach)
-          .transformBy(Util.Geometry.transformFromTranslation(0, -Units.inchesToMeters(13)));
+          .transformBy(Util.Geometry.transformFromTranslation(0, -Units.inchesToMeters(0)));
 
   private static TunableNumber topShotSpeed;
   private static TunableNumber primaryShotSpeed;
@@ -60,7 +60,7 @@ public class FourBall extends SequentialCommandGroup {
               cargoDPose,
               FieldConstants.cargoG.transformBy(
                   Util.Geometry.transformFromTranslation(
-                      -Units.inchesToMeters(18), -Units.inchesToMeters(15)))),
+                      -Units.inchesToMeters(0), -Units.inchesToMeters(0)))),
           0,
           false);
 
@@ -71,8 +71,8 @@ public class FourBall extends SequentialCommandGroup {
               FieldConstants.cargoG,
               FieldConstants.StartingPoints.fenderB.transformBy(
                   Util.Geometry.transformFromTranslation(
-                      -Units.inchesToMeters(22),
-                      -Units.inchesToMeters(10)))), // 8-13 is probably acceptable
+                      -Units.inchesToMeters(0),
+                      -Units.inchesToMeters(0)))), // 8-13 is probably acceptable
           0,
           true);
 

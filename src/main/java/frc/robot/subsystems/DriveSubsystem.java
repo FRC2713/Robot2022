@@ -140,6 +140,11 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Odo X", roboOdometry.getPoseMeters().getX());
     SmartDashboard.putNumber("Odo Y", roboOdometry.getPoseMeters().getY());
     SmartDashboard.putNumber("Odo H", roboOdometry.getPoseMeters().getRotation().getDegrees());
+
+    SmartDashboard.putNumber("L1 Current", left1.getOutputCurrent());
+    SmartDashboard.putNumber("L2 Current", left2.getOutputCurrent());
+    SmartDashboard.putNumber("R1 Current", right1.getOutputCurrent());
+    SmartDashboard.putNumber("R2 Current", right2.getOutputCurrent());
   }
 
   public void GTADrive(double leftTrigger, double rightTrigger, double turn) {

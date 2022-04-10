@@ -4,6 +4,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
@@ -54,7 +55,43 @@ public class RamsetA extends SequentialCommandGroup {
                     Constants.AutoConstants.maxVoltageApplied)));
   }
 
+  public static Trajectory makeTrajectory(
+      double startVelocity,
+      Pose2d start,
+      List<Translation2d> midpoints,
+      Pose2d end,
+      double endVelocity,
+      double maxVelocity,
+      boolean reversed) {
+    CentripetalAccelerationConstraint centripetalAccelerationConstraint =
+        new CentripetalAccelerationConstraint(Constants.AutoConstants.maxCentripetalAcceleration);
+    return TrajectoryGenerator.generateTrajectory(
+        start,
+        midpoints,
+        end,
+        new TrajectoryConfig(
+                Math.min(maxVelocity, Constants.AutoConstants.maxSpeed),
+                Constants.AutoConstants.maxAccel)
+            .setStartVelocity(startVelocity)
+            .setEndVelocity(endVelocity)
+            .setReversed(reversed)
+            .addConstraint(centripetalAccelerationConstraint)
+            .addConstraint(
+                new DifferentialDriveVoltageConstraint(
+                    new SimpleMotorFeedforward(
+                        Constants.AutoConstants.ksVolts,
+                        Constants.AutoConstants.kvVoltSecondsPerMeter,
+                        Constants.AutoConstants.kaVoltSecondsSquaredPerMeter),
+                    Constants.AutoConstants.kinematics,
+                    Constants.AutoConstants.maxVoltageApplied)));
+  }
+
   public static Command RamseteSchmoove(Trajectory autoTrajectory, DriveSubsystem driveSubsystem) {
+    return RamseteSchmoove(autoTrajectory, driveSubsystem, false);
+  }
+
+  public static Command RamseteSchmoove(
+      Trajectory autoTrajectory, DriveSubsystem driveSubsystem, boolean resetOdometry) {
     RamseteCommand ramsete =
         new RamseteCommand(
             autoTrajectory,
@@ -75,7 +112,9 @@ public class RamsetA extends SequentialCommandGroup {
     return new SequentialCommandGroup(
         new InstantCommand(
             () -> {
-              driveSubsystem.resetOdometry(autoTrajectory.getInitialPose());
+              if (resetOdometry) {
+                driveSubsystem.resetOdometry(autoTrajectory.getInitialPose());
+              }
             }),
         ramsete,
         new InstantCommand(
