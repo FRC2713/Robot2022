@@ -36,15 +36,7 @@ public class FourBall extends SequentialCommandGroup {
           0.0,
           Units.feetToMeters(8),
           false);
-
-  private static Trajectory leg2 =
-      RamsetA.makeTrajectory(
-          0.0,
-          List.of(FieldConstants.cargoD, FieldConstants.cargoD),
-          0.0,
-          Units.feetToMeters(5),
-          true);
-
+          
   private static Trajectory leg3 =
       RamsetA.makeTrajectory(
           0,
@@ -87,17 +79,6 @@ public class FourBall extends SequentialCommandGroup {
             new IntakeSetRollers(intakeSubsystem, Constants.IntakeConstants.typicalRollerRPM),
             new LoadSnek(snekSystem));
 
-    Command driveToShotPoint =
-        new ParallelRaceGroup(
-            new ParallelCommandGroup(
-                RamsetA.RamseteSchmoove(leg2, driveSubsystem),
-                new SetShooterRPM(
-                    shootSubsystem,
-                    Constants.ShooterConstants.primaryHighShotSpeed.get(),
-                    Constants.ShooterConstants.primaryHighShotSpeed.get(),
-                    true)),
-            new LoadSnek(snekSystem));
-
     Command driveToTerminal =
         new ParallelDeadlineGroup(
             RamsetA.RamseteSchmoove(leg3, driveSubsystem), new LoadSnek(snekSystem));
@@ -115,7 +96,6 @@ public class FourBall extends SequentialCommandGroup {
 
     addCommands(
         driveToFirstBallAndPickUp,
-        driveToShotPoint,
         scoreAllBalls(
             snekSystem, shootSubsystem, driveSubsystem, limelightSubsystem, stripSubsystem),
         driveToTerminal,
