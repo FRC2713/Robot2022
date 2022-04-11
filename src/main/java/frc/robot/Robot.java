@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.auto.FiveBall;
 import frc.robot.commands.auto.FourBall;
 import frc.robot.commands.auto.SimpleScore;
+import frc.robot.commands.auto.ThreeBallPartnerSecondary;
 import frc.robot.commands.auto.ThreeBallSecondary;
 import frc.robot.commands.auto.TwoBallSecondary;
 
@@ -28,36 +29,15 @@ public class Robot extends TimedRobot {
 
   private SendableChooser<Command> autoSelect = new SendableChooser<>();
 
-  private Command fourBallLowAuto =
+  private Command fourBall =
       new FourBall(
               RobotContainer.driveSubsystem,
               RobotContainer.robotIntake,
               RobotContainer.fourBar,
               RobotContainer.shootSubsystem,
               RobotContainer.snekSystem,
-              Constants.ShooterConstants.GoalType.LOW)
-          .andThen(
-              () -> RobotContainer.driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
-
-  private Command fourBallHighAuto =
-      new FourBall(
-              RobotContainer.driveSubsystem,
-              RobotContainer.robotIntake,
-              RobotContainer.fourBar,
-              RobotContainer.shootSubsystem,
-              RobotContainer.snekSystem,
-              Constants.ShooterConstants.GoalType.HIGH)
-          .andThen(
-              () -> RobotContainer.driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
-
-  private Command threeBallLowAuto =
-      new ThreeBallSecondary(
-              RobotContainer.driveSubsystem,
-              RobotContainer.robotIntake,
-              RobotContainer.fourBar,
-              RobotContainer.shootSubsystem,
-              RobotContainer.snekSystem,
-              Constants.ShooterConstants.GoalType.LOW)
+              RobotContainer.limelight,
+              RobotContainer.strip)
           .andThen(
               () -> RobotContainer.driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
 
@@ -68,29 +48,30 @@ public class Robot extends TimedRobot {
               RobotContainer.fourBar,
               RobotContainer.shootSubsystem,
               RobotContainer.snekSystem,
-              Constants.ShooterConstants.GoalType.HIGH)
+              RobotContainer.limelight,
+              RobotContainer.strip)
           .andThen(
               () -> RobotContainer.driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
 
-  private Command twoBallHighAuto =
+  private Command threeBallPartner =
+      new ThreeBallPartnerSecondary(
+          RobotContainer.driveSubsystem,
+          RobotContainer.robotIntake,
+          RobotContainer.fourBar,
+          RobotContainer.shootSubsystem,
+          RobotContainer.snekSystem,
+          RobotContainer.limelight,
+          RobotContainer.strip);
+
+  private Command twoBall =
       new TwoBallSecondary(
               RobotContainer.driveSubsystem,
               RobotContainer.robotIntake,
               RobotContainer.fourBar,
               RobotContainer.shootSubsystem,
               RobotContainer.snekSystem,
-              Constants.ShooterConstants.GoalType.HIGH)
-          .andThen(
-              () -> RobotContainer.driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
-
-  private Command twoBallLowAuto =
-      new TwoBallSecondary(
-              RobotContainer.driveSubsystem,
-              RobotContainer.robotIntake,
-              RobotContainer.fourBar,
-              RobotContainer.shootSubsystem,
-              RobotContainer.snekSystem,
-              Constants.ShooterConstants.GoalType.LOW)
+              RobotContainer.limelight,
+              RobotContainer.strip)
           .andThen(
               () -> RobotContainer.driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
 
@@ -120,13 +101,11 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     CameraServer.startAutomaticCapture();
 
-    autoSelect.addOption("High 4 Ball Primary", fourBallHighAuto);
-    autoSelect.addOption("Low 4 Ball Primary", fourBallLowAuto);
-    autoSelect.addOption("High 2 Ball Secondary", twoBallHighAuto);
-    autoSelect.addOption("Low 2 Ball Secondary", twoBallLowAuto);
-    autoSelect.addOption("High 3 Ball Secondary", threeBallHighAuto);
-    autoSelect.addOption("Low 3 Ball Secondary", threeBallLowAuto);
-    autoSelect.addOption("Five ball", fiveBall);
+    autoSelect.addOption("Five Ball", fiveBall);
+    autoSelect.addOption("Four Ball", fourBall);
+    autoSelect.addOption("Two Ball Secondary", twoBall);
+    autoSelect.addOption("Three Ball Secondary", threeBallHighAuto);
+    autoSelect.addOption("Three Ball Partner Secondary", threeBallPartner);
 
     autoSelect.addOption("Simple Score", simpleScore);
 
@@ -169,7 +148,7 @@ public class Robot extends TimedRobot {
 
     m_autonomousCommand = autoSelect.getSelected();
     if (m_autonomousCommand == null) {
-      m_autonomousCommand = fourBallLowAuto;
+      m_autonomousCommand = fourBall;
     }
 
     // schedule the autonomous command (example)
