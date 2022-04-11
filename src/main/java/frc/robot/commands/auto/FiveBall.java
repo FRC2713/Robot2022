@@ -46,7 +46,7 @@ public class FiveBall extends SequentialCommandGroup {
           .transformBy(
               Util.Geometry.transformFromTranslation(
                   Units.inchesToMeters(-30), Units.inchesToMeters(15)))
-          .transformBy(Util.Geometry.transformFromRotation(Rotation2d.fromDegrees(-45)));
+          .transformBy(Util.Geometry.transformFromRotation(Rotation2d.fromDegrees(-70)));
 
   private static Trajectory leg2 =
       RamsetA.makeTrajectory(0.0, List.of(FieldConstants.cargoE, shotPoint), 0.0, true);
@@ -69,10 +69,9 @@ public class FiveBall extends SequentialCommandGroup {
           0,
           List.of(
               FieldConstants.cargoG,
-              new Pose2d(
-                  Util.Geometry.interpolate(FieldConstants.cargoG, FieldConstants.cargoD, 0.7)
-                      .getTranslation(),
-                  FieldConstants.cargoG.getRotation())),
+              FieldConstants.cargoG.transformBy(
+                  Util.Geometry.transformFromTranslation(
+                      Units.feetToMeters(-10), Units.feetToMeters(0)))),
           0,
           true);
 
@@ -83,7 +82,7 @@ public class FiveBall extends SequentialCommandGroup {
       LimelightSubsystem limelightSubsystem,
       StripSubsystem stripSubsystem) {
     return new SequentialCommandGroup(
-        new AlignToGoal(driveSubsystem, limelightSubsystem, stripSubsystem).withTimeout(2),
+        new AlignToGoal(driveSubsystem, limelightSubsystem, stripSubsystem).withTimeout(1),
         new ShootWithLimelight(shootSubsystem, limelightSubsystem),
         new FinishShot(snekSystem, shootSubsystem));
   }

@@ -158,7 +158,7 @@ public final class Constants {
     public static final double reverseDuration = 0.1;
 
     public static final double debouncerDuration = 0.25;
-    public static final double secondHighShotDelay = 0.25;
+    public static final double secondHighShotDelay = 0.35;
   }
 
   public static final class AutoConstants {
@@ -183,11 +183,11 @@ public final class Constants {
 
     // Max speeds
     public static final double maxSpeed = Units.feetToMeters(15);
-    public static final double maxAccel = Units.feetToMeters(5);
+    public static final double maxAccel = Units.feetToMeters(10);
     public static final double maxVoltageApplied = 10;
 
     // five ball
-    public static final double waitForHumanPlayerDuration = 0.5;
+    public static final double waitForHumanPlayerDuration = 0.3;
     public static final double crawlTowardsHumanPlayerVolts = 0.6;
   }
 

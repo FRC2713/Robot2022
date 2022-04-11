@@ -43,7 +43,7 @@ public class AlignToGoal extends CommandBase {
     this.driveSubsystem = driveSubsystem;
     this.limelightSubsystem = limelightSubsystem;
     this.stripSubsystem = stripSubsystem;
-    this.onTargetDebouncer = new Debouncer(.25);
+    this.onTargetDebouncer = new Debouncer(.125);
 
     addRequirements(driveSubsystem, limelightSubsystem, stripSubsystem);
 
