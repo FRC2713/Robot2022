@@ -36,7 +36,7 @@ public class FourBall extends SequentialCommandGroup {
           0.0,
           Units.feetToMeters(8),
           false);
-          
+
   private static Trajectory leg3 =
       RamsetA.makeTrajectory(
           0,

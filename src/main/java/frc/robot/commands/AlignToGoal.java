@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
+import frc.robot.subsystems.LimelightSubsystem.SnapshotMode;
 import frc.robot.subsystems.StripSubsystem;
 import frc.robot.subsystems.StripSubsystem.Pattern;
 
@@ -57,6 +58,8 @@ public class AlignToGoal extends CommandBase {
       rotatController = new PIDController(Constants.LimelightConstants.rotationKP.get(), 0, 0);
       rotatController.setTolerance(Constants.LimelightConstants.rotationalTolerance.get());
     }
+
+    limelightSubsystem.setSnapshotMode(SnapshotMode.TWO_PER_SECOND);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -84,12 +87,16 @@ public class AlignToGoal extends CommandBase {
     SmartDashboard.putNumber("AlignRight", rightOutput);
 
     driveSubsystem.tankDriveVolts(leftOutput, rightOutput);
+
+    SmartDashboard.putBoolean("AlignToGoalFinished", false);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     driveSubsystem.tankDriveVolts(0, 0);
+    limelightSubsystem.setSnapshotMode(SnapshotMode.OFF);
+    SmartDashboard.putBoolean("AlignToGoalRunning", true);
   }
 
   // Returns true when the command should end.

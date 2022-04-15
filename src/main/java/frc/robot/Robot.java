@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -110,6 +111,10 @@ public class Robot extends TimedRobot {
     autoSelect.addOption("Simple Score", simpleScore);
 
     SmartDashboard.putData("Auto Selector", autoSelect);
+
+    Field2d field = new Field2d();
+    field.getObject("reference").setTrajectory(TwoBallSecondary.leg1);
+    SmartDashboard.putData(field);
   }
 
   /**
@@ -171,6 +176,9 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    RobotContainer.shootSubsystem.setPrimaryRPM(0);
+    RobotContainer.shootSubsystem.setTopRPM(0);
   }
 
   /** This function is called periodically during operator control. */

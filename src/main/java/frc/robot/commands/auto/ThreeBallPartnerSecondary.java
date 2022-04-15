@@ -56,7 +56,7 @@ public class ThreeBallPartnerSecondary extends SequentialCommandGroup {
             new IntakeExtendToLimit(intakeFourBar, 0.25, 15),
             new IntakeSetRollers(intakeSubsystem, Constants.IntakeConstants.typicalRollerRPM));
 
-    Command straightForwardATad = RamsetA.RamseteSchmoove(leg1, driveSubsystem);
+    Command straightForwardATad = RamsetA.RamseteSchmoove(leg1, driveSubsystem, true);
 
     Command driveToFirstBallAndPickUp =
         new ParallelDeadlineGroup(

@@ -25,7 +25,7 @@ import java.util.List;
 
 public class TwoBallSecondary extends SequentialCommandGroup {
 
-  private static Trajectory leg1 =
+  public static Trajectory leg1 =
       RamsetA.makeTrajectory(
           0, List.of(FieldConstants.StartingPoints.fenderA, FieldConstants.cargoB), 0, false);
 
@@ -40,7 +40,7 @@ public class TwoBallSecondary extends SequentialCommandGroup {
 
     Command driveToFirstBallAndPickUp =
         new ParallelDeadlineGroup(
-            RamsetA.RamseteSchmoove(leg1, driveSubsystem),
+            RamsetA.RamseteSchmoove(leg1, driveSubsystem, true),
             new IntakeExtendToLimit(intakeFourBar, 0.25, 15),
             new IntakeSetRollers(intakeSubsystem, Constants.IntakeConstants.typicalRollerRPM),
             new SetShooterRPM(

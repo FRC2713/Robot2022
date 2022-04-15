@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.SnekConstants;
 import frc.robot.commands.AlignToGoal;
 import frc.robot.commands.ClimberSetHeight;
@@ -78,7 +79,9 @@ public class RobotContainer {
     climber.setDefaultCommand(
         new RunCommand(
             () -> {
-              climber.setTelescopeSpeed(-MathUtil.applyDeadband(operator.getRightY(), 0.1));
+              // climber.setTelescopeSpeed(-MathUtil.applyDeadband(operator.getRightY(), 0.1));
+              double speedOfChange = -MathUtil.applyDeadband(operator.getRightY(), 0.1) * 120 * 0.3;
+              climber.setTargetHeight(climber.getTargetHeight() + speedOfChange * 0.02);
             },
             climber));
 
@@ -115,6 +118,24 @@ public class RobotContainer {
     //     }
     //   }
     // }, shootSubsystem));
+
+    // shootSubsystem.setDefaultCommand(new RunCommand(() -> {
+
+    // }, shootSubsystem));
+
+    new Trigger(
+            () ->
+                snekSystem.getUpperLimit()
+                    && !snekSystem.getLowerLimit()
+                    && shootSubsystem.getPrimarySpeed() < 10)
+        .whenActive(
+            new SequentialCommandGroup(
+                new SetSnekSpeed(snekSystem, -0.03, 0).withTimeout(0.10),
+                new SetShooterRPM(
+                    shootSubsystem,
+                    ShooterConstants.primaryLowShotSpeed.get(),
+                    ShooterConstants.topLowShotSpeed.get(),
+                    true)));
   }
 
   /**
@@ -150,8 +171,8 @@ public class RobotContainer {
     //             new SetSnekSpeed(snekSystem, Constants.zero, Constants.zero),
     //             new SetShooterRPM(shootSubsystem, Constants.zero, Constants.zero, false)));
 
-    // new JoystickButton(driver, XboxController.Button.kX.value)
-    //     .whenHeld(new AlignToGoal(driveSubsystem, limelight));
+    new JoystickButton(driver, XboxController.Button.kX.value)
+        .whenHeld(new SetSnekSpeed(snekSystem, 1.0, 1.0));
 
     new JoystickButton(driver, XboxController.Button.kX.value)
         .whileActiveContinuous(new SetSnekSpeed(snekSystem, 1.0, 1.0))

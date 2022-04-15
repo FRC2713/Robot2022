@@ -97,7 +97,8 @@
       "/LiveWindow/Ungrouped/PIDController[9]": "PIDController",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
       "/LiveWindow/Ungrouped/Spark[0]": "Motor Controller",
-      "/SmartDashboard/Auto Selector": "String Chooser"
+      "/SmartDashboard/Auto Selector": "String Chooser",
+      "/SmartDashboard/Field": "Field2d"
     }
   },
   "NetworkTables Settings": {

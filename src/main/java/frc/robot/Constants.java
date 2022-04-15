@@ -102,11 +102,11 @@ public final class Constants {
     public static final double primaryRadius = Units.inchesToMeters(1.5);
     public static final double topRadius = Units.inchesToMeters(.75);
 
-    // MAKE THESE
+    // MAKE THESEz
     public static final double pks = 0.18554 / 60.0;
     public static final double pkv = 0.12648 / 60.0;
-    public static final double tks = 0.22372 / 60.0;
-    public static final double tkv = 0.17596 / 60.0;
+    public static final double tks = 0.33445 / 60.0;
+    public static final double tkv = 0.10419 / 60.0;
 
     public enum GoalType {
       LOW,
@@ -114,7 +114,7 @@ public final class Constants {
     }
 
     public static final double PrimaryGearRatio = 1.0;
-    public static final double TopGearRatio = 12.0 / 33.0;
+    public static final double TopGearRatio = 21.0 / 33.0;
     public static final int currentLimit = 85;
     public static final int topCurrentLimit = 40;
     public static final TunableNumber PrimarykP =
@@ -126,7 +126,7 @@ public final class Constants {
     // 2.0319E-08
     // 0.000000020319
     public static final TunableNumber TopkP =
-        new TunableNumber("TopShooter/kP", 0.000000020319); // 0.0003);
+        new TunableNumber("TopShooter/kP", 0.00000040308); // 0.0003);
     public static final TunableNumber TopkFF =
         new TunableNumber("TopShooter/kFF", 0.0); // 0.00026);
     public static final TunableNumber TopkD = new TunableNumber("TopShooter/kD", 0.0); // 0.00003);
@@ -158,7 +158,7 @@ public final class Constants {
     public static final double reverseDuration = 0.1;
 
     public static final double debouncerDuration = 0.25;
-    public static final double secondHighShotDelay = 0.35;
+    public static final double secondHighShotDelay = 0.3;
   }
 
   public static final class AutoConstants {
@@ -210,11 +210,11 @@ public final class Constants {
 
     public static final double speed = 1.0;
 
-    public static final double lowHeight = 80.0 / 60.0 * 36.0;
-    public static final double midHeight = 200.0 / 60.0 * 36.0;
+    public static final double lowHeight = 60.0;
 
-    public static final float minimumHeight = 40.0f / 60.0f * 36.0f;
-    public static final float maximumHeight = 200.0f / 60.0f * 36.0f;
+    public static final float minimumHeight = 10; // 40.0f / 60.0f * 36.0f; // 24
+    public static final float maximumHeight = 125; // 200.0f / 60.0f * 36.0f;
+    public static final double midHeight = maximumHeight;
     public static final TunableNumber acceptableError =
         new TunableNumber("Climber/Acceptable Error", 1);
 

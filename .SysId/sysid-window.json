@@ -2,7 +2,7 @@
   "MainWindow": {
     "GLOBAL": {
       "height": "881",
-      "maximized": "0",
+      "maximized": "1",
       "style": "0",
       "userScale": "2",
       "width": "1604",
@@ -18,7 +18,7 @@
     },
     "###Generator": {
       "Collapsed": "0",
-      "Pos": "8,22",
+      "Pos": "13,14",
       "Size": "535,302"
     },
     "###Logger": {
@@ -38,8 +38,8 @@
     },
     "Deploy Status": {
       "Collapsed": "0",
-      "Pos": "627,29",
-      "Size": "802,704"
+      "Pos": "628,29",
+      "Size": "800,669"
     },
     "Diagnostic Plots": {
       "Collapsed": "0",
