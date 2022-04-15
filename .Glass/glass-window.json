@@ -13,11 +13,11 @@
   "Window": {
     "###/SmartDashboard/Field": {
       "Collapsed": "0",
-      "Pos": "203,199",
+      "Pos": "489,207",
       "Size": "772,430"
     },
     "###NetworkTables": {
-      "Collapsed": "0",
+      "Collapsed": "1",
       "Pos": "1,169",
       "Size": "396,617"
     },
@@ -32,7 +32,7 @@
       "Size": "1138,716"
     },
     "###Plot <1>": {
-      "Collapsed": "0",
+      "Collapsed": "1",
       "Pos": "444,97",
       "Size": "1117,633"
     },

@@ -7,6 +7,7 @@
       "/FMSInfo": "FMSInfo",
       "/LiveWindow/IntakeFourBar": "Subsystem",
       "/LiveWindow/IntakeSubsystem": "Subsystem",
+      "/LiveWindow/ShootSubsystem": "Subsystem",
       "/LiveWindow/SnekSystem": "Subsystem",
       "/LiveWindow/Ungrouped/ADXRS450_Gyro[0]": "Gyro",
       "/LiveWindow/Ungrouped/DigitalInput[1]": "Digital Input",
@@ -99,11 +100,18 @@
       "/LiveWindow/Ungrouped/Spark[0]": "Motor Controller",
       "/SmartDashboard/Auto Selector": "String Chooser",
       "/SmartDashboard/Field": "Field2d"
+    },
+    "windows": {
+      "/SmartDashboard/Field": {
+        "window": {
+          "visible": true
+        }
+      }
     }
   },
   "NetworkTables Settings": {
     "mode": "Client",
-    "serverTeam": "2713"
+    "serverTeam": "localhost"
   },
   "Plots": {
     "Plot <0>": {
@@ -146,6 +154,15 @@
                 1.0
               ],
               "id": "NT:/SmartDashboard/ShooterRPM"
+            },
+            {
+              "color": [
+                0.8666667342185974,
+                0.5176470875740051,
+                0.32156863808631897,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/TopShooterRPM"
             }
           ]
         }

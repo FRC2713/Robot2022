@@ -113,7 +113,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Auto Selector", autoSelect);
 
     Field2d field = new Field2d();
-    field.getObject("reference").setTrajectory(TwoBallSecondary.leg1);
+    field.getObject("reference").setTrajectory(TwoBallSecondary.leg2);
     SmartDashboard.putData(field);
   }
 
