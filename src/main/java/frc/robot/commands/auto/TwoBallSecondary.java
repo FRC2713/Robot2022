@@ -64,15 +64,7 @@ public class TwoBallSecondary extends SequentialCommandGroup {
 
     Command driveToCargoA =
         new ParallelDeadlineGroup(
-            RamsetA.RamseteSchmoove(leg1, driveSubsystem, true),
-            new IntakeExtendToLimit(intakeFourBar, 0.25, 15),
-            new IntakeSetRollers(intakeSubsystem, Constants.IntakeConstants.typicalRollerRPM),
-            new SetShooterRPM(
-                shootSubsystem,
-                Constants.ShooterConstants.primaryLowShotSpeed.get(),
-                Constants.ShooterConstants.topLowShotSpeed.get(),
-                true),
-            new LoadSnek(snekSystem));
+            RamsetA.RamseteSchmoove(leg2, driveSubsystem), new LoadSnek(snekSystem));
 
     Command poopCargo = new SetSnekSpeed(snekSystem, 1.0, 1.0);
 

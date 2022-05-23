@@ -35,6 +35,7 @@ public final class Constants {
     public static final int flywheelTopRight = 55;
 
     public static final int intakeMotorRollers = 7;
+    public static final int intakeMotorRollers2 = 47;
     public static final int intakeMotorFourBar = 6;
     public static final int intakeMotorFourBar2 = 8;
 
@@ -76,7 +77,7 @@ public final class Constants {
     public static final TunableNumber kP = new TunableNumber("Intake/kP", 0.0);
     public static final TunableNumber kF = new TunableNumber("Intake/kF", 0.002);
     public static final TunableNumber fourBarCurrentLimit =
-        new TunableNumber("Intake/4 Bar Current Limit", 10);
+        new TunableNumber("Intake/4 Bar Current Limit", 15);
     public static final TunableNumber smartMotionMaxVelocity =
         new TunableNumber("Intake/Smart Motion Max Velocity", 1000);
     public static final TunableNumber smartMotionMaxAcceleration =
@@ -132,9 +133,9 @@ public final class Constants {
     public static final TunableNumber TopkD = new TunableNumber("TopShooter/kD", 0.0); // 0.00003);
 
     public static final TunableNumber primaryLowShotSpeed =
-        new TunableNumber("Primary Shooter/Speed", 1600);
+        new TunableNumber("Primary Shooter/Speed", 1300);
     public static final TunableNumber topLowShotSpeed =
-        new TunableNumber("Top Shooter/Speed", 1600);
+        new TunableNumber("Top Shooter/Speed", 1300);
     public static final TunableNumber primaryHighShotSpeed =
         new TunableNumber("Primary Shooter/Speed", 2200);
     public static final TunableNumber topHighShotSpeed =
@@ -224,10 +225,14 @@ public final class Constants {
 
   public static final class LimelightConstants {
     public static final TunableNumber rotationKP =
-        new TunableNumber("Limelight/kp", .0125); // 1.0 change
+        new TunableNumber("Limelight/kp", .0190); // .0125, 1.0 change
+    public static final TunableNumber rotationKI = new TunableNumber("Limelight/ki", 0.0019);
+    public static final TunableNumber rotationIZone = new TunableNumber("Limelight/kIZone", 0);
     public static final TunableNumber rotationalTolerance =
         new TunableNumber("Limelight/Tolerance", 1.5);
     public static final TunableNumber kTurnInPlaceStaticVolts =
-        new TunableNumber("Limelight/RotatekS", 0.75);
+        new TunableNumber("Limelight/RotatekS", 0.85);
+    // public static final TunableNumber rotationFloor =
+    // new TunableNumber("Limelight/RotateFloor", 0.8);
   }
 }

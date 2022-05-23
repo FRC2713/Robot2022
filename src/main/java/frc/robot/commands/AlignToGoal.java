@@ -55,7 +55,14 @@ public class AlignToGoal extends CommandBase {
   @Override
   public void initialize() {
     if (Constants.tuningMode) {
-      rotatController = new PIDController(Constants.LimelightConstants.rotationKP.get(), 0, 0);
+      rotatController =
+          new PIDController(
+              Constants.LimelightConstants.rotationKP.get(),
+              Constants.LimelightConstants.rotationKI.get(),
+              0);
+      // rotatController.setIntegratorRange(-Constants.LimelightConstants.rotationIZone.get(),
+      //                                     Constants.LimelightConstants.rotationIZone.get());
+
       rotatController.setTolerance(Constants.LimelightConstants.rotationalTolerance.get());
     }
 
@@ -74,17 +81,35 @@ public class AlignToGoal extends CommandBase {
 
     double error = limelightSubsystem.getHorizontalOffset();
     double targetWheelSpeed = rotatController.calculate(error, 0);
-    double leftOutput =
-        leftController.calculate(
-                driveSubsystem.getWheelSpeeds().leftMetersPerSecond, -targetWheelSpeed)
-            + feedForward.calculate(-targetWheelSpeed);
+
+    // double rightOutput = 0;
+    // double leftOutput = 0;
+
+    // if (error < 0) {
+    //   rightOutput =
+    //       rightController.calculate(
+    //               driveSubsystem.getWheelSpeeds().rightMetersPerSecond, targetWheelSpeed)
+    //           + feedForward.calculate(targetWheelSpeed);
+
+    // } else {
+    //   leftOutput =
+    //       leftController.calculate(
+    //               driveSubsystem.getWheelSpeeds().leftMetersPerSecond, -targetWheelSpeed)
+    //           + feedForward.calculate(-targetWheelSpeed);
+    // }
     double rightOutput =
         rightController.calculate(
                 driveSubsystem.getWheelSpeeds().rightMetersPerSecond, targetWheelSpeed)
             + feedForward.calculate(targetWheelSpeed);
 
+    double leftOutput =
+        leftController.calculate(
+                driveSubsystem.getWheelSpeeds().leftMetersPerSecond, -targetWheelSpeed)
+            + feedForward.calculate(-targetWheelSpeed);
+
     SmartDashboard.putNumber("AlignLeft", leftOutput);
     SmartDashboard.putNumber("AlignRight", rightOutput);
+    SmartDashboard.putNumber("AlignError", error);
 
     driveSubsystem.tankDriveVolts(leftOutput, rightOutput);
 

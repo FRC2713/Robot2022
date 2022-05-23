@@ -19,6 +19,7 @@ import frc.robot.Constants.SnekConstants;
 import frc.robot.commands.AlignToGoal;
 import frc.robot.commands.ClimberSetHeight;
 import frc.robot.commands.FeedWithDelay;
+import frc.robot.commands.PoopCargo;
 import frc.robot.commands.PrepShotHigh;
 import frc.robot.commands.PrepShotLow;
 import frc.robot.commands.SetShooterRPM;
@@ -171,8 +172,8 @@ public class RobotContainer {
     //             new SetSnekSpeed(snekSystem, Constants.zero, Constants.zero),
     //             new SetShooterRPM(shootSubsystem, Constants.zero, Constants.zero, false)));
 
-    new JoystickButton(driver, XboxController.Button.kX.value)
-        .whenHeld(new SetSnekSpeed(snekSystem, 1.0, 1.0));
+    // new JoystickButton(driver, XboxController.Button.kX.value)
+    //     .whenHeld(new SetSnekSpeed(snekSystem, 1.0, 1.0));
 
     new JoystickButton(driver, XboxController.Button.kX.value)
         .whileActiveContinuous(new SetSnekSpeed(snekSystem, 1.0, 1.0))
@@ -221,6 +222,10 @@ public class RobotContainer {
 
     new JoystickButton(driver, XboxController.Button.kY.value)
         .whileActiveOnce(new IntakePreventThreeBallActive(robotIntake, snekSystem, fourBar))
+        .whenInactive(new IntakePreventThreeBallInactive(robotIntake, snekSystem, fourBar));
+
+    new JoystickButton(driver, XboxController.Button.kB.value)
+        .whileActiveOnce(new PoopCargo(snekSystem, robotIntake, fourBar))
         .whenInactive(new IntakePreventThreeBallInactive(robotIntake, snekSystem, fourBar));
 
     new JoystickButton(operator, XboxController.Button.kX.value)

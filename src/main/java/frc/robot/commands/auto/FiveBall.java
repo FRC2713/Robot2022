@@ -41,18 +41,18 @@ public class FiveBall extends SequentialCommandGroup {
           0.0,
           false);
 
-  public static Pose2d shotPoint =
+  public static Pose2d turnPoint =
       FieldConstants.StartingPoints.tarmacD
           .transformBy(
               Util.Geometry.transformFromTranslation(
-                  Units.inchesToMeters(-30), Units.inchesToMeters(15)))
-          .transformBy(Util.Geometry.transformFromRotation(Rotation2d.fromDegrees(-70)));
+                  Units.inchesToMeters(-30), Units.inchesToMeters(10)))
+          .transformBy(Util.Geometry.transformFromRotation(Rotation2d.fromDegrees(-90)));
 
   private static Trajectory leg2 =
-      RamsetA.makeTrajectory(0.0, List.of(FieldConstants.cargoE, shotPoint), 0.0, true);
+      RamsetA.makeTrajectory(0.0, List.of(FieldConstants.cargoE, turnPoint), 0.0, true);
 
   private static Trajectory leg34 =
-      RamsetA.makeTrajectory(0, List.of(shotPoint, FieldConstants.cargoD), 0, false);
+      RamsetA.makeTrajectory(0, List.of(turnPoint, FieldConstants.cargoD), 0, false);
 
   private static Trajectory leg5 =
       RamsetA.makeTrajectory(
@@ -131,7 +131,6 @@ public class FiveBall extends SequentialCommandGroup {
         scoreAllBalls(
             snekSystem, shootSubsystem, driveSubsystem, limelightSubsystem, stripSubsystem),
         driveToTarmac,
-        // driveToFenderThenThirdBall,
         driveToThirdBall,
         scoreAllBalls(
             snekSystem, shootSubsystem, driveSubsystem, limelightSubsystem, stripSubsystem),
