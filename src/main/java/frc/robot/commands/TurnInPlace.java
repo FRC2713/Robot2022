@@ -13,7 +13,7 @@ import frc.robot.Constants;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.StripSubsystem;
 
-public class TurnInPlace extends CommandBase {
+public abstract class TurnInPlace extends CommandBase {
 
   SimpleMotorFeedforward feedForward =
       new SimpleMotorFeedforward(
@@ -31,15 +31,12 @@ public class TurnInPlace extends CommandBase {
 
   DriveSubsystem driveSubsystem;
   StripSubsystem stripSubsystem;
-  double error;
   double setpoint;
 
-  public TurnInPlace(
-      DriveSubsystem driveSubsystem, double degrees) {
+  public TurnInPlace(DriveSubsystem driveSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.driveSubsystem = driveSubsystem;
     this.onTargetDebouncer = new Debouncer(.125);
-    this.error = degrees;
 
     addRequirements(driveSubsystem);
 
@@ -52,14 +49,14 @@ public class TurnInPlace extends CommandBase {
     if (Constants.tuningMode) {
       rotatController = new PIDController(Constants.LimelightConstants.rotationKP.get(), 0, 0);
       rotatController.setTolerance(Constants.LimelightConstants.rotationalTolerance.get());
-    };
-    setpoint = driveSubsystem.getDegrees() + error;
+    }
+    ;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    error = (setpoint - driveSubsystem.getDegrees());
+    double error = (getSetpoint() - getMeasurement());
     double targetWheelSpeed = rotatController.calculate(error, setpoint);
     double leftOutput =
         leftController.calculate(
@@ -87,4 +84,8 @@ public class TurnInPlace extends CommandBase {
   public boolean isFinished() {
     return onTargetDebouncer.calculate(rotatController.atSetpoint());
   }
+
+  public abstract double getMeasurement();
+
+  public abstract double getSetpoint();
 }
