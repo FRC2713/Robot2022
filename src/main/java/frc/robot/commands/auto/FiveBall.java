@@ -1,6 +1,5 @@
 package frc.robot.commands.auto;
 
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.util.Units;
@@ -42,20 +41,21 @@ public class FiveBall extends SequentialCommandGroup {
           0.0,
           false);
 
-//   public static Pose2d shotPoint =
-//       FieldConstants.StartingPoints.tarmacD
-//           .transformBy(
-//               Util.Geometry.transformFromTranslation(
-//                   Units.inchesToMeters(-30), Units.inchesToMeters(15)))
-//           .transformBy(Util.Geometry.transformFromRotation(Rotation2d.fromDegrees(-70)));
+  //   public static Pose2d shotPoint =
+  //       FieldConstants.StartingPoints.tarmacD
+  //           .transformBy(
+  //               Util.Geometry.transformFromTranslation(
+  //                   Units.inchesToMeters(-30), Units.inchesToMeters(15)))
+  //           .transformBy(Util.Geometry.transformFromRotation(Rotation2d.fromDegrees(-70)));
 
-//   private static Trajectory leg2 =
-//       RamsetA.makeTrajectory(0.0, List.of(FieldConstants.cargoE, shotPoint), 0.0, true);
+  //   private static Trajectory leg2 =
+  //       RamsetA.makeTrajectory(0.0, List.of(FieldConstants.cargoE, shotPoint), 0.0, true);
 
-//   private static Trajectory leg34 =
-//       RamsetA.makeTrajectory(0, List.of(shotPoint, FieldConstants.cargoD), 0, false);
+  //   private static Trajectory leg34 =
+  //       RamsetA.makeTrajectory(0, List.of(shotPoint, FieldConstants.cargoD), 0, false);
 
-private static Trajectory leg24 = RamsetA.makeTrajectory(0, List.of(FieldConstants.cargoE, FieldConstants.cargoD), 0, false);
+  private static Trajectory leg24 =
+      RamsetA.makeTrajectory(0, List.of(FieldConstants.cargoE, FieldConstants.cargoD), 0, false);
 
   private static Trajectory leg5 =
       RamsetA.makeTrajectory(
@@ -114,7 +114,6 @@ private static Trajectory leg24 = RamsetA.makeTrajectory(0, List.of(FieldConstan
     Command driveToThirdBall =
         new ParallelRaceGroup(
             RamsetA.RamseteSchmoove(leg24, driveSubsystem), new LoadSnek(snekSystem));
-
 
     Command driveToTerminal =
         new ParallelRaceGroup(
