@@ -23,9 +23,9 @@ public class BabyDriver extends SubsystemBase {
     SmartDashboard.putNumber("Left Enc", inputs.leftEncPosition);
     SmartDashboard.putNumber("Right Enc", inputs.rightEncPosition);
 
-      SmartDashboard.putNumber("Odo X", inputs.odoX);
-      SmartDashboard.putNumber("Odo Y", inputs.odoY);
-      SmartDashboard.putNumber("Odo H", inputs.odoH);
+    SmartDashboard.putNumber("Odo X", inputs.odoX);
+    SmartDashboard.putNumber("Odo Y", inputs.odoY);
+    SmartDashboard.putNumber("Odo H", inputs.odoH);
 
     SmartDashboard.putNumber("L1 Current", inputs.frontLeftCurrent);
     SmartDashboard.putNumber("R1 Current", inputs.frontRightCurrent);

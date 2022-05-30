@@ -58,7 +58,6 @@ public interface DriveIO {
       odoX = table.getDouble("Odometry/OdoX", odoX);
       odoY = table.getDouble("Odometry/OdoY", odoY);
       odoH = table.getDouble("Odometry/OdoH", odoH);
-
     }
   }
 
