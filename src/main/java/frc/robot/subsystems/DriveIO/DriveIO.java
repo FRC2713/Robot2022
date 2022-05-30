@@ -4,20 +4,41 @@ import org.littletonrobotics.junction.LogTable;
 import org.littletonrobotics.junction.inputs.LoggableInputs;
 
 public interface DriveIO {
+
   public static class DriveInputs implements LoggableInputs {
     public double gyroYawPositionRadians = 0.0;
     public double gyroPitchPositionRadians = 0.0;
     public double gyroRollPositionRadians = 0.0;
+
     public double leftVolts = 0.0;
+    public double frontLeftCurrent = 0.0;
+    public double leftEncPosition = 0.0;
+
     public double rightVolts = 0.0;
+    public double frontRightCurrent = 0.0;
+    public double rightEncPosition = 0.0;
+
+    public double odoX = 0.0;
+    public double odoY = 0.0;
+    public double odoH = 0.0;
 
     @Override
     public void toLog(LogTable table) {
       table.put("Drive/YawRadians", gyroYawPositionRadians);
       table.put("Drive/PitchRadians", gyroPitchPositionRadians);
       table.put("Drive/RollRadians", gyroRollPositionRadians);
+
       table.put("Drive/LeftVoltage", leftVolts);
+      table.put("Drive/FrontLeftCurrent", frontLeftCurrent);
+      table.put("Drive/leftEncPosition", leftEncPosition);
+
       table.put("Drive/RightVoltage", rightVolts);
+      table.put("Drive/FrontRightCurrent", frontRightCurrent);
+      table.put("Drive/rightEncPosition", rightEncPosition);
+
+      table.put("Odometry/OdoX", odoX);
+      table.put("Odometry/OdoY", odoY);
+      table.put("Odometry/OdoH", odoH);
     }
 
     @Override
@@ -25,16 +46,27 @@ public interface DriveIO {
       gyroYawPositionRadians = table.getDouble("Drive/YawRadians", gyroYawPositionRadians);
       gyroPitchPositionRadians = table.getDouble("Drive/PitchRadians", gyroPitchPositionRadians);
       gyroRollPositionRadians = table.getDouble("Drive/RollRadians", gyroRollPositionRadians);
+
       leftVolts = table.getDouble("Drive/LeftVoltage", leftVolts);
+      leftEncPosition = table.getDouble("Drive/leftEncPosition", leftEncPosition);
+      frontLeftCurrent = table.getDouble("Drive/FrontLeftCurrent", frontLeftCurrent);
+
       rightVolts = table.getDouble("Drive/RightVoltage", rightVolts);
+      rightEncPosition = table.getDouble("Drive/rightEncPosition", rightEncPosition);
+      frontRightCurrent = table.getDouble("Drive/FrontRightCurrent", frontRightCurrent);
+
+      odoX = table.getDouble("Odometry/OdoX", odoX);
+      odoY = table.getDouble("Odometry/OdoY", odoY);
+      odoH = table.getDouble("Odometry/OdoH", odoH);
+
     }
   }
 
   public void updateInputs(DriveInputs inputs);
 
-  public void setVoltage(DriveInputs inputs);
+  public void setVoltage(double leftVolts, double rightVolts);
 
-  public void getHeadingDegrees(DriveInputs inputs);
+  public double getHeadingDegrees(DriveInputs inputs);
 
-  // definitely a lot more things tbh
+  // definitely a lot more things tbh but ill add them as I learn I need them
 }
