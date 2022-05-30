@@ -18,9 +18,7 @@ public interface DriveIO {
     public double frontRightCurrent = 0.0;
     public double rightEncPosition = 0.0;
 
-    public double odoX = 0.0;
-    public double odoY = 0.0;
-    public double odoH = 0.0;
+    public double gyroHeadingDegrees = 0.0;
 
     @Override
     public void toLog(LogTable table) {
@@ -36,9 +34,7 @@ public interface DriveIO {
       table.put("Drive/FrontRightCurrent", frontRightCurrent);
       table.put("Drive/rightEncPosition", rightEncPosition);
 
-      table.put("Odometry/OdoX", odoX);
-      table.put("Odometry/OdoY", odoY);
-      table.put("Odometry/OdoH", odoH);
+      table.put("Drive/GyroHeadingDegrees", gyroHeadingDegrees);
     }
 
     @Override
@@ -55,9 +51,7 @@ public interface DriveIO {
       rightEncPosition = table.getDouble("Drive/rightEncPosition", rightEncPosition);
       frontRightCurrent = table.getDouble("Drive/FrontRightCurrent", frontRightCurrent);
 
-      odoX = table.getDouble("Odometry/OdoX", odoX);
-      odoY = table.getDouble("Odometry/OdoY", odoY);
-      odoH = table.getDouble("Odometry/OdoH", odoH);
+      gyroHeadingDegrees = table.getDouble("Drive/GyroHeadingDegrees", gyroHeadingDegrees);
     }
   }
 

@@ -1,6 +1,8 @@
 package frc.robot.subsystems.DriveIO;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -11,21 +13,26 @@ public class BabyDriver extends SubsystemBase {
   DriveIO io;
   DriveInputs inputs = new DriveInputs();
 
+  private DifferentialDriveOdometry roboOdometry;
+
   public BabyDriver(DriveIO driveIO) {
     io = driveIO;
+    io.updateInputs(inputs);
+    roboOdometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(inputs.gyroHeadingDegrees));
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     io.updateInputs(inputs);
+    roboOdometry.update(Rotation2d.fromDegrees(inputs.gyroHeadingDegrees), inputs.leftEncPosition, inputs.rightEncPosition);
 
     SmartDashboard.putNumber("Left Enc", inputs.leftEncPosition);
     SmartDashboard.putNumber("Right Enc", inputs.rightEncPosition);
 
-    SmartDashboard.putNumber("Odo X", inputs.odoX);
-    SmartDashboard.putNumber("Odo Y", inputs.odoY);
-    SmartDashboard.putNumber("Odo H", inputs.odoH);
+    SmartDashboard.putNumber("Odo X", roboOdometry.getPoseMeters().getX());
+    SmartDashboard.putNumber("Odo Y", roboOdometry.getPoseMeters().getY());
+    SmartDashboard.putNumber("Odo H", roboOdometry.getPoseMeters().getRotation().getDegrees());
 
     SmartDashboard.putNumber("L1 Current", inputs.frontLeftCurrent);
     SmartDashboard.putNumber("R1 Current", inputs.frontRightCurrent);

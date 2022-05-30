@@ -1,7 +1,6 @@
 package frc.robot.subsystems.DriveIO;
 
 import com.revrobotics.CANSparkMax;
-import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
@@ -14,9 +13,6 @@ public class DriveIOSparkMax implements DriveIO {
   private CANSparkMax right2;
 
   private ADXRS450_Gyro gyro = new ADXRS450_Gyro();
-
-  private DifferentialDriveOdometry roboOdometry =
-      new DifferentialDriveOdometry(gyro.getRotation2d());
 
   public DriveIOSparkMax() {
     left1.restoreFactoryDefaults();
@@ -60,7 +56,7 @@ public class DriveIOSparkMax implements DriveIO {
     inputs.frontLeftCurrent = left1.getOutputCurrent();
     inputs.frontRightCurrent = right1.getOutputCurrent();
 
-    roboOdometry.update(gyro.getRotation2d(), inputs.leftEncPosition, inputs.rightEncPosition);
+    inputs.gyroHeadingDegrees = gyro.getRotation2d().getDegrees();
   }
 
   @Override
