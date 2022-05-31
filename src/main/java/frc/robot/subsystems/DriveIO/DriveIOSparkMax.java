@@ -45,7 +45,7 @@ public class DriveIOSparkMax implements DriveIO {
 
   @Override
   public void updateInputs(DriveInputs inputs) {
-    inputs.gyroYawPositionRadians = getHeadingDegrees(inputs);
+    inputs.gyroYawPositionRadians = gyro.getRotation2d().getRadians();
 
     inputs.leftVolts = left1.getBusVoltage();
     inputs.rightVolts = right1.getBusVoltage();
@@ -57,11 +57,6 @@ public class DriveIOSparkMax implements DriveIO {
     inputs.frontRightCurrent = right1.getOutputCurrent();
 
     inputs.gyroHeadingDegrees = gyro.getRotation2d().getDegrees();
-  }
-
-  @Override
-  public double getHeadingDegrees(DriveInputs inputs) {
-    return Math.IEEEremainder(gyro.getAngle(), 360) * -1;
   }
 
   @Override

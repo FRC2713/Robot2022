@@ -59,7 +59,5 @@ public interface DriveIO {
 
   public void setVoltage(double leftVolts, double rightVolts);
 
-  public double getHeadingDegrees(DriveInputs inputs);
-
   // definitely a lot more things tbh but ill add them as I learn I need them
 }
