@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.TurnViaGyro;
 import frc.robot.commands.auto.FiveBall;
 import frc.robot.commands.auto.FourBall;
 import frc.robot.commands.auto.SimpleScore;
@@ -92,6 +93,10 @@ public class Robot extends TimedRobot {
       new SimpleScore(
           RobotContainer.driveSubsystem, RobotContainer.shootSubsystem, RobotContainer.snekSystem);
 
+          
+  private Command turnWithGyro =
+  new TurnViaGyro(RobotContainer.driveSubsystem, 90);
+
   private Command m_autonomousCommand;
 
   /**
@@ -109,6 +114,8 @@ public class Robot extends TimedRobot {
     autoSelect.addOption("Three Ball Partner Secondary", threeBallPartner);
 
     autoSelect.addOption("Simple Score", simpleScore);
+
+    autoSelect.addOption("TurnTest", turnWithGyro);
 
     SmartDashboard.putData("Auto Selector", autoSelect);
 
