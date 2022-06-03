@@ -142,6 +142,7 @@ public class Robot extends TimedRobot {
     // } else {
     // RobotContainer.limelight.setLedMode(LedMode.FORCE_OFF);
     // }
+    RobotContainer.driveSubsystem.setAllCoast();
   }
 
   @Override
@@ -180,6 +181,7 @@ public class Robot extends TimedRobot {
 
     RobotContainer.shootSubsystem.setPrimaryRPM(0);
     RobotContainer.shootSubsystem.setTopRPM(0);
+    RobotContainer.driveSubsystem.setHalfBrakeHalfCoast();
   }
 
   /** This function is called periodically during operator control. */

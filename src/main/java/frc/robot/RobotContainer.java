@@ -235,6 +235,6 @@ public class RobotContainer {
         .whenPressed(new ClimberSetHeight(climber, Constants.ClimberConstants.minimumHeight));
 
     new JoystickButton(operator, XboxController.Button.kY.value)
-        .whenPressed(new ClimberSetHeight(climber, Constants.ClimberConstants.midHeight));
+        .whenPressed(new ClimberSetHeight(climber, Constants.ClimberConstants.maximumHeight));
   }
 }

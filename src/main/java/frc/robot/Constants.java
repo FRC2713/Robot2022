@@ -195,14 +195,14 @@ public final class Constants {
   public static final class ClimberConstants {
     public static final int kCurrentLimit = 40;
 
-    public static final TunableNumber leftKP = new TunableNumber("Climber/Left KP", 0.5);
+    public static final TunableNumber leftKP = new TunableNumber("Climber/Left KP", 0.6);
     public static final TunableNumber leftKF = new TunableNumber("Climber/Left KF", 0.00);
     public static final TunableNumber leftSmartMotionMaxVelocity =
         new TunableNumber("Climber/Left Max Velocity", 1000);
     public static final TunableNumber leftSmartMotionMaxAcceleration =
         new TunableNumber("Climber/Left Max Accel", 1000);
 
-    public static final TunableNumber rightKP = new TunableNumber("Climber/Right KP", 0.5);
+    public static final TunableNumber rightKP = new TunableNumber("Climber/Right KP", 0.6);
     public static final TunableNumber rightKF = new TunableNumber("Climber/Right KF", 0.00);
     public static final TunableNumber rightSmartMotionMaxVelocity =
         new TunableNumber("Climber/Right Max Velocity", 1000);
@@ -211,10 +211,10 @@ public final class Constants {
 
     public static final double speed = 1.0;
 
-    public static final double lowHeight = 60.0;
+    public static final double lowHeight = 85.0;
 
-    public static final float minimumHeight = 10; // 40.0f / 60.0f * 36.0f; // 24
-    public static final float maximumHeight = 125; // 200.0f / 60.0f * 36.0f;
+    public static final float minimumHeight = 0.0f; // 40.0f / 60.0f * 36.0f; // 24
+    public static final float maximumHeight = 135; // 200.0f / 60.0f * 36.0f;
     public static final double midHeight = maximumHeight;
     public static final TunableNumber acceptableError =
         new TunableNumber("Climber/Acceptable Error", 1);
