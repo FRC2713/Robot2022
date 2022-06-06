@@ -1,18 +1,21 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
+// Hello World
 
 package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.auto.FiveBall;
 import frc.robot.commands.auto.FourBall;
 import frc.robot.commands.auto.SimpleScore;
+import frc.robot.commands.auto.ThreeBallPartnerSecondary;
 import frc.robot.commands.auto.ThreeBallSecondary;
 import frc.robot.commands.auto.TwoBallSecondary;
 
@@ -28,36 +31,15 @@ public class Robot extends TimedRobot {
 
   private SendableChooser<Command> autoSelect = new SendableChooser<>();
 
-  private Command fourBallLowAuto =
+  private Command fourBall =
       new FourBall(
               RobotContainer.driveSubsystem,
               RobotContainer.robotIntake,
               RobotContainer.fourBar,
               RobotContainer.shootSubsystem,
               RobotContainer.snekSystem,
-              Constants.ShooterConstants.GoalType.LOW)
-          .andThen(
-              () -> RobotContainer.driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
-
-  private Command fourBallHighAuto =
-      new FourBall(
-              RobotContainer.driveSubsystem,
-              RobotContainer.robotIntake,
-              RobotContainer.fourBar,
-              RobotContainer.shootSubsystem,
-              RobotContainer.snekSystem,
-              Constants.ShooterConstants.GoalType.HIGH)
-          .andThen(
-              () -> RobotContainer.driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
-
-  private Command threeBallLowAuto =
-      new ThreeBallSecondary(
-              RobotContainer.driveSubsystem,
-              RobotContainer.robotIntake,
-              RobotContainer.fourBar,
-              RobotContainer.shootSubsystem,
-              RobotContainer.snekSystem,
-              Constants.ShooterConstants.GoalType.LOW)
+              RobotContainer.limelight,
+              RobotContainer.strip)
           .andThen(
               () -> RobotContainer.driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
 
@@ -68,29 +50,42 @@ public class Robot extends TimedRobot {
               RobotContainer.fourBar,
               RobotContainer.shootSubsystem,
               RobotContainer.snekSystem,
-              Constants.ShooterConstants.GoalType.HIGH)
+              RobotContainer.limelight,
+              RobotContainer.strip)
           .andThen(
               () -> RobotContainer.driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
 
-  private Command twoBallHighAuto =
+  private Command threeBallPartner =
+      new ThreeBallPartnerSecondary(
+          RobotContainer.driveSubsystem,
+          RobotContainer.robotIntake,
+          RobotContainer.fourBar,
+          RobotContainer.shootSubsystem,
+          RobotContainer.snekSystem,
+          RobotContainer.limelight,
+          RobotContainer.strip);
+
+  private Command twoBall =
       new TwoBallSecondary(
               RobotContainer.driveSubsystem,
               RobotContainer.robotIntake,
               RobotContainer.fourBar,
               RobotContainer.shootSubsystem,
               RobotContainer.snekSystem,
-              Constants.ShooterConstants.GoalType.HIGH)
+              RobotContainer.limelight,
+              RobotContainer.strip)
           .andThen(
               () -> RobotContainer.driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
 
-  private Command twoBallLowAuto =
-      new TwoBallSecondary(
+  private Command fiveBall =
+      new FiveBall(
               RobotContainer.driveSubsystem,
               RobotContainer.robotIntake,
               RobotContainer.fourBar,
               RobotContainer.shootSubsystem,
               RobotContainer.snekSystem,
-              Constants.ShooterConstants.GoalType.LOW)
+              RobotContainer.limelight,
+              RobotContainer.strip)
           .andThen(
               () -> RobotContainer.driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
 
@@ -108,16 +103,19 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     CameraServer.startAutomaticCapture();
 
-    autoSelect.addOption("High 4 Ball Primary", fourBallHighAuto);
-    autoSelect.addOption("Low 4 Ball Primary", fourBallLowAuto);
-    autoSelect.addOption("High 2 Ball Secondary", twoBallHighAuto);
-    autoSelect.addOption("Low 2 Ball Secondary", twoBallLowAuto);
-    autoSelect.addOption("High 3 Ball Secondary", threeBallHighAuto);
-    autoSelect.addOption("Low 3 Ball Secondary", threeBallLowAuto);
+    autoSelect.addOption("Five Ball", fiveBall);
+    autoSelect.addOption("Four Ball", fourBall);
+    autoSelect.addOption("Two Ball Secondary", twoBall);
+    autoSelect.addOption("Three Ball Secondary", threeBallHighAuto);
+    autoSelect.addOption("Three Ball Partner Secondary", threeBallPartner);
 
     autoSelect.addOption("Simple Score", simpleScore);
 
     SmartDashboard.putData("Auto Selector", autoSelect);
+
+    Field2d field = new Field2d();
+    field.getObject("reference").setTrajectory(TwoBallSecondary.leg2);
+    SmartDashboard.putData(field);
   }
 
   /**
@@ -138,7 +136,14 @@ public class Robot extends TimedRobot {
 
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    // if (DriverStation.isFMSAttached()) {
+    // RobotContainer.limelight.setLedMode(LedMode.FORCE_ON);
+    // } else {
+    // RobotContainer.limelight.setLedMode(LedMode.FORCE_OFF);
+    // }
+    RobotContainer.driveSubsystem.setAllCoast();
+  }
 
   @Override
   public void disabledPeriodic() {}
@@ -146,10 +151,11 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
+    // RobotContainer.limelight.setLedMode(LedMode.FORCE_ON);
 
     m_autonomousCommand = autoSelect.getSelected();
     if (m_autonomousCommand == null) {
-      m_autonomousCommand = fourBallLowAuto;
+      m_autonomousCommand = fourBall;
     }
 
     // schedule the autonomous command (example)
@@ -164,6 +170,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    // RobotContainer.limelight.setLedMode(LedMode.FORCE_ON);
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
@@ -171,6 +178,10 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    RobotContainer.shootSubsystem.setPrimaryRPM(0);
+    RobotContainer.shootSubsystem.setTopRPM(0);
+    RobotContainer.driveSubsystem.setHalfBrakeHalfCoast();
   }
 
   /** This function is called periodically during operator control. */
@@ -182,8 +193,8 @@ public class Robot extends TimedRobot {
     //   RobotContainer.driver.setRumble(RumbleType.kRightRumble, 0.5);
     // } else {
 
-    RobotContainer.driver.setRumble(RumbleType.kLeftRumble, 0);
-    RobotContainer.driver.setRumble(RumbleType.kRightRumble, 0);
+    // RobotContainer.driver.setRumble(RumbleType.kLeftRumble, 0);
+    // RobotContainer.driver.setRumble(RumbleType.kRightRumble, 0);
     // }
   }
 

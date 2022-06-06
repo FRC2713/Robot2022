@@ -20,7 +20,7 @@ public class ClimberSetHeight extends CommandBase {
 
   @Override
   public void execute() {
-    m_climber.setHeight(height);
+    m_climber.setTargetHeight(height);
   }
 
   @Override

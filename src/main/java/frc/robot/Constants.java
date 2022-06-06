@@ -35,6 +35,7 @@ public final class Constants {
     public static final int flywheelTopRight = 55;
 
     public static final int intakeMotorRollers = 7;
+    public static final int intakeMotorRollers2 = 47;
     public static final int intakeMotorFourBar = 6;
     public static final int intakeMotorFourBar2 = 8;
 
@@ -76,7 +77,7 @@ public final class Constants {
     public static final TunableNumber kP = new TunableNumber("Intake/kP", 0.0);
     public static final TunableNumber kF = new TunableNumber("Intake/kF", 0.002);
     public static final TunableNumber fourBarCurrentLimit =
-        new TunableNumber("Intake/4 Bar Current Limit", 10);
+        new TunableNumber("Intake/4 Bar Current Limit", 15);
     public static final TunableNumber smartMotionMaxVelocity =
         new TunableNumber("Intake/Smart Motion Max Velocity", 1000);
     public static final TunableNumber smartMotionMaxAcceleration =
@@ -102,11 +103,11 @@ public final class Constants {
     public static final double primaryRadius = Units.inchesToMeters(1.5);
     public static final double topRadius = Units.inchesToMeters(.75);
 
-    // MAKE THESE
+    // MAKE THESEz
     public static final double pks = 0.18554 / 60.0;
     public static final double pkv = 0.12648 / 60.0;
-    public static final double tks = 0.22372 / 60.0;
-    public static final double tkv = 0.17596 / 60.0;
+    public static final double tks = 0.33445 / 60.0;
+    public static final double tkv = 0.10419 / 60.0;
 
     public enum GoalType {
       LOW,
@@ -114,9 +115,9 @@ public final class Constants {
     }
 
     public static final double PrimaryGearRatio = 1.0;
-    public static final double TopGearRatio = 12.0 / 33.0;
-    public static final int currentLimit = 55;
-    public static final int topCurrentLimit = 35;
+    public static final double TopGearRatio = 21.0 / 33.0;
+    public static final int currentLimit = 85;
+    public static final int topCurrentLimit = 40;
     public static final TunableNumber PrimarykP =
         new TunableNumber("Shooter/kP", 0.00000087061 / 60);
     public static final TunableNumber PrimarykFF =
@@ -126,15 +127,15 @@ public final class Constants {
     // 2.0319E-08
     // 0.000000020319
     public static final TunableNumber TopkP =
-        new TunableNumber("TopShooter/kP", 0.000000020319); // 0.0003);
+        new TunableNumber("TopShooter/kP", 0.00000040308); // 0.0003);
     public static final TunableNumber TopkFF =
         new TunableNumber("TopShooter/kFF", 0.0); // 0.00026);
     public static final TunableNumber TopkD = new TunableNumber("TopShooter/kD", 0.0); // 0.00003);
 
     public static final TunableNumber primaryLowShotSpeed =
-        new TunableNumber("Primary Shooter/Speed", 1600);
+        new TunableNumber("Primary Shooter/Speed", 1300);
     public static final TunableNumber topLowShotSpeed =
-        new TunableNumber("Top Shooter/Speed", 1600);
+        new TunableNumber("Top Shooter/Speed", 1300);
     public static final TunableNumber primaryHighShotSpeed =
         new TunableNumber("Primary Shooter/Speed", 2200);
     public static final TunableNumber topHighShotSpeed =
@@ -151,14 +152,14 @@ public final class Constants {
   public static final class SnekConstants {
     public static final int currentLimit = 20;
     public static final double snekSpeed = 0.4;
-    public static final double upperSnekSpeed = 0.3;
+    public static final double upperSnekSpeed = 0.2;
 
     public static final double upperReversePower = -0.4;
     public static final double lowerReversePower = -0.1;
     public static final double reverseDuration = 0.1;
 
-    public static final double debouncerDuration = 0.75;
-    public static final double secondHighShotDelay = 0.25;
+    public static final double debouncerDuration = 0.25;
+    public static final double secondHighShotDelay = 0.3;
   }
 
   public static final class AutoConstants {
@@ -175,29 +176,33 @@ public final class Constants {
     public static final DifferentialDriveKinematics kinematics =
         new DifferentialDriveKinematics(trackWidth);
 
-    public static final double maxCentripetalAcceleration = 2.54;
+    public static final double maxCentripetalAcceleration = 1.5;
 
     // Ramsete constants; generally the same on all robots
     public static final double RamseteZeta = 0.7;
     public static final double RamseteB = 2;
 
     // Max speeds
-    public static final double maxSpeed = Units.feetToMeters(5);
-    public static final double maxAccel = Units.feetToMeters(2);
+    public static final double maxSpeed = Units.feetToMeters(15);
+    public static final double maxAccel = Units.feetToMeters(10);
     public static final double maxVoltageApplied = 10;
+
+    // five ball
+    public static final double waitForHumanPlayerDuration = 0.3;
+    public static final double crawlTowardsHumanPlayerVolts = 0.6;
   }
 
   public static final class ClimberConstants {
     public static final int kCurrentLimit = 40;
 
-    public static final TunableNumber leftKP = new TunableNumber("Climber/Left KP", 0.5);
+    public static final TunableNumber leftKP = new TunableNumber("Climber/Left KP", 0.6);
     public static final TunableNumber leftKF = new TunableNumber("Climber/Left KF", 0.00);
     public static final TunableNumber leftSmartMotionMaxVelocity =
         new TunableNumber("Climber/Left Max Velocity", 1000);
     public static final TunableNumber leftSmartMotionMaxAcceleration =
         new TunableNumber("Climber/Left Max Accel", 1000);
 
-    public static final TunableNumber rightKP = new TunableNumber("Climber/Right KP", 0.5);
+    public static final TunableNumber rightKP = new TunableNumber("Climber/Right KP", 0.6);
     public static final TunableNumber rightKF = new TunableNumber("Climber/Right KF", 0.00);
     public static final TunableNumber rightSmartMotionMaxVelocity =
         new TunableNumber("Climber/Right Max Velocity", 1000);
@@ -206,11 +211,11 @@ public final class Constants {
 
     public static final double speed = 1.0;
 
-    public static final double lowHeight = 80.0 / 60.0 * 36.0;
-    public static final double midHeight = 200.0 / 60.0 * 36.0;
+    public static final double lowHeight = 85.0;
 
-    public static final float minimumHeight = 40.0f / 60.0f * 36.0f;
-    public static final float maximumHeight = 200.0f / 60.0f * 36.0f;
+    public static final float minimumHeight = 0.0f; // 40.0f / 60.0f * 36.0f; // 24
+    public static final float maximumHeight = 135; // 200.0f / 60.0f * 36.0f;
+    public static final double midHeight = maximumHeight;
     public static final TunableNumber acceptableError =
         new TunableNumber("Climber/Acceptable Error", 1);
 
@@ -220,10 +225,14 @@ public final class Constants {
 
   public static final class LimelightConstants {
     public static final TunableNumber rotationKP =
-        new TunableNumber("Limelight/kp", .0125); // 1.0 change
+        new TunableNumber("Limelight/kp", .0190); // .0125, 1.0 change
+    public static final TunableNumber rotationKI = new TunableNumber("Limelight/ki", 0.0019);
+    public static final TunableNumber rotationIZone = new TunableNumber("Limelight/kIZone", 0);
     public static final TunableNumber rotationalTolerance =
         new TunableNumber("Limelight/Tolerance", 1.5);
     public static final TunableNumber kTurnInPlaceStaticVolts =
-        new TunableNumber("Limelight/RotatekS", 0.75);
+        new TunableNumber("Limelight/RotatekS", 0.85);
+    // public static final TunableNumber rotationFloor =
+    // new TunableNumber("Limelight/RotateFloor", 0.8);
   }
 }

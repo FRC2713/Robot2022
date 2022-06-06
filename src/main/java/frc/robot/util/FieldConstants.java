@@ -130,7 +130,7 @@ public class FieldConstants {
               new Transform2d(
                   new Translation2d(terminalCargoOffset, 0), Rotation2d.fromDegrees(180))),
           Direction.NEGATIVE,
-          Units.inchesToMeters(20));
+          Units.inchesToMeters(10));
 
   // Starting points
   public static class StartingPoints {

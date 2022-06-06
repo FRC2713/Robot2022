@@ -11,14 +11,19 @@
     }
   },
   "Window": {
+    "###/SmartDashboard/Field": {
+      "Collapsed": "0",
+      "Pos": "549,234",
+      "Size": "772,430"
+    },
     "###NetworkTables": {
       "Collapsed": "0",
-      "Pos": "23,311",
-      "Size": "398,206"
+      "Pos": "1,169",
+      "Size": "396,617"
     },
     "###NetworkTables Settings": {
       "Collapsed": "0",
-      "Pos": "10,25",
+      "Pos": "10,22",
       "Size": "272,123"
     },
     "###Plot <0>": {
@@ -28,7 +33,7 @@
     },
     "###Plot <1>": {
       "Collapsed": "0",
-      "Pos": "444,97",
+      "Pos": "444,98",
       "Size": "1117,633"
     },
     "Debug##Default": {

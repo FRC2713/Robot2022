@@ -40,13 +40,16 @@ public class ShootSubsystem extends SubsystemBase {
         {
           // distance, speed
           put(8.6, 7.0);
-          put(5.8, 7.0);
-          put(-2.0, 7.75);
-          put(-6.5, 8.25);
-          put(-10.2, 9.0);
-          put(-17.4, 11.0);
-          put(-20.6, 13.0);
-          put(-24.3, 14.0);
+          put(5.6, 7.5);
+          put(0.0, 7.5);
+          put(-6.5, 8.0);
+          put(-10.2, 8.5);
+          put(-12.0, 8.75);
+          put(-14.0, 9.0);
+          put(-18.0, 9.5);
+          put(-20.0, 10.25);
+          put(-22.0, 10.75);
+          put(-23.9, 11.25);
         }
       };
 
@@ -73,6 +76,9 @@ public class ShootSubsystem extends SubsystemBase {
     fly2.setIdleMode(IdleMode.kCoast);
     top1.setIdleMode(IdleMode.kCoast);
     top2.setIdleMode(IdleMode.kCoast);
+
+    fly1.enableVoltageCompensation(10);
+    top1.enableVoltageCompensation(10);
 
     fly1.setSmartCurrentLimit(Constants.ShooterConstants.currentLimit);
     top1.setSmartCurrentLimit(Constants.ShooterConstants.topCurrentLimit);
@@ -133,16 +139,20 @@ public class ShootSubsystem extends SubsystemBase {
 
   public boolean primaryCloseEnough() {
     return primarySetpoint > 0
-        && Util.isWithinAcceptableError(fly1.getEncoder().getVelocity(), primarySetpoint, 100);
+        && Util.isWithinAcceptableError(fly1.getEncoder().getVelocity(), primarySetpoint, 125);
   }
 
   public boolean topCloseEnough() {
     return topSetpoint > 0
-        && Util.isWithinAcceptableError(top1.getEncoder().getVelocity(), topSetpoint, 100);
+        && Util.isWithinAcceptableError(top1.getEncoder().getVelocity(), topSetpoint, 125);
   }
 
   public void stopFlywheel() { // SCRAM
     fly1.set(Constants.zero);
+  }
+
+  public double getPrimarySpeed() {
+    return fly1.getEncoder().getVelocity();
   }
 
   @Override

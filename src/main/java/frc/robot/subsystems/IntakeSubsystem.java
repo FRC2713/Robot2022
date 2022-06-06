@@ -17,15 +17,20 @@ import frc.robot.Constants.RobotMap;
 
 public class IntakeSubsystem extends SubsystemBase {
 
-  private CANSparkMax rollers;
+  private CANSparkMax rollers, rollers2;
 
   public IntakeSubsystem() {
     rollers = new CANSparkMax(RobotMap.intakeMotorRollers, MotorType.kBrushless);
+    rollers2 = new CANSparkMax(RobotMap.intakeMotorRollers2, MotorType.kBrushless);
 
     rollers.restoreFactoryDefaults();
+    rollers2.restoreFactoryDefaults();
+
+    rollers2.follow(rollers, true);
 
     rollers.setSmartCurrentLimit(Constants.IntakeConstants.rollerCurrentLimit);
     rollers.setIdleMode(IdleMode.kCoast);
+    rollers2.setIdleMode(IdleMode.kCoast);
     rollers.getEncoder().setVelocityConversionFactor(Constants.IntakeConstants.rollerRatio / 60);
     rollers.setOpenLoopRampRate(0.05);
   }
@@ -38,5 +43,8 @@ public class IntakeSubsystem extends SubsystemBase {
   public void periodic() {
 
     SmartDashboard.putNumber("Roller Speed", rollers.getEncoder().getVelocity());
+
+    SmartDashboard.putNumber("intake1Current", rollers.getOutputCurrent());
+    SmartDashboard.putNumber("intake2Current", rollers2.getOutputCurrent());
   }
 }

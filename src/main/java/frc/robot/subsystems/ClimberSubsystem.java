@@ -13,10 +13,12 @@ import java.util.List;
 public class ClimberSubsystem extends SubsystemBase {
 
   private final CANSparkMax left, right;
+  double currentHeight;
 
   public ClimberSubsystem() {
     left = new CANSparkMax(Constants.RobotMap.climberMotorLeft, MotorType.kBrushless);
     right = new CANSparkMax(Constants.RobotMap.climberMotorRight, MotorType.kBrushless);
+    currentHeight = 0;
 
     configureSpark(
         left,
@@ -78,6 +80,8 @@ public class ClimberSubsystem extends SubsystemBase {
       left.getPIDController().setP(Constants.ClimberConstants.leftKP.get());
       right.getPIDController().setP(Constants.ClimberConstants.rightKP.get());
     }
+
+    setHeight(currentHeight);
   }
 
   public void resetTelescopeEncoder() {
@@ -93,10 +97,18 @@ public class ClimberSubsystem extends SubsystemBase {
     return right.getEncoder().getPosition();
   }
 
-  public void setHeight(double height) {
+  public void setTargetHeight(double height) {
+    currentHeight = height;
+  }
+
+  public double getTargetHeight() {
+    return currentHeight;
+  }
+
+  private void setHeight(double height) {
     if (height < Constants.ClimberConstants.minimumHeight
         || height > Constants.ClimberConstants.maximumHeight) {
-      System.err.println("Inputted number outside of allowed climb range - aborted");
+      // System.err.println("Inputted number outside of allowed climb range - aborted");
       return;
     }
     left.getPIDController().setReference(height, ControlType.kPosition);

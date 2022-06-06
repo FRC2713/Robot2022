@@ -1,5 +1,7 @@
 package frc.robot.commands.auto;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -8,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
+import frc.robot.Constants.AutoConstants;
 import frc.robot.commands.AlignToGoal;
 import frc.robot.commands.FinishShot;
 import frc.robot.commands.IntakeExtendToLimit;
@@ -27,29 +30,50 @@ import frc.robot.util.FieldConstants;
 import frc.robot.util.Util;
 import java.util.List;
 
-public class FourBall extends SequentialCommandGroup {
-
+public class FiveBall extends SequentialCommandGroup {
   private static Trajectory leg1 =
       RamsetA.makeTrajectory(
           0.0,
-          List.of(FieldConstants.StartingPoints.tarmacC, FieldConstants.cargoD),
+          List.of(
+              FieldConstants.StartingPoints.tarmacD,
+              FieldConstants.cargoE.transformBy(
+                  Util.Geometry.transformFromRotation(Rotation2d.fromDegrees(0)))),
           0.0,
-          Units.feetToMeters(8),
           false);
 
-  private static Trajectory leg3 =
+  public static Pose2d turnPoint =
+      FieldConstants.StartingPoints.tarmacD
+          .transformBy(
+              Util.Geometry.transformFromTranslation(
+                  Units.inchesToMeters(-30), Units.inchesToMeters(10)))
+          .transformBy(Util.Geometry.transformFromRotation(Rotation2d.fromDegrees(-90)));
+
+  private static Trajectory leg2 =
+      RamsetA.makeTrajectory(0.0, List.of(FieldConstants.cargoE, turnPoint), 0.0, true);
+
+  private static Trajectory leg34 =
+      RamsetA.makeTrajectory(0, List.of(turnPoint, FieldConstants.cargoD), 0, false);
+
+  private static Trajectory leg5 =
       RamsetA.makeTrajectory(
           0,
           List.of(
               FieldConstants.cargoD,
               FieldConstants.cargoG.transformBy(
-                  Util.Geometry.transformFromTranslation(
-                      -Units.inchesToMeters(0), -Units.inchesToMeters(0)))),
+                  Util.Geometry.transformFromTranslation(0, Units.inchesToMeters(0)))),
           0,
           false);
 
-  private static Trajectory leg4 =
-      RamsetA.makeTrajectory(0, List.of(FieldConstants.cargoG, FieldConstants.cargoD), 0, true);
+  private static Trajectory leg6 =
+      RamsetA.makeTrajectory(
+          0,
+          List.of(
+              FieldConstants.cargoG,
+              FieldConstants.cargoG.transformBy(
+                  Util.Geometry.transformFromTranslation(
+                      Units.feetToMeters(-10), Units.feetToMeters(0)))),
+          0,
+          true);
 
   public static Command scoreAllBalls(
       SnekSystem snekSystem,
@@ -63,7 +87,7 @@ public class FourBall extends SequentialCommandGroup {
         new FinishShot(snekSystem, shootSubsystem));
   }
 
-  public FourBall(
+  public FiveBall(
       DriveSubsystem driveSubsystem,
       IntakeSubsystem intakeSubsystem,
       IntakeFourBar fourBar,
@@ -75,33 +99,45 @@ public class FourBall extends SequentialCommandGroup {
     Command driveToFirstBallAndPickUp =
         new ParallelDeadlineGroup(
             RamsetA.RamseteSchmoove(leg1, driveSubsystem, true),
+            new SetShooterRPM(
+                shootSubsystem,
+                Constants.ShooterConstants.primaryHighShotSpeed.get(),
+                Constants.ShooterConstants.topHighShotSpeed.get(),
+                true),
             new IntakeExtendToLimit(fourBar, Constants.IntakeConstants.intakeExtensionSpeed),
             new IntakeSetRollers(intakeSubsystem, Constants.IntakeConstants.typicalRollerRPM),
             new LoadSnek(snekSystem));
 
-    Command driveToTerminal =
-        new ParallelDeadlineGroup(
-            RamsetA.RamseteSchmoove(leg3, driveSubsystem), new LoadSnek(snekSystem));
-
-    Command driveBackToShotPoint =
+    Command driveToTarmac =
         new ParallelRaceGroup(
-            new ParallelCommandGroup(
-                new SetShooterRPM(
-                    shootSubsystem,
-                    Constants.ShooterConstants.primaryHighShotSpeed.get(),
-                    Constants.ShooterConstants.topHighShotSpeed.get(),
-                    true),
-                RamsetA.RamseteSchmoove(leg4, driveSubsystem)),
+            RamsetA.RamseteSchmoove(leg2, driveSubsystem), new LoadSnek(snekSystem));
+
+    Command driveToThirdBall =
+        new ParallelDeadlineGroup(
+            new SequentialCommandGroup(RamsetA.RamseteSchmoove(leg34, driveSubsystem)),
             new LoadSnek(snekSystem));
+
+    Command driveToTerminal =
+        new ParallelRaceGroup(
+            new ParallelCommandGroup(RamsetA.RamseteSchmoove(leg5, driveSubsystem)),
+            new LoadSnek(snekSystem));
+
+    Command driveBackToTarmac =
+        new ParallelRaceGroup(
+            RamsetA.RamseteSchmoove(leg6, driveSubsystem), new LoadSnek(snekSystem));
 
     addCommands(
         driveToFirstBallAndPickUp,
         scoreAllBalls(
             snekSystem, shootSubsystem, driveSubsystem, limelightSubsystem, stripSubsystem),
+        driveToTarmac,
+        driveToThirdBall,
+        scoreAllBalls(
+            snekSystem, shootSubsystem, driveSubsystem, limelightSubsystem, stripSubsystem),
         driveToTerminal,
         new WaitForHumanPlayer(
-            Constants.AutoConstants.waitForHumanPlayerDuration, snekSystem, driveSubsystem),
-        driveBackToShotPoint,
+            AutoConstants.waitForHumanPlayerDuration, snekSystem, driveSubsystem),
+        driveBackToTarmac,
         scoreAllBalls(
             snekSystem, shootSubsystem, driveSubsystem, limelightSubsystem, stripSubsystem));
   }

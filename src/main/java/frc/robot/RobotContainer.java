@@ -14,10 +14,12 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.SnekConstants;
 import frc.robot.commands.AlignToGoal;
 import frc.robot.commands.ClimberSetHeight;
 import frc.robot.commands.FeedWithDelay;
+import frc.robot.commands.PoopCargo;
 import frc.robot.commands.PrepShotHigh;
 import frc.robot.commands.PrepShotLow;
 import frc.robot.commands.SetShooterRPM;
@@ -78,7 +80,9 @@ public class RobotContainer {
     climber.setDefaultCommand(
         new RunCommand(
             () -> {
-              climber.setTelescopeSpeed(-MathUtil.applyDeadband(operator.getRightY(), 0.1));
+              // climber.setTelescopeSpeed(-MathUtil.applyDeadband(operator.getRightY(), 0.1));
+              double speedOfChange = -MathUtil.applyDeadband(operator.getRightY(), 0.1) * 120 * 0.3;
+              climber.setTargetHeight(climber.getTargetHeight() + speedOfChange * 0.02);
             },
             climber));
 
@@ -115,6 +119,24 @@ public class RobotContainer {
     //     }
     //   }
     // }, shootSubsystem));
+
+    // shootSubsystem.setDefaultCommand(new RunCommand(() -> {
+
+    // }, shootSubsystem));
+
+    new Trigger(
+            () ->
+                snekSystem.getUpperLimit()
+                    && !snekSystem.getLowerLimit()
+                    && shootSubsystem.getPrimarySpeed() < 10)
+        .whenActive(
+            new SequentialCommandGroup(
+                new SetSnekSpeed(snekSystem, -0.03, 0).withTimeout(0.10),
+                new SetShooterRPM(
+                    shootSubsystem,
+                    ShooterConstants.primaryLowShotSpeed.get(),
+                    ShooterConstants.topLowShotSpeed.get(),
+                    true)));
   }
 
   /**
@@ -151,7 +173,7 @@ public class RobotContainer {
     //             new SetShooterRPM(shootSubsystem, Constants.zero, Constants.zero, false)));
 
     // new JoystickButton(driver, XboxController.Button.kX.value)
-    //     .whenHeld(new AlignToGoal(driveSubsystem, limelight));
+    //     .whenHeld(new SetSnekSpeed(snekSystem, 1.0, 1.0));
 
     new JoystickButton(driver, XboxController.Button.kX.value)
         .whileActiveContinuous(new SetSnekSpeed(snekSystem, 1.0, 1.0))
@@ -202,6 +224,10 @@ public class RobotContainer {
         .whileActiveOnce(new IntakePreventThreeBallActive(robotIntake, snekSystem, fourBar))
         .whenInactive(new IntakePreventThreeBallInactive(robotIntake, snekSystem, fourBar));
 
+    new JoystickButton(driver, XboxController.Button.kB.value)
+        .whileActiveOnce(new PoopCargo(snekSystem, robotIntake, fourBar))
+        .whenInactive(new IntakePreventThreeBallInactive(robotIntake, snekSystem, fourBar));
+
     new JoystickButton(operator, XboxController.Button.kX.value)
         .whenPressed(new ClimberSetHeight(climber, Constants.ClimberConstants.lowHeight));
 
@@ -209,6 +235,6 @@ public class RobotContainer {
         .whenPressed(new ClimberSetHeight(climber, Constants.ClimberConstants.minimumHeight));
 
     new JoystickButton(operator, XboxController.Button.kY.value)
-        .whenPressed(new ClimberSetHeight(climber, Constants.ClimberConstants.midHeight));
+        .whenPressed(new ClimberSetHeight(climber, Constants.ClimberConstants.maximumHeight));
   }
 }

@@ -7,7 +7,6 @@ package frc.robot.commands;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.Constants.SnekConstants;
 import frc.robot.subsystems.ShootSubsystem;
 import frc.robot.subsystems.SnekSystem;
@@ -38,7 +37,7 @@ public class FinishShot extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (timer.get() > (SnekConstants.secondHighShotDelay + 0.2)) {
+    if (timer.get() > (SnekConstants.secondHighShotDelay)) {
       snekSystem.setLowerSnekSpeed(1.0);
     }
   }
@@ -48,8 +47,8 @@ public class FinishShot extends CommandBase {
   public void end(boolean interrupted) {
     snekSystem.setLowerSnekSpeed(0.0);
     snekSystem.setUpperSnekSpeed(0.0);
-    shootSubsystem.setPrimaryRPM(Constants.zero);
-    shootSubsystem.setTopRPM(Constants.zero);
+    // shootSubsystem.setPrimaryRPM(Constants.zero);
+    // shootSubsystem.setTopRPM(Constants.zero);
   }
 
   // Returns true when the command should end.

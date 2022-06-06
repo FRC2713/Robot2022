@@ -15,9 +15,10 @@ public class FeedWithDelay extends SequentialCommandGroup {
   public FeedWithDelay(SnekSystem snekSystem, double delaySeconds) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
+    double shotSpeed = 1.0;
     addCommands(
-        new SetSnekSpeed(snekSystem, 1.0, 0.0),
+        new SetSnekSpeed(snekSystem, shotSpeed, 0.0),
         new WaitCommand(delaySeconds),
-        new SetSnekSpeed(snekSystem, 1.0, 1.0).perpetually());
+        new SetSnekSpeed(snekSystem, shotSpeed, 1.0).perpetually());
   }
 }
