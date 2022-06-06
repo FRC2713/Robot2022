@@ -87,7 +87,6 @@ public class IntakeFourBar extends SubsystemBase {
   }
 
   public void setFourBarMotor(double speed) {
-    fourBar.getPIDController();
     fourBar.set(speed);
   }
 
@@ -141,6 +140,7 @@ public class IntakeFourBar extends SubsystemBase {
     SmartDashboard.putNumber("Intake/Four Bar Current Draw", fourBar.getOutputCurrent());
     currentAmperage = currentFilter.calculate(getUnfilteredFourBarMotorCurrent());
     SmartDashboard.putNumber("Intake/Filtered Current", currentAmperage);
+    SmartDashboard.putNumber("Intake/Four Bar 2 Current Draw", fourBar2.getOutputCurrent());
 
     if (Constants.tuningMode) {
       // fourBar.setSmartCurrentLimit((int) Constants.IntakeConstants.fourBarCurrentLimit.get());

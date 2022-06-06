@@ -100,13 +100,6 @@
       "/LiveWindow/Ungrouped/Spark[0]": "Motor Controller",
       "/SmartDashboard/Auto Selector": "String Chooser",
       "/SmartDashboard/Field": "Field2d"
-    },
-    "windows": {
-      "/SmartDashboard/Field": {
-        "window": {
-          "visible": true
-        }
-      }
     }
   },
   "NetworkTables Settings": {

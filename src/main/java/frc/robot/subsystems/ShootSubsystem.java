@@ -44,11 +44,12 @@ public class ShootSubsystem extends SubsystemBase {
           put(0.0, 7.5);
           put(-6.5, 8.0);
           put(-10.2, 8.5);
+          put(-12.0, 8.75);
           put(-14.0, 9.0);
           put(-18.0, 9.5);
-          // not yet tested
-          put(-20.6, 9.75);
-          put(-24.3, 11.0);
+          put(-20.0, 10.25);
+          put(-22.0, 10.75);
+          put(-23.9, 11.25);
         }
       };
 
