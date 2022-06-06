@@ -93,9 +93,7 @@ public class Robot extends TimedRobot {
       new SimpleScore(
           RobotContainer.driveSubsystem, RobotContainer.shootSubsystem, RobotContainer.snekSystem);
 
-          
-  private Command turnWithGyro =
-  new TurnViaGyro(RobotContainer.driveSubsystem, 90);
+  private Command turnWithGyro = new TurnViaGyro(RobotContainer.driveSubsystem, 90);
 
   private Command m_autonomousCommand;
 

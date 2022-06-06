@@ -30,7 +30,7 @@ import frc.robot.util.FieldConstants;
 import frc.robot.util.Util;
 import java.util.List;
 
-public class FiveBall extends SequentialCommandGroup {
+public class FiveBallTurny extends SequentialCommandGroup {
   private static Trajectory leg1 =
       RamsetA.makeTrajectory(
           0.0,
@@ -77,7 +77,7 @@ public class FiveBall extends SequentialCommandGroup {
         new FinishShot(snekSystem, shootSubsystem));
   }
 
-  public FiveBall(
+  public FiveBallTurny(
       DriveSubsystem driveSubsystem,
       IntakeSubsystem intakeSubsystem,
       IntakeFourBar fourBar,
@@ -117,6 +117,7 @@ public class FiveBall extends SequentialCommandGroup {
         driveToFirstBallAndPickUp,
         scoreAllBalls(
             snekSystem, shootSubsystem, driveSubsystem, limelightSubsystem, stripSubsystem),
+        new TurnViaGyro(driveSubsystem, 90),
         driveToThirdBall,
         scoreAllBalls(
             snekSystem, shootSubsystem, driveSubsystem, limelightSubsystem, stripSubsystem),
