@@ -1,5 +1,6 @@
 package frc.robot.commands.auto;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.util.Units;
@@ -18,7 +19,6 @@ import frc.robot.commands.LoadSnek;
 import frc.robot.commands.RamsetA;
 import frc.robot.commands.SetShooterRPM;
 import frc.robot.commands.ShootWithLimelight;
-import frc.robot.commands.TurnViaGyro;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeFourBar;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -41,10 +41,20 @@ public class FiveBall extends SequentialCommandGroup {
           0.0,
           false);
 
-  private static Trajectory leg2 =
-      RamsetA.makeTrajectory(0, List.of(FieldConstants.cargoE, FieldConstants.cargoD), 0, false);
+  public static Pose2d turnPoint =
+      FieldConstants.StartingPoints.tarmacD
+          .transformBy(
+              Util.Geometry.transformFromTranslation(
+                  Units.inchesToMeters(-30), Units.inchesToMeters(10)))
+          .transformBy(Util.Geometry.transformFromRotation(Rotation2d.fromDegrees(-90)));
 
-  private static Trajectory leg3 =
+  private static Trajectory leg2 =
+      RamsetA.makeTrajectory(0.0, List.of(FieldConstants.cargoE, turnPoint), 0.0, true);
+
+  private static Trajectory leg34 =
+      RamsetA.makeTrajectory(0, List.of(turnPoint, FieldConstants.cargoD), 0, false);
+
+  private static Trajectory leg5 =
       RamsetA.makeTrajectory(
           0,
           List.of(
@@ -54,7 +64,7 @@ public class FiveBall extends SequentialCommandGroup {
           0,
           false);
 
-  private static Trajectory leg4 =
+  private static Trajectory leg6 =
       RamsetA.makeTrajectory(
           0,
           List.of(
@@ -98,25 +108,29 @@ public class FiveBall extends SequentialCommandGroup {
             new IntakeSetRollers(intakeSubsystem, Constants.IntakeConstants.typicalRollerRPM),
             new LoadSnek(snekSystem));
 
+    Command driveToTarmac =
+        new ParallelRaceGroup(
+            RamsetA.RamseteSchmoove(leg2, driveSubsystem), new LoadSnek(snekSystem));
+
     Command driveToThirdBall =
-        new SequentialCommandGroup(
-            new TurnViaGyro(driveSubsystem, 90),
-            new ParallelRaceGroup(
-                RamsetA.RamseteSchmoove(leg2, driveSubsystem), new LoadSnek(snekSystem)));
+        new ParallelDeadlineGroup(
+            new SequentialCommandGroup(RamsetA.RamseteSchmoove(leg34, driveSubsystem)),
+            new LoadSnek(snekSystem));
 
     Command driveToTerminal =
         new ParallelRaceGroup(
-            new ParallelCommandGroup(RamsetA.RamseteSchmoove(leg3, driveSubsystem)),
+            new ParallelCommandGroup(RamsetA.RamseteSchmoove(leg5, driveSubsystem)),
             new LoadSnek(snekSystem));
 
     Command driveBackToTarmac =
         new ParallelRaceGroup(
-            RamsetA.RamseteSchmoove(leg4, driveSubsystem), new LoadSnek(snekSystem));
+            RamsetA.RamseteSchmoove(leg6, driveSubsystem), new LoadSnek(snekSystem));
 
     addCommands(
         driveToFirstBallAndPickUp,
         scoreAllBalls(
             snekSystem, shootSubsystem, driveSubsystem, limelightSubsystem, stripSubsystem),
+        driveToTarmac,
         driveToThirdBall,
         scoreAllBalls(
             snekSystem, shootSubsystem, driveSubsystem, limelightSubsystem, stripSubsystem),
