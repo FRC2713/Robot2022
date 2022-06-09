@@ -81,7 +81,7 @@ public class AlignToGoal extends CommandBase {
 
     double error = limelightSubsystem.getHorizontalOffset();
     double targetWheelSpeed = rotatController.calculate(error, 0);
-    
+
     double rightOutput =
         rightController.calculate(
                 driveSubsystem.getWheelSpeeds().rightMetersPerSecond, targetWheelSpeed)

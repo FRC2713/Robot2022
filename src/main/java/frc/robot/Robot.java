@@ -186,7 +186,8 @@ public class Robot extends TimedRobot {
 
     RobotContainer.shootSubsystem.setPrimaryRPM(0);
     RobotContainer.shootSubsystem.setTopRPM(0);
-    RobotContainer.driveSubsystem.setHalfBrakeHalfCoast();
+    // RobotContainer.driveSubsystem.setHalfBrakeHalfCoast();
+    RobotContainer.driveSubsystem.setAllCoast();
   }
 
   /** This function is called periodically during operator control. */

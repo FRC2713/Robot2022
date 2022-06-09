@@ -117,7 +117,7 @@ public final class Constants {
     public static final double PrimaryGearRatio = 1.0;
     public static final double TopGearRatio = 21.0 / 33.0;
     public static final int currentLimit = 85;
-    public static final int topCurrentLimit = 40;
+    public static final int topCurrentLimit = 20;
     public static final TunableNumber PrimarykP =
         new TunableNumber("Shooter/kP", 0.00000087061 / 60);
     public static final TunableNumber PrimarykFF =
@@ -195,14 +195,14 @@ public final class Constants {
   public static final class ClimberConstants {
     public static final int kCurrentLimit = 40;
 
-    public static final TunableNumber leftKP = new TunableNumber("Climber/Left KP", 0.6);
+    public static final TunableNumber leftKP = new TunableNumber("Climber/Left KP", 0.8);
     public static final TunableNumber leftKF = new TunableNumber("Climber/Left KF", 0.00);
     public static final TunableNumber leftSmartMotionMaxVelocity =
         new TunableNumber("Climber/Left Max Velocity", 1000);
     public static final TunableNumber leftSmartMotionMaxAcceleration =
         new TunableNumber("Climber/Left Max Accel", 1000);
 
-    public static final TunableNumber rightKP = new TunableNumber("Climber/Right KP", 0.6);
+    public static final TunableNumber rightKP = new TunableNumber("Climber/Right KP", 0.8);
     public static final TunableNumber rightKF = new TunableNumber("Climber/Right KF", 0.00);
     public static final TunableNumber rightSmartMotionMaxVelocity =
         new TunableNumber("Climber/Right Max Velocity", 1000);
