@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.TurnViaGyro;
-import frc.robot.commands.auto.FiveBall;
+import frc.robot.commands.auto.FiveBallTurny;
 import frc.robot.commands.auto.FourBall;
 import frc.robot.commands.auto.SimpleScore;
 import frc.robot.commands.auto.ThreeBallPartnerSecondary;
@@ -79,7 +79,7 @@ public class Robot extends TimedRobot {
               () -> RobotContainer.driveSubsystem.tankDriveVolts(Constants.zero, Constants.zero));
 
   private Command fiveBall =
-      new FiveBall(
+      new FiveBallTurny(
               RobotContainer.driveSubsystem,
               RobotContainer.robotIntake,
               RobotContainer.fourBar,
@@ -159,6 +159,12 @@ public class Robot extends TimedRobot {
     // RobotContainer.limelight.setLedMode(LedMode.FORCE_ON);
 
     m_autonomousCommand = autoSelect.getSelected();
+
+    // m_autonomousCommand =
+    //     new MeasureKS(
+    //         RobotContainer.driveSubsystem,
+    //         () -> RobotContainer.driveSubsystem.getTurnRate(),
+    //         (v) -> RobotContainer.driveSubsystem.tankDriveVolts(-v, v));
     if (m_autonomousCommand == null) {
       m_autonomousCommand = fourBall;
     }

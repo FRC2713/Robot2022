@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.filter.Debouncer;
@@ -19,8 +20,10 @@ public abstract class TurnInPlace extends CommandBase {
       new SimpleMotorFeedforward(
           // Constants.AutoConstants.ksVolts,
           Constants.LimelightConstants.kTurnInPlaceStaticVolts.get(),
-          Constants.AutoConstants.kvVoltSecondsPerMeter,
-          Constants.AutoConstants.kaVoltSecondsSquaredPerMeter);
+          // Constants.AutoConstants.kvVoltSecondsPerMeter,
+          // Constants.AutoConstants.kaVoltSecondsSquaredPerMeter);
+          0,
+          0);
 
   PIDController leftController = new PIDController(Constants.AutoConstants.kPDriveVel, 0, 0);
   PIDController rightController = new PIDController(Constants.AutoConstants.kPDriveVel, 0, 0);
@@ -41,6 +44,7 @@ public abstract class TurnInPlace extends CommandBase {
     addRequirements(driveSubsystem);
 
     rotatController.setTolerance(Constants.LimelightConstants.rotationalTolerance.get());
+    rotatController.enableContinuousInput(0, 360);
   }
 
   // Called when the command is initially scheduled.
@@ -49,23 +53,29 @@ public abstract class TurnInPlace extends CommandBase {
     if (Constants.tuningMode) {
       rotatController = new PIDController(Constants.LimelightConstants.rotationKP.get(), 0, 0);
       rotatController.setTolerance(Constants.LimelightConstants.rotationalTolerance.get());
+      rotatController.enableContinuousInput(-180, 180);
     }
-    ;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     double error = (getSetpoint() - getMeasurement());
-    double targetWheelSpeed = rotatController.calculate(error, setpoint);
+    double targetWheelSpeed = rotatController.calculate(getMeasurement(), setpoint);
     double leftOutput =
         leftController.calculate(
                 driveSubsystem.getWheelSpeeds().leftMetersPerSecond, -targetWheelSpeed)
-            + feedForward.calculate(-targetWheelSpeed);
+            + feedForward.calculate(-targetWheelSpeed)
+            - Constants.LimelightConstants.kTurnInPlaceStaticVolts.get();
     double rightOutput =
         rightController.calculate(
                 driveSubsystem.getWheelSpeeds().rightMetersPerSecond, targetWheelSpeed)
-            + feedForward.calculate(targetWheelSpeed);
+            + feedForward.calculate(targetWheelSpeed)
+            + Constants.LimelightConstants.kTurnInPlaceStaticVolts.get();
+
+    double voltageLimit = 4;
+    leftOutput = MathUtil.clamp(leftOutput, -voltageLimit, voltageLimit);
+    rightOutput = MathUtil.clamp(rightOutput, -voltageLimit, voltageLimit);
 
     SmartDashboard.putNumber("AlignLeft", leftOutput);
     SmartDashboard.putNumber("AlignRight", rightOutput);
@@ -82,6 +92,7 @@ public abstract class TurnInPlace extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    SmartDashboard.putNumber("AlignSetpoint", rotatController.getSetpoint());
     return onTargetDebouncer.calculate(rotatController.atSetpoint());
   }
 
