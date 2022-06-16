@@ -137,6 +137,11 @@
     "Plot <1>": {
       "plots": [
         {
+          "axis": [
+            {
+              "autoFit": true
+            }
+          ],
           "height": 571,
           "series": [
             {
@@ -156,6 +161,24 @@
                 1.0
               ],
               "id": "NT:/SmartDashboard/TopShooterRPM"
+            },
+            {
+              "color": [
+                0.3333333432674408,
+                0.658823549747467,
+                0.4078431725502014,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/AlignLeft"
+            },
+            {
+              "color": [
+                0.7686275243759155,
+                0.30588236451148987,
+                0.32156863808631897,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/AlignRight"
             }
           ]
         }

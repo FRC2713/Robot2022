@@ -61,12 +61,14 @@ public abstract class TurnInPlace extends CommandBase {
   @Override
   public void execute() {
     double error = (getSetpoint() - getMeasurement());
-    double targetWheelSpeed = rotatController.calculate(getMeasurement(), setpoint);
+    SmartDashboard.putNumber("AlignError", error);
+
+    double targetWheelSpeed = rotatController.calculate(getMeasurement(), getSetpoint());
     double leftOutput =
         leftController.calculate(
                 driveSubsystem.getWheelSpeeds().leftMetersPerSecond, -targetWheelSpeed)
             + feedForward.calculate(-targetWheelSpeed)
-            - Constants.LimelightConstants.kTurnInPlaceStaticVolts.get();
+            - (Constants.LimelightConstants.kTurnInPlaceStaticVolts.get());
     double rightOutput =
         rightController.calculate(
                 driveSubsystem.getWheelSpeeds().rightMetersPerSecond, targetWheelSpeed)

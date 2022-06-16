@@ -32,6 +32,10 @@ import frc.robot.util.Util;
 import java.util.List;
 
 public class FiveBallTurny extends SequentialCommandGroup {
+
+  private static Pose2d cargoDReal =
+      new Pose2d(FieldConstants.cargoD.getTranslation(), FieldConstants.cargoC.getRotation());
+
   private static Trajectory leg1 =
       RamsetA.makeTrajectory(
           0.0,
@@ -48,8 +52,8 @@ public class FiveBallTurny extends SequentialCommandGroup {
       RamsetA.makeTrajectory(
           0,
           List.of(
-              new Pose2d(FieldConstants.cargoE.getTranslation(), Rotation2d.fromDegrees(149)),
-              FieldConstants.cargoD),
+              new Pose2d(FieldConstants.cargoE.getTranslation(), Rotation2d.fromDegrees(160)),
+              cargoDReal),
           0,
           false);
 
@@ -57,7 +61,7 @@ public class FiveBallTurny extends SequentialCommandGroup {
       RamsetA.makeTrajectory(
           0,
           List.of(
-              FieldConstants.StartingPoints.tarmacD,
+              cargoDReal,
               FieldConstants.cargoG.transformBy(
                   Util.Geometry.transformFromTranslation(0, Units.inchesToMeters(0)))),
           0,
@@ -122,20 +126,17 @@ public class FiveBallTurny extends SequentialCommandGroup {
 
     addCommands(
         driveToFirstBallAndPickUp,
-        new WaitCommand(2),
-        RamsetA.RamseteSchmoove(leg15, driveSubsystem),
-        new WaitCommand(2),
         // scoreAllBalls(
         //     snekSystem, shootSubsystem, driveSubsystem, limelightSubsystem, stripSubsystem),
-        new TurnViaGyro(driveSubsystem, 149),
-        new WaitCommand(2),
-        driveToThirdBall);
-    // scoreAllBalls(
-    //     snekSystem, shootSubsystem, driveSubsystem, limelightSubsystem, stripSubsystem),
+        new TurnViaGyro(driveSubsystem, -10),
+        new WaitCommand(0.5));
+    // driveToThirdBall,
+    // // scoreAllBalls(
+    // //     snekSystem, shootSubsystem, driveSubsystem, limelightSubsystem, stripSubsystem),
     // driveToTerminal,
     // new WaitForHumanPlayer(
     //     AutoConstants.waitForHumanPlayerDuration, snekSystem, driveSubsystem),
-    // driveBackToTarmac,
+    // driveBackToTarmac);
     // scoreAllBalls(
     //     snekSystem, shootSubsystem, driveSubsystem, limelightSubsystem, stripSubsystem));
   }

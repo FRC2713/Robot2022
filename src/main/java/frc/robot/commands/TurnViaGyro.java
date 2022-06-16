@@ -4,25 +4,25 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class TurnViaGyro extends TurnInPlace {
-
-  double setpoint;
-  double initialReading;
-
-  public TurnViaGyro(DriveSubsystem driveSubsystem, double degrees) {
+  /**
+   * @param driveSubsystem
+   * @param degrees input between -180 and 180
+   */
+  public TurnViaGyro(
+      DriveSubsystem driveSubsystem, double degrees) { // degree input between -180 and 180
     super(driveSubsystem);
-    initialReading = driveSubsystem.getHeading();
-    setpoint = degrees;
+    this.setpoint = degrees;
   }
 
   @Override
   public double getMeasurement() {
     SmartDashboard.putNumber("Turn in place meas", (driveSubsystem.getHeading()));
-    return (driveSubsystem.getHeading());
+    return driveSubsystem.getHeading();
   }
 
   @Override
   public double getSetpoint() {
-    SmartDashboard.putNumber("Turn in place setpoint", setpoint);
-    return setpoint;
+    SmartDashboard.putNumber("Turn in place setpoint", this.setpoint);
+    return this.setpoint;
   }
 }

@@ -28,7 +28,10 @@ public class AlignToGoal extends CommandBase {
   PIDController leftController = new PIDController(Constants.AutoConstants.kPDriveVel, 0, 0);
   PIDController rightController = new PIDController(Constants.AutoConstants.kPDriveVel, 0, 0);
   PIDController rotatController =
-      new PIDController(Constants.LimelightConstants.rotationKP.get(), 0, 0);
+      new PIDController(
+          Constants.LimelightConstants.rotationKP.get(),
+          0,
+          Constants.LimelightConstants.rotationKD.get());
 
   Debouncer onTargetDebouncer;
 
@@ -97,6 +100,8 @@ public class AlignToGoal extends CommandBase {
     SmartDashboard.putNumber("AlignError", error);
 
     driveSubsystem.tankDriveVolts(leftOutput, rightOutput);
+
+    SmartDashboard.putNumber("AlignLeftOutput", leftOutput);
 
     SmartDashboard.putBoolean("AlignToGoalFinished", false);
   }
