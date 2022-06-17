@@ -225,10 +225,10 @@ public final class Constants {
 
   public static final class LimelightConstants {
     public static final TunableNumber rotationKP =
-        new TunableNumber("Limelight/kp", 0.015); // .0190); // .0125, 1.0 change
+        new TunableNumber("Limelight/kp", 0.01); // .0190); // .0125, 1.0 change
     public static final TunableNumber rotationKI = new TunableNumber("Limelight/ki", 0.0019);
     public static final TunableNumber rotationIZone = new TunableNumber("Limelight/kIZone", 0);
-    public static final TunableNumber rotationKD = new TunableNumber("Limelight/kD", 0.008);
+    public static final TunableNumber rotationKD = new TunableNumber("Limelight/kD", 0.00);
     public static final TunableNumber rotationalTolerance =
         new TunableNumber("Limelight/Tolerance", 1);
     public static final TunableNumber kTurnInPlaceStaticVolts =
