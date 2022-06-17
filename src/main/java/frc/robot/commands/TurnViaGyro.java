@@ -9,9 +9,9 @@ public class TurnViaGyro extends TurnInPlace {
    * @param degrees input between -180 and 180
    */
   public TurnViaGyro(
-      DriveSubsystem driveSubsystem, double degrees) { // degree input between -180 and 180
+      DriveSubsystem driveSubsystem, double heading) { // degree input between -180 and 180
     super(driveSubsystem);
-    this.setpoint = degrees;
+    this.setpoint = heading;
   }
 
   @Override

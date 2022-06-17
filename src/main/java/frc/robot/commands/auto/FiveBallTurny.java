@@ -128,7 +128,7 @@ public class FiveBallTurny extends SequentialCommandGroup {
         driveToFirstBallAndPickUp,
         // scoreAllBalls(
         //     snekSystem, shootSubsystem, driveSubsystem, limelightSubsystem, stripSubsystem),
-        new TurnViaGyro(driveSubsystem, -10),
+        new TurnViaGyro(driveSubsystem, -100),
         new WaitCommand(0.5));
     // driveToThirdBall,
     // // scoreAllBalls(
