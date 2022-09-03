@@ -24,10 +24,15 @@ public final class Constants {
   public static final class RobotMap {
     // MOTORS
 
-    public static final int frontLeftMotorPort = 1;
-    public static final int backLeftMotorPort = 2;
-    public static final int frontRightMotorPort = 3;
-    public static final int backRightMotorPort = 4;
+    public static final int frontLeftDrive = 1;
+    public static final int backLeftDrive = 2;
+    public static final int frontRightDrive = 3;
+    public static final int backRightDrive = 4;
+
+    public static final int frontLeftAzi = 100;
+    public static final int backLeftAzi = 200;
+    public static final int frontRightAzi = 300;
+    public static final int backRightAzi = 400;
 
     public static final int flywheelLeftPort = 5;
     public static final int flywheelRightPort = 10;
@@ -70,6 +75,9 @@ public final class Constants {
 
     public static final double fullRobotWidth = bumperlessRobotWidth + bumperThickness * 2;
     public static final double fullRobotLength = bumperlessRobotLength + bumperThickness * 2;
+
+    public static final double maxSwerveVel = 3;
+    public static final double maxSwerveAzi = Math.PI;
   }
 
   public static final class IntakeConstants {

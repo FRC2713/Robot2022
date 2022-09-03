@@ -14,6 +14,7 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.LimelightSubsystem.SnapshotMode;
 import frc.robot.subsystems.StripSubsystem;
+import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.StripSubsystem.Pattern;
 
 public class AlignToGoal extends CommandBase {
@@ -32,21 +33,21 @@ public class AlignToGoal extends CommandBase {
 
   Debouncer onTargetDebouncer;
 
-  DriveSubsystem driveSubsystem;
+  SwerveSubsystem swerveSubsystem;
   LimelightSubsystem limelightSubsystem;
   StripSubsystem stripSubsystem;
   /** Creates a new AlignToGoal. */
   public AlignToGoal(
-      DriveSubsystem driveSubsystem,
+      SwerveSubsystem swerveSubsystem,
       LimelightSubsystem limelightSubsystem,
       StripSubsystem stripSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.driveSubsystem = driveSubsystem;
+    this.swerveSubsystem = swerveSubsystem;
     this.limelightSubsystem = limelightSubsystem;
     this.stripSubsystem = stripSubsystem;
     this.onTargetDebouncer = new Debouncer(.125);
 
-    addRequirements(driveSubsystem, limelightSubsystem, stripSubsystem);
+    addRequirements(swerveSubsystem, limelightSubsystem, stripSubsystem);
 
     rotatController.setTolerance(Constants.LimelightConstants.rotationalTolerance.get());
   }
@@ -81,22 +82,13 @@ public class AlignToGoal extends CommandBase {
 
     double error = limelightSubsystem.getHorizontalOffset();
     double targetWheelSpeed = rotatController.calculate(error, 0);
-    
-    double rightOutput =
-        rightController.calculate(
-                driveSubsystem.getWheelSpeeds().rightMetersPerSecond, targetWheelSpeed)
-            + feedForward.calculate(targetWheelSpeed);
 
-    double leftOutput =
-        leftController.calculate(
-                driveSubsystem.getWheelSpeeds().leftMetersPerSecond, -targetWheelSpeed)
-            + feedForward.calculate(-targetWheelSpeed);
+    double radianOutput = Math.toRadians(targetWheelSpeed);
 
-    SmartDashboard.putNumber("AlignLeft", leftOutput);
-    SmartDashboard.putNumber("AlignRight", rightOutput);
+    SmartDashboard.putNumber("AlignRadians", radianOutput);
     SmartDashboard.putNumber("AlignError", error);
 
-    driveSubsystem.tankDriveVolts(leftOutput, rightOutput);
+    swerveSubsystem.drive(0, 0, radianOutput);
 
     SmartDashboard.putBoolean("AlignToGoalFinished", false);
   }
@@ -104,7 +96,7 @@ public class AlignToGoal extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    driveSubsystem.tankDriveVolts(0, 0);
+    swerveSubsystem.drive(0, 0, 0);
     limelightSubsystem.setSnapshotMode(SnapshotMode.OFF);
     SmartDashboard.putBoolean("AlignToGoalRunning", true);
   }

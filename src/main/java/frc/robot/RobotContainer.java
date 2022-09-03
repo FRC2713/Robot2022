@@ -34,6 +34,7 @@ import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShootSubsystem;
 import frc.robot.subsystems.SnekSystem;
 import frc.robot.subsystems.StripSubsystem;
+import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.StripSubsystem.Pattern;
 
 /**
@@ -44,7 +45,7 @@ import frc.robot.subsystems.StripSubsystem.Pattern;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  public static final DriveSubsystem driveSubsystem = new DriveSubsystem();
+  public static final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
   public static final IntakeSubsystem robotIntake = new IntakeSubsystem();
   public static final IntakeFourBar fourBar = new IntakeFourBar();
   public static final ShootSubsystem shootSubsystem = new ShootSubsystem();
@@ -60,13 +61,13 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-    driveSubsystem.setDefaultCommand(
+    swerveSubsystem.setDefaultCommand(
         new RunCommand(
             () -> {
-              driveSubsystem.GTADrive(
-                  driver.getLeftTriggerAxis(), driver.getRightTriggerAxis(), driver.getLeftX());
+              swerveSubsystem.drive(
+                  driver.getLeftY() * Constants.DriveConstants.maxSwerveVel, driver.getLeftX() * Constants.DriveConstants.maxSwerveVel, driver.getRightX() * Constants.DriveConstants.maxSwerveAzi);
             },
-            driveSubsystem));
+            swerveSubsystem));
 
     // driveSubsystem.setDefaultCommand(
     //     new RunCommand(
@@ -185,7 +186,7 @@ public class RobotContainer {
                 new SequentialCommandGroup(
                     new ParallelCommandGroup(
                         new PrepShotHigh(shootSubsystem, snekSystem, limelight, true),
-                        new AlignToGoal(driveSubsystem, limelight, strip)),
+                        new AlignToGoal(swerveSubsystem, limelight, strip)),
                     new FeedWithDelay(snekSystem, SnekConstants.secondHighShotDelay)
                     // new FeedWithSmartDelay(
                     //     snekSystem, shootSubsystem, SnekConstants.secondHighShotDelay + 3)

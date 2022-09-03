@@ -19,19 +19,22 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
 
+
 public class DriveSubsystem extends SubsystemBase {
+
   private CANSparkMax left1 =
       new CANSparkMax(
-          Constants.RobotMap.frontLeftMotorPort, CANSparkMaxLowLevel.MotorType.kBrushless);
+          Constants.RobotMap.frontLeftDrive, CANSparkMaxLowLevel.MotorType.kBrushless);
   private CANSparkMax right1 =
       new CANSparkMax(
-          Constants.RobotMap.frontRightMotorPort, CANSparkMaxLowLevel.MotorType.kBrushless);
+          Constants.RobotMap.frontRightDrive, CANSparkMaxLowLevel.MotorType.kBrushless);
   private CANSparkMax left2 =
       new CANSparkMax(
-          Constants.RobotMap.backLeftMotorPort, CANSparkMaxLowLevel.MotorType.kBrushless);
+          Constants.RobotMap.backLeftDrive, CANSparkMaxLowLevel.MotorType.kBrushless);
   private CANSparkMax right2 =
       new CANSparkMax(
-          Constants.RobotMap.backRightMotorPort, CANSparkMaxLowLevel.MotorType.kBrushless);
+          Constants.RobotMap.backRightDrive, CANSparkMaxLowLevel.MotorType.kBrushless);
+
   ADXRS450_Gyro gyro = new ADXRS450_Gyro();
   private final DifferentialDriveOdometry roboOdometry =
       new DifferentialDriveOdometry(gyro.getRotation2d());
