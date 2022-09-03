@@ -27,15 +27,14 @@ import frc.robot.commands.SetSnekSpeed;
 import frc.robot.commands.groups.IntakePreventThreeBallActive;
 import frc.robot.commands.groups.IntakePreventThreeBallInactive;
 import frc.robot.subsystems.ClimberSubsystem;
-import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeFourBar;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShootSubsystem;
 import frc.robot.subsystems.SnekSystem;
 import frc.robot.subsystems.StripSubsystem;
-import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.StripSubsystem.Pattern;
+import frc.robot.subsystems.SwerveSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -65,7 +64,9 @@ public class RobotContainer {
         new RunCommand(
             () -> {
               swerveSubsystem.drive(
-                  driver.getLeftY() * Constants.DriveConstants.maxSwerveVel, driver.getLeftX() * Constants.DriveConstants.maxSwerveVel, driver.getRightX() * Constants.DriveConstants.maxSwerveAzi);
+                  driver.getLeftY() * Constants.DriveConstants.maxSwerveVel,
+                  driver.getLeftX() * Constants.DriveConstants.maxSwerveVel,
+                  driver.getRightX() * Constants.DriveConstants.maxSwerveAzi);
             },
             swerveSubsystem));
 

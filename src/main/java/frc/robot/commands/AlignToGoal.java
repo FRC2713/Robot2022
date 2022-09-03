@@ -10,12 +10,11 @@ import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.LimelightSubsystem.SnapshotMode;
 import frc.robot.subsystems.StripSubsystem;
-import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.StripSubsystem.Pattern;
+import frc.robot.subsystems.SwerveSubsystem;
 
 public class AlignToGoal extends CommandBase {
 
