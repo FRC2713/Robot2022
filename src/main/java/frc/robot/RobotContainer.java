@@ -70,19 +70,9 @@ public class RobotContainer {
             },
             swerveSubsystem));
 
-    // driveSubsystem.setDefaultCommand(
-    //     new RunCommand(
-    //         () -> {
-    //           driveSubsystem.tankDriveVolts(
-    //               -LimelightConstants.kTurnInPlaceStaticVolts.get(),
-    //               LimelightConstants.kTurnInPlaceStaticVolts.get());
-    //         },
-    //         driveSubsystem));
-
     climber.setDefaultCommand(
         new RunCommand(
             () -> {
-              // climber.setTelescopeSpeed(-MathUtil.applyDeadband(operator.getRightY(), 0.1));
               double speedOfChange = -MathUtil.applyDeadband(operator.getRightY(), 0.1) * 120 * 0.3;
               climber.setTargetHeight(climber.getTargetHeight() + speedOfChange * 0.02);
             },
@@ -110,21 +100,6 @@ public class RobotContainer {
               }
             },
             strip));
-
-    // shootSubsystem.setDefaultCommand(new RunCommand(() -> {
-    //   if (snekSystem.getLowerLimit() || snekSystem.getUpperLimit()) {
-    //     if (limelight.hasValidTargets()) {
-    //       shootSubsystem.shootAtDistance(limelight.getHorizontalOffset());
-    //     } else {
-    //       shootSubsystem.setPrimaryRPM(ShooterConstants.primaryLowShotSpeed.get());
-    //       shootSubsystem.setTopRPM(ShooterConstants.topLowShotSpeed.get());
-    //     }
-    //   }
-    // }, shootSubsystem));
-
-    // shootSubsystem.setDefaultCommand(new RunCommand(() -> {
-
-    // }, shootSubsystem));
 
     new Trigger(
             () ->
@@ -159,24 +134,6 @@ public class RobotContainer {
                 new SetSnekSpeed(snekSystem, Constants.zero, Constants.zero),
                 new SetShooterRPM(shootSubsystem, Constants.zero, Constants.zero, false)));
 
-    // new JoystickButton(driver, XboxController.Button.kX.value)
-    //     .whileActiveOnce(
-    //         new SequentialCommandGroup(
-    //             // new PrepShotHigh(shootSubsystem, snekSystem, true),
-    //             new SetShooterSpin(shootSubsystem, 8 /* m/s */, 0 /* spin */, true),
-    //             new FeedWithDelay(snekSystem, SnekConstants.secondHighShotDelay)
-    //             // new FeedWithSmartDelay(
-    //             //     snekSystem, shootSubsystem, SnekConstants.secondHighShotDelay + 3)
-    //             // new SetSnekSpeed(snekSystem, 0.6, 0.6).perpetually()
-    //             ))
-    //     .whenInactive(
-    //         new ParallelCommandGroup(
-    //             new SetSnekSpeed(snekSystem, Constants.zero, Constants.zero),
-    //             new SetShooterRPM(shootSubsystem, Constants.zero, Constants.zero, false)));
-
-    // new JoystickButton(driver, XboxController.Button.kX.value)
-    //     .whenHeld(new SetSnekSpeed(snekSystem, 1.0, 1.0));
-
     new JoystickButton(driver, XboxController.Button.kX.value)
         .whileActiveContinuous(new SetSnekSpeed(snekSystem, 1.0, 1.0))
         .whenInactive(new SetSnekSpeed(snekSystem, Constants.zero, Constants.zero));
@@ -197,22 +154,6 @@ public class RobotContainer {
             new ParallelCommandGroup(
                 new SetSnekSpeed(snekSystem, Constants.zero, Constants.zero),
                 new SetShooterRPM(shootSubsystem, Constants.zero, Constants.zero, false)));
-
-    // new JoystickButton(driver, XboxController.Button.kLeftBumper.value)
-    //     .whileActiveContinuous(new SetSnekSpeed(snekSystem, 0.75, 0.75))
-    //     .whenInactive(new SetSnekSpeed(snekSystem, 0, 0));
-
-    // new JoystickButton(driver, XboxController.Button.kLeftBumper.value)
-    //     .whileHeld(
-    //         new ParallelCommandGroup(
-    //             new SetSnekSpeed(snekSystem, 1.0, 1.0),
-    //             new IntakeExtendToLimit(
-    //                 fourBar, Constants.IntakeConstants.intakeExtensionSpeed / 2),
-    //             new IntakeSetRollers(robotIntake, Constants.IntakeConstants.typicalRollerRPM)))
-    //     .whenInactive(
-    //         new ParallelCommandGroup(
-    //             new SetSnekSpeed(snekSystem, 0, 0),
-    //             new IntakeSetRollers(robotIntake, Constants.zero)));
 
     new Trigger(() -> (operator.getBackButton() && operator.getStartButton()))
         .whenActive(

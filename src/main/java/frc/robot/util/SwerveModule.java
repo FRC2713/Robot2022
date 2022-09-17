@@ -2,8 +2,6 @@ package frc.robot.util;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxAnalogSensor;
 import com.revrobotics.SparkMaxAnalogSensor.Mode;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -18,7 +16,6 @@ public class SwerveModule {
   double offset;
 
   private final PIDController drivePID = new PIDController(1, 0, 0);
-
   private final PIDController aziPID = new PIDController(1, 0, 0);
 
   private final SimpleMotorFeedforward driveFF = new SimpleMotorFeedforward(1, 3);
@@ -29,40 +26,48 @@ public class SwerveModule {
     azimuth = new CANSparkMax(azimPort, MotorType.kBrushless);
     this.offset = offset;
 
-    getDriveEncoder()
+    driver.getEncoder()
         .setPositionConversionFactor(2 * Math.PI * (Constants.DriveConstants.wheelDiameter / 2));
-    getAziEncoder().setPositionConversionFactor(2 * Math.PI);
+    driver.getAnalog(Mode.kAbsolute).setPositionConversionFactor(2 * Math.PI);
 
     aziPID.enableContinuousInput(-Math.PI, Math.PI);
   }
 
-  private RelativeEncoder getDriveEncoder() {
-    return driver.getEncoder();
+  // private RelativeEncoder getDriveEncoder() {
+  //   return driver.getEncoder();
+  // }
+
+  // private SparkMaxAnalogSensor getAziEncoder() {
+  //   return azimuth.getAnalog(Mode.kAbsolute);
+  // }
+
+  public double getAdjustedAzimuthPosition() {
+    return azimuth.getAnalog(Mode.kAbsolute).getPosition() - offset;
   }
 
-  private SparkMaxAnalogSensor getAziEncoder() {
-    return azimuth.getAnalog(Mode.kAbsolute);
+  private double getDriveVelocity() {
+    return driver.getEncoder().getPosition();
   }
 
   public SwerveModuleState getState() {
     return new SwerveModuleState(
-        getDriveEncoder().getVelocity(), new Rotation2d(getAziEncoder().getPosition()));
+        getDriveVelocity(), new Rotation2d(getAdjustedAzimuthPosition() - offset));
   }
 
   public void setDesiredState(SwerveModuleState desiredState) {
     // Optimize the reference state to avoid spinning further than 90 degrees
     SwerveModuleState state =
-        SwerveModuleState.optimize(desiredState, new Rotation2d(getAziEncoder().getPosition()));
+        SwerveModuleState.optimize(desiredState, new Rotation2d(getAdjustedAzimuthPosition()));
 
     // Calculate the drive output from the drive PID controller.
     final double driveOutput =
-        drivePID.calculate(getDriveEncoder().getVelocity(), state.speedMetersPerSecond);
+        drivePID.calculate(getDriveVelocity(), state.speedMetersPerSecond);
 
     final double driveFeedforward = driveFF.calculate(state.speedMetersPerSecond);
 
     // Calculate the turning motor output from the turning PID controller.
     final double turnOutput =
-        aziPID.calculate((getAziEncoder().getPosition() + offset), state.angle.getRadians());
+        aziPID.calculate(getAdjustedAzimuthPosition(), state.angle.getRadians());
 
     final double turnFeedforward = aziFF.calculate(aziPID.getSetpoint());
 

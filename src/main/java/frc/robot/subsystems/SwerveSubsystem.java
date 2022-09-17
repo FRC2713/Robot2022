@@ -50,10 +50,10 @@ public class SwerveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("AziPosition/Front Left", frontLeft.getState().angle.getRadians());
-    SmartDashboard.putNumber("AziPosition/Front Right", frontRight.getState().angle.getRadians());
-    SmartDashboard.putNumber("AziPosition/Back Left", backLeft.getState().angle.getRadians());
-    SmartDashboard.putNumber("AziPosition/Back Right", backRight.getState().angle.getRadians());
+    SmartDashboard.putNumber("RawAziPosition/Front Left", frontLeft.getState().angle.getRadians());
+    SmartDashboard.putNumber("RawAziPosition/Front Right", frontRight.getState().angle.getRadians());
+    SmartDashboard.putNumber("RawAziPosition/Back Left", backLeft.getState().angle.getRadians());
+    SmartDashboard.putNumber("RawAziPosition/Back Right", backRight.getState().angle.getRadians());
   }
 
   public void drive(double xSpeed, double ySpeed, double angle) {
