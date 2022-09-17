@@ -3,7 +3,10 @@ package frc.robot.util;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxAnalogSensor;
 import com.revrobotics.SparkMaxAlternateEncoder.Type;
+import com.revrobotics.SparkMaxAnalogSensor.Mode;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -37,8 +40,8 @@ public class SwerveModule {
     return driver.getEncoder();
   }
 
-  private RelativeEncoder getAziEncoder() {
-    return azimuth.getAlternateEncoder(Type.kQuadrature, 4096);
+  private SparkMaxAnalogSensor getAziEncoder() {
+    return azimuth.getAnalog(Mode.kAbsolute);
   }
 
   public SwerveModuleState getState() {
