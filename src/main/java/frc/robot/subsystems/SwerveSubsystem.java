@@ -7,6 +7,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.util.SwerveModule;
@@ -18,13 +19,17 @@ public class SwerveSubsystem extends SubsystemBase {
   private final Translation2d backRightLocation = new Translation2d(-0.314, -0.314);
 
   private final SwerveModule frontLeft =
-      new SwerveModule(Constants.RobotMap.frontLeftDrive, Constants.RobotMap.frontLeftAzi);
+      new SwerveModule(
+          Constants.RobotMap.frontLeftDrive, Constants.RobotMap.frontLeftAzi, Constants.zero);
   private final SwerveModule frontRight =
-      new SwerveModule(Constants.RobotMap.frontRightDrive, Constants.RobotMap.frontRightAzi);
+      new SwerveModule(
+          Constants.RobotMap.frontRightDrive, Constants.RobotMap.frontRightAzi, Constants.zero);
   private final SwerveModule backLeft =
-      new SwerveModule(Constants.RobotMap.backLeftDrive, Constants.RobotMap.backLeftAzi);
+      new SwerveModule(
+          Constants.RobotMap.backLeftDrive, Constants.RobotMap.backLeftAzi, Constants.zero);
   private final SwerveModule backRight =
-      new SwerveModule(Constants.RobotMap.backRightDrive, Constants.RobotMap.backRightAzi);
+      new SwerveModule(
+          Constants.RobotMap.backRightDrive, Constants.RobotMap.backRightAzi, Constants.zero);
 
   private final ADXRS450_Gyro gyro = new ADXRS450_Gyro();
 
@@ -41,6 +46,14 @@ public class SwerveSubsystem extends SubsystemBase {
 
   public Pose2d getPose() {
     return odometry.getPoseMeters();
+  }
+
+  @Override
+  public void periodic() {
+    SmartDashboard.putNumber("AziPosition/Front Left", frontLeft.getState().angle.getRadians());
+    SmartDashboard.putNumber("AziPosition/Front Right", frontRight.getState().angle.getRadians());
+    SmartDashboard.putNumber("AziPosition/Back Left", backLeft.getState().angle.getRadians());
+    SmartDashboard.putNumber("AziPosition/Back Right", backRight.getState().angle.getRadians());
   }
 
   public void drive(double xSpeed, double ySpeed, double angle) {

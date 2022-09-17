@@ -4,9 +4,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxAnalogSensor;
-import com.revrobotics.SparkMaxAlternateEncoder.Type;
 import com.revrobotics.SparkMaxAnalogSensor.Mode;
-
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -17,6 +15,7 @@ public class SwerveModule {
 
   CANSparkMax driver;
   CANSparkMax azimuth;
+  double offset;
 
   private final PIDController drivePID = new PIDController(1, 0, 0);
 
@@ -25,9 +24,10 @@ public class SwerveModule {
   private final SimpleMotorFeedforward driveFF = new SimpleMotorFeedforward(1, 3);
   private final SimpleMotorFeedforward aziFF = new SimpleMotorFeedforward(0, 0);
 
-  public SwerveModule(int drivePort, int azimPort) {
+  public SwerveModule(int drivePort, int azimPort, double offset) {
     driver = new CANSparkMax(drivePort, MotorType.kBrushless);
     azimuth = new CANSparkMax(azimPort, MotorType.kBrushless);
+    this.offset = offset;
 
     getDriveEncoder()
         .setPositionConversionFactor(2 * Math.PI * (Constants.DriveConstants.wheelDiameter / 2));
@@ -62,7 +62,7 @@ public class SwerveModule {
 
     // Calculate the turning motor output from the turning PID controller.
     final double turnOutput =
-        aziPID.calculate(getAziEncoder().getPosition(), state.angle.getRadians());
+        aziPID.calculate((getAziEncoder().getPosition() + offset), state.angle.getRadians());
 
     final double turnFeedforward = aziFF.calculate(aziPID.getSetpoint());
 
