@@ -21,6 +21,8 @@ public final class Constants {
   public static final boolean tuningMode = false;
   public static final int zero = 0; // in case you need a zero :)
 
+
+  public static final double CIRCLE = 360.0;
   public static final class RobotMap {
     // MOTORS
 
@@ -34,6 +36,9 @@ public final class Constants {
     public static final int frontRightAzi = 300;
     public static final int backRightAzi = 400;
 
+    public static final double frontLeftOffset = 0;
+
+    public static final double backLeftOffset = 0;
     public static final int flywheelLeftPort = 5;
     public static final int flywheelRightPort = 10;
     public static final int flywheelTopLeft = 13;
@@ -60,6 +65,10 @@ public final class Constants {
     public static final int stripPort = 0;
   }
 
+  public static final class SwerveConstants {
+    public static final double MIN_VOLT = 0.0;
+    public static final double MAX_VOLT = 5.0;
+  }
   public static final class DriveConstants {
     public static final double kJoystickTurnDeadzone = 0.04;
     public static final double wheelDiameter = 5;
