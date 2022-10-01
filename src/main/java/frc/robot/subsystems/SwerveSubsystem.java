@@ -20,16 +20,16 @@ public class SwerveSubsystem extends SubsystemBase {
 
   private final SwerveModule frontLeft =
       new SwerveModule(
-          Constants.RobotMap.frontLeftDrive, Constants.RobotMap.frontLeftAzi, Constants.zero);
+          Constants.RobotMap.frontLeftDrive, Constants.RobotMap.frontLeftAzi);
   private final SwerveModule frontRight =
       new SwerveModule(
-          Constants.RobotMap.frontRightDrive, Constants.RobotMap.frontRightAzi, Constants.zero);
+          Constants.RobotMap.frontRightDrive, Constants.RobotMap.frontRightAzi);
   private final SwerveModule backLeft =
       new SwerveModule(
-          Constants.RobotMap.backLeftDrive, Constants.RobotMap.backLeftAzi, Constants.zero);
+          Constants.RobotMap.backLeftDrive, Constants.RobotMap.backLeftAzi);
   private final SwerveModule backRight =
       new SwerveModule(
-          Constants.RobotMap.backRightDrive, Constants.RobotMap.backRightAzi, Constants.zero);
+          Constants.RobotMap.backRightDrive, Constants.RobotMap.backRightAzi);
 
   private final ADXRS450_Gyro gyro = new ADXRS450_Gyro();
 
