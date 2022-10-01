@@ -21,16 +21,17 @@ public class SwerveModule {
   private final SimpleMotorFeedforward driveFF = new SimpleMotorFeedforward(1, 3);
   private final SimpleMotorFeedforward aziFF = new SimpleMotorFeedforward(0, 0);
 
-  public SwerveModule(int drivePort, int azimPort, double offset) {
+  public SwerveModule(int drivePort, int azimPort, int azimuthEncoderPort) {
     driver = new CANSparkMax(drivePort, MotorType.kBrushless);
     azimuth = new CANSparkMax(azimPort, MotorType.kBrushless);
-    this.offset = offset;
 
     driver.getEncoder()
         .setPositionConversionFactor(2 * Math.PI * (Constants.DriveConstants.wheelDiameter / 2));
     driver.getAnalog(Mode.kAbsolute).setPositionConversionFactor(2 * Math.PI);
 
     aziPID.enableContinuousInput(-Math.PI, Math.PI);
+
+    azimuthAnalogEncoder = new OffsetAbsoluteAnalogEncoder(azimuthEncoderPort, Constants.zero);
   }
 
   // private RelativeEncoder getDriveEncoder() {
