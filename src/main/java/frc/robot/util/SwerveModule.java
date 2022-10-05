@@ -7,13 +7,15 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class SwerveModule {
+public class SwerveModule extends SubsystemBase {
 
   CANSparkMax driver;
   CANSparkMax azimuth;
   double offset;
+  SwerveModuleState desiredState;
 
   OffsetAbsoluteAnalogEncoder azimuthAnalogEncoder;
   private final PIDController drivePID = new PIDController(1, 0, 0);
@@ -58,6 +60,7 @@ public class SwerveModule {
 
   public void setDesiredState(SwerveModuleState desiredState) {
     // Optimize the reference state to avoid spinning further than 90 degrees
+    desiredState = this.desiredState;
     SwerveModuleState state =
         SwerveModuleState.optimize(desiredState, new Rotation2d(getAdjustedAzimuthPosition()));
 
@@ -76,4 +79,25 @@ public class SwerveModule {
     driver.setVoltage(driveOutput + driveFeedforward);
     azimuth.setVoltage(turnOutput + turnFeedforward);
   }
+
+  public void update() {
+    final double driveOutput =
+        drivePID.calculate(getDriveVelocity(), desiredState.speedMetersPerSecond);
+
+    final double driveFeedforward = driveFF.calculate(desiredState.speedMetersPerSecond);
+
+    // Calculate the turning motor output from the turning PID controller.
+    final double turnOutput =
+        aziPID.calculate(getAdjustedAzimuthPosition(), desiredState.angle.getRadians());
+
+    final double turnFeedforward = aziFF.calculate(aziPID.getSetpoint());
+
+    driver.setVoltage(driveOutput + driveFeedforward);
+    azimuth.setVoltage(turnOutput + turnFeedforward);
+    }
+    
+    @Override
+    public void periodic() {
+      update();
+    }
 }
