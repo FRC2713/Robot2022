@@ -22,7 +22,7 @@ public class SwerveModule {
   private final SimpleMotorFeedforward driveFF = new SimpleMotorFeedforward(1, 3);
   private final SimpleMotorFeedforward aziFF = new SimpleMotorFeedforward(0, 0);
 
-  public SwerveModule(int drivePort, int azimPort, int azimuthEncoderPort) {
+  public SwerveModule(int drivePort, int azimPort, int azimuthEncoderPort, double offset) {
     driver = new CANSparkMax(drivePort, MotorType.kBrushless);
     azimuth = new CANSparkMax(azimPort, MotorType.kBrushless);
 
@@ -32,7 +32,7 @@ public class SwerveModule {
 
     aziPID.enableContinuousInput(-Math.PI, Math.PI);
 
-    azimuthAnalogEncoder = new OffsetAbsoluteAnalogEncoder(azimuthEncoderPort, Constants.zero);
+    azimuthAnalogEncoder = new OffsetAbsoluteAnalogEncoder(azimuthEncoderPort, offset);
   }
 
   // private RelativeEncoder getDriveEncoder() {

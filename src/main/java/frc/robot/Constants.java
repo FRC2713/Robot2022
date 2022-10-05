@@ -43,7 +43,11 @@ public final class Constants {
 
     public static final double frontLeftOffset = 0;
 
+    public static final double frontRightOffset = 0;
+
     public static final double backLeftOffset = 0;
+
+    public static final double backRightOffset = 0;
     public static final int flywheelLeftPort = 5;
     public static final int flywheelRightPort = 10;
     public static final int flywheelTopLeft = 13;
