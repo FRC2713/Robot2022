@@ -15,6 +15,7 @@ public class SwerveModule {
   CANSparkMax azimuth;
   double offset;
 
+  OffsetAbsoluteAnalogEncoder azimuthAnalogEncoder;
   private final PIDController drivePID = new PIDController(1, 0, 0);
   private final PIDController aziPID = new PIDController(1, 0, 0);
 

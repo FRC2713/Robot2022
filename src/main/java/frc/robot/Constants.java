@@ -36,6 +36,11 @@ public final class Constants {
     public static final int frontRightAzi = 300;
     public static final int backRightAzi = 400;
 
+    public static final int frontLeftAziEncoder = 1000;
+    public static final int backLeftAziEncoder = 2000;
+    public static final int frontRightAziEncoder = 3000;
+    public static final int backRightAziEncoder = 4000;
+
     public static final double frontLeftOffset = 0;
 
     public static final double backLeftOffset = 0;
