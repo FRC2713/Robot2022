@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.RobotMap;
 import frc.robot.util.SwerveModule;
 
 public class SwerveSubsystem extends SubsystemBase {
@@ -20,16 +21,16 @@ public class SwerveSubsystem extends SubsystemBase {
 
   private final SwerveModule frontLeft =
       new SwerveModule(
-          Constants.RobotMap.frontLeftDrive, Constants.RobotMap.frontLeftAzi, Constants.RobotMap.frontLeftAziEncoder);
+          RobotMap.frontLeftDrive, RobotMap.frontLeftAzi, RobotMap.frontLeftAziEncoder, RobotMap.frontLeftOffset);
   private final SwerveModule frontRight =
       new SwerveModule(
-          Constants.RobotMap.frontRightDrive, Constants.RobotMap.frontRightAzi, Constants.RobotMap.frontRightAziEncoder);
+          RobotMap.frontRightDrive, RobotMap.frontRightAzi, RobotMap.frontRightAziEncoder, RobotMap.frontRightOffset);
   private final SwerveModule backLeft =
       new SwerveModule(
-          Constants.RobotMap.backLeftDrive, Constants.RobotMap.backLeftAzi, Constants.RobotMap.backLeftAziEncoder);
+          RobotMap.backLeftDrive, RobotMap.backLeftAzi, RobotMap.backLeftAziEncoder, RobotMap.backLeftOffset);
   private final SwerveModule backRight =
       new SwerveModule(
-          Constants.RobotMap.backRightDrive, Constants.RobotMap.backRightAzi, Constants.RobotMap.backRightAziEncoder);
+          RobotMap.backRightDrive, RobotMap.backRightAzi, RobotMap.backRightAziEncoder, RobotMap.backRightOffset);
 
   private final ADXRS450_Gyro gyro = new ADXRS450_Gyro();
 
